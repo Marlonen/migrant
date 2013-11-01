@@ -21,11 +21,17 @@
     }
     .bs-docs-sidenav > li > a {
     }
+
     .bs-docs-sidenav > li > a {
         border: 1px solid #E5E5E5;
         display: block;
         margin: 0 0 -1px;
         padding: 8px 14px;
+    }
+
+    .active a, a:hover {
+        background: #0088cc;
+        color: #ffffff;
     }
 
     .bs-docs-sidenav .glyphicon { 
@@ -52,7 +58,7 @@
       <div class="col-md-3">
         <div class="span3 bs-docs-sidebar">
           <ul class="nav nav-list bs-docs-sidenav">
-            <li><a href="#global"><i class="glyphicon glyphicon-chevron-right"></i> 基本信息</a></li>
+            <li class='active'><a href="#global"><i class="glyphicon glyphicon-chevron-right"></i> 基本信息</a></li>
             <li><a href="#gridSystem"><i class="glyphicon glyphicon-chevron-right"></i> 职业信息</a></li>
             <li><a href="#fluidGridSystem"><i class="glyphicon glyphicon-chevron-right"></i> 技能信息</a></li>
             <li><a href="#layouts"><i class="glyphicon glyphicon-chevron-right"></i> 个人标签</a></li>
@@ -63,7 +69,7 @@
       </div>
       <div class="col-md-9">
         <form class="form-horizontal loginform" role="form" action='/m/account/login' method='post'>
-          <h3>个人信息  <small>--{{ nickname }}</small></h3>
+          <h3>个人信息  <small>--{{ handler.nickname }}</small></h3>
           <hr>
           <div class="form-group">
             <label for="inputEmail3" class="col-sm-1 control-label">呢称</label>
