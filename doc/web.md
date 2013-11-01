@@ -48,6 +48,9 @@ label {
 3. `邮件认证` '/checkmail'
 4. `个人信息设置` '/profile'
 5. `修改密码`	 '/setpwd'
+6. `登出地址` '/logout'
+7. `忘记密码`	 '/forgot_password'
+8. `密码重置` '/resetpwd'
 
 
 ###### 站内接口
@@ -60,4 +63,5 @@ label {
 6. (status,label|msg)		(post'/m/label/add','name,category')	//添加标签
 7. (status,list(label)|msg) (get'/m/label/suggest','key,category')	//标签智能提示 key 为关键词
 8. (status,list(label)|msg) (get'/m/label/list/(category)')		//获取分类标签
+
 
