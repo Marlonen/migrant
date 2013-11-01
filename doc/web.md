@@ -43,14 +43,21 @@ label {
 
 ###### 页面
 
-1. `用户登录` -'/login'
-2. `用户注册` -'/reg' 
+1. `用户登录` '/login'
+2. `用户注册` '/join' 
+3. `邮件认证` '/checkmail'
+4. `个人信息设置` '/profile'
+5. `修改密码`	 '/setpwd'
+
 
 ###### 站内接口
 
 1. (status,account|msg)     (post'/m/account/login', 'username,password') //用户登录;Cookie 记录 uid, nickname
 2. (status,account|msg)     (post'/m/auth/login', 'siteid,otherid,name') //用户登录
-3. (status,account|msg)     (get'/m/account/info(/_id)')                //用户信息,_id 用户ID
+3. (status,account|msg)     (get'/m/account/info/(_id)')                //用户信息, _id 用户ID,可变参数
 4. (status,msg)     		(post'/m/account/update', 'city,icon,profession,skill,nickname,description,labels') //更新当前登录用户资料
-5. (status,account|msg)		(post'/m/account/reg',)
+5. (status,account|msg)		(post'/m/account/join','username,password') //需要进行username 的邮箱格式验证
+6. (status,label|msg)		(post'/m/label/add','name,category')	//添加标签
+7. (status,list(label)|msg) (get'/m/label/suggest','key,category')	//标签智能提示 key 为关键词
+8. (status,list(label)|msg) (get'/m/label/list/(category)')		//获取分类标签
 
