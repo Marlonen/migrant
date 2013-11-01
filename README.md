@@ -20,13 +20,9 @@ python、mongodb、redis、bootstrap, android ,ios, kpages, jquery, html5；
    软件：python, mongodb, redis ；
    python 包：kpages( easy_install kpages) 
    
-```
-
-#### Kpages
-
-```
-基于Tornado的开发包，提供地址路由、配置、测试、性能分析、数据库及内存连接上下文管理等，如果你想用Tornado提供一些高性能的服务接口，这会给你很大的帮助的。
-详情请查看：https://github.com/comger/kpages
+   mongodb 启动指令为 mongod --dbpath you data path
+   redis 启动指令为 redis-server 
+   
 ```
 
 #### 使用mongodb dump 数据
@@ -38,7 +34,15 @@ mongorestore  -d migrant --directoryperdb dump/migrant
 dump数据中的测试账号为： admin , adminpwd
 ```
 
-### web 服务启动方式
+#### Kpages
+
+```
+基于Tornado的开发包，提供地址路由、配置、测试、性能分析、数据库及内存连接上下文管理等，如果你想用Tornado提供一些高性能的服务接口，这会给你很大的帮助的。
+详情请查看：https://github.com/comger/kpages
+```
+
+
+### web 服务启动方式 
 ```
 python apprun.py  或 ./apprun.py
 可配置参数
