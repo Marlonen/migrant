@@ -20,6 +20,18 @@ python、mongodb、redis、bootstrap, android ,ios, kpages, jquery, html5；
    软件：python, mongodb, redis ；
    python 包：kpages( easy_install kpages) 
    
+   mongodb 启动指令为 mongod --dbpath you data path
+   redis 启动指令为 redis-server 
+   
+```
+
+#### 使用mongodb dump 数据
+
+```
+mongorestore  -d migrant --directoryperdb dump/migrant
+如果需要备份数据,请使用  mongodump -d migrant -o dump
+
+dump数据中的测试账号为： admin , adminpwd
 ```
 
 #### Kpages
@@ -29,15 +41,8 @@ python、mongodb、redis、bootstrap, android ,ios, kpages, jquery, html5；
 详情请查看：https://github.com/comger/kpages
 ```
 
-#### 使用mongodb dump 数据
 
-```
-mongorestore  -d migrant --directoryperdb dump/migrant
-如果需要备份数据,请使用  mongodump -d migrant -o dump
-
-```
-
-### web 服务启动方式
+### web 服务启动方式 
 ```
 python apprun.py  或 ./apprun.py
 可配置参数
