@@ -29,6 +29,14 @@ python、mongodb、redis、bootstrap, android ,ios, kpages, jquery, html5；
 详情请查看：https://github.com/comger/kpages
 ```
 
+#### 使用mongodb dump 数据
+
+```
+mongorestore  -d migrant --directoryperdb dump/migrant
+如果需要备份数据,请使用  mongodump -d migrant -o dump
+
+```
+
 ### web 服务启动方式
 ```
 python apprun.py  或 ./apprun.py
