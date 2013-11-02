@@ -82,7 +82,7 @@ collect {
 news {
 	title:'标题，3~18',
 	body: '内容',
-	category:分类_id,
+	category:分类listname,
 	labels:标签 list(),
 	author:作者_id
 }
@@ -93,7 +93,8 @@ news {
 category {
 	name:'名称',
 	listname:'唯一代号, 英文字母+数字',
-	parent:'父节点_id'
+	parent:'父节点_id',
+	count: int ,分类下资讯条数
 }
 ```
 
@@ -112,6 +113,7 @@ comment {
 1. `资讯` '/news/(listname)?p=1'  // listname 为分类代号 ,listname 为空时，显示所有资讯
 2. `资讯详情` '/news/info/(_id)' // _id 为资讯_id ; 资讯详情下方有评论信息列表
 3. `投递新闻` '/news/create'		// 投递新闻
+4. `标签资讯列表` '/news/label?key=xxx' //按标签查询生成资讯列表，可接受多个key; key 应为完整的label 
 
 
 ###### 站内接口
@@ -119,6 +121,10 @@ comment {
 1. (status,list(comment)|msg)     (get'/m/comment/list', 'news_id,p') // 获取资讯评论列表
 2. (status,comment|msg)			  (post'/m/comment/post','news_id,body,author,ref') //发布资讯评论
 3. (status,news|msg)			  (post'/m/news/create','title、body、category,labels,author') //发布资讯
+4. (status,list(news)|msg)		  (get'/m/news/label','key') //按标签查询生成资讯列表
+5. (status,msg)					  (post'/m/news/delete','_id') //删除资讯
+
+
 
 
 
