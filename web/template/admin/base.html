@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8"/>
+	<title>{% block title %} 回归线管理后台 {% end %}</title>
+	{% include ress.html %}
+</head>
+<body>
+
+	{% include header.html %}
+	<section id="secondary_bar">
+		<div class="user">
+			<p>欢迎 {{ handler.username}} </p>
+			<a class="logout_user" href="/admin/logout" title="Logout">退出</a> 
+		</div>
+		<div class="breadcrumbs_container">
+			<article class="breadcrumbs">{% block map %}  {% end %}</article>
+			
+		</div>
+	</section><!-- end of secondary bar -->
+	
+	{% include leftbar.html %}
+
+	<section id="main" class="column">
+	{% block body %}  {% end %}
+	</section>
+
+</body>
+{% block script %}  
+<script>
+	$(function(){
+		
+	})
+</script>
+{% end %}
+</html>
+
