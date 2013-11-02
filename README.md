@@ -5,6 +5,13 @@ migrant 回归线
 
 假如你还在考虑回老家可以做什么，回家怎么才能发展的好，回归线，是你不错的选择。
 
+相关链接
+-----------
+
+* `设计需求文档 <https://github.com/comger/migrant/wiki>`_
+* `技术文档及约定 <https://github.com/comger/migrant/blob/master/doc/web.md>`_
+
+
 项目相关技术
 =======
 python、mongodb、redis、bootstrap, android ,ios, kpages, jquery, html5；
