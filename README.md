@@ -10,6 +10,7 @@ migrant 回归线
 
 * `设计需求文档 <https://github.com/comger/migrant/wiki>`_
 * `技术文档及约定 <https://github.com/comger/migrant/blob/master/doc/web.md>`_
+* [技术文档及约定](https://github.com/comger/migrant/blob/master/doc/web.md)
 
 
 项目相关技术
