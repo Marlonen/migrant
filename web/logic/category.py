@@ -6,24 +6,21 @@
 """
 
 from kpages import not_empty,get_context,mongo_conv
-from utility import m_update,m_del,m_page,m_exists
+from kpages.model import *
+
+from pinying import get_pinyin
+from utility import BaseModel,m_update,m_del,m_page,m_exists
 
 TName = 'category'
 Tb = lambda :get_context().get_mongo()[TName]
 
-def add(name, groupid, listname, intro, **kwargs):
-    ''' add category '''
-    not_empty(name, listname,groupid)
-    val = dict(name = name, groupid = groupid, listname = listname,intro = intro)
-    val.update(kwargs)
-    try:
-        _id = Tb().insert(val, saft = True)
-        val["_id"] = str(_id)
+class CategoryModel(BaseModel):
+    _name = TName
 
-    except Exception as e:
-        return False, e.message
+    name = CharField(required=True)
+    listname = CharField(required=True)
+    parent = CharField()
 
-    return True, val
 
 
 def info_category_listname(listname):

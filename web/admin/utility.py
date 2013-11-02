@@ -36,5 +36,3 @@ class ActionHandler(ContextHandler,RequestHandler):
         return seo
 
     
-    def render(self, template_path, **kwargs):
-        super(ActionHandler,self).render(template_path, current_request = self, **kwargs)

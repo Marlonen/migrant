@@ -4,10 +4,17 @@
     author comger@gmail.com
 """
 from kpages import not_empty,get_context,mongo_conv
-from utility import m_update,m_del,m_page,m_exists,m_info
+from kpages.model import *
+from utility import m_update,m_del,m_page,m_exists,m_info,BaseModel
 
 TName = 'account'
 Tb = lambda :get_context().get_mongo()[TName]
+
+class AccountModel(BaseModel):
+    username = CharField(required=True)
+    password = CharField(required=True)
+    city = IntField()
+
 
 def add(username,password,city=None,**kwargs):
     try:

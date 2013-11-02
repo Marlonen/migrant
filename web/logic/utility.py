@@ -5,11 +5,29 @@
 from bson.objectid import ObjectId
 from bson.errors import InvalidId
 from kpages import get_context,mongo_conv,not_empty 
+from kpages.model import Model
 
 Tb = lambda table:get_context().get_mongo()[table]
 
+class BaseModel(Model):
+
+    def _save(self, data):
+        _id = self.get_argument("id", None)
+        db = get_context().get_mongo()
+        if not  _id:
+            return m_add(self._name,data)
+        else:
+            return m_update(self._name,_id, **data)
+
+
 #查询非删除状态的数据
 StatusCond = {'status':{'$ne':-1}}
+
+def m_add(table,data):
+    not_empty(table)
+    _id = Tb(table).insert(data,saft=True)
+    return True,str(_id)
+
 
 def m_update(table,_id,**kwargs):
     try:

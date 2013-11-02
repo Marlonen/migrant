@@ -7,9 +7,7 @@
 
 from kpages import url
 from utility import ActionHandler
-from logic.category import add,TName as T_CATEGORY
-from logic.group import TName as T_GROUP
-from logic.pinying import get_pinyin
+from logic.category import TName as T_CATEGORY,CategoryModel
 from logic.utility import m_page,m_del,m_info,m_update
 
 @url(r"/admin/category/find")
@@ -25,14 +23,9 @@ class CategoryFindHandler(ActionHandler):
 class CategoryHandler(ActionHandler):
     def get(self):
         since = self.get_argument("since", None)
-        groupid = self.get_argument('groupid',None)
         cond = {}
-        if groupid:
-            cond = dict(groupid = groupid)
-        
-        r,groups = m_page(T_GROUP,size=100)
         r,cates = m_page(T_CATEGORY,**cond)
-        self.render("admin/category.html", data = cates, groups = groups, groupid = groupid)
+        self.render("admin/category.html", data = cates) 
 
 
 
@@ -44,25 +37,14 @@ class CategoryInfoHandler(ActionHandler):
 
 
 @url(r"/admin/category/save")
-class CategorySaveHandler(ActionHandler):
+class CategorySaveHandler(ActionHandler,CategoryModel):
     def post(self):
-        _id = self.get_argument("id", None)
-        name = self.get_argument("name", None)
-        logo = self.get_argument("logo", None)
-        groupid = self.get_argument("groupid", None)
-        listname = self.get_argument("listname", None)
-        intro = self.get_argument("intro", None)
-        tags = self.get_argument("tags", '').split('|')
-        
-        if not listname:
-            listname = get_pinyin(name)
-
-        if not _id:
-            r,v = add(name, groupid,listname,intro, logo = logo, tags = tags ,seo = self.get_seo_params())
-            self.write(dict(status = r, data =v ))
-        else:
-            r,v = m_update(T_CATEGORY,_id, name = name, groupid = groupid, listname = listname, intro = intro,logo = logo, tags = tags, seo = self.get_seo_params())
-            self.write(dict(status = r,data = v))
+        try:
+            data = self._get_postdata()
+            self._save(data)
+            self.write(dict(status=True,data=data))
+        except Exception as e:
+            self.write(dict(status=False,data=e.message))
 
     def get(self):
         _id = self.get_argument("id", None)

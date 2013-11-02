@@ -7,8 +7,8 @@
 
 from kpages import url
 from utility import ActionHandler
-from logic.account import login,page,add,TName as T_ACCOUNT
-from logic.utility import m_update,m_del,m_info
+from logic.account import login,page,add,TName as T_ACCOUNT,AccountModel
+from logic.utility import m_update,m_del,m_info,m_exists
 
 
 @url(r"/admin/?")
@@ -36,24 +36,21 @@ class AccountHandler(ActionHandler):
 
 
 @url(r"/admin/account/save")
-class AccountSaveHandler(ActionHandler):
+class AccountSaveHandler(ActionHandler,AccountModel):
     def post(self):
-        _id = self.get_argument("id", None)
-        username = self.get_argument("username", None)
-        password = self.get_argument("password", None)
         email = self.get_argument("email", None)
         tel = self.get_argument("tel", '')
         city = self.get_argument("city", '')
         isadmin = bool(self.get_argument('isadmin','True'))
 
         cond = dict(email = email, tel = tel, isadmin = isadmin,city=city)
-        if not _id:
-            r,v = add(username, password, **cond)
-            #self.write(dict(status = r, data =v ))
-        else:
-            r,v = m_update(T_ACCOUNT,_id, **cond)
-            #self.write(dict(status = r))
-        self.redirect('/admin/account')
+        try:
+            data = self._get_postdata()
+            data.update(cond)
+            r,v = self._save(data)
+            self.redirect('/admin/account')
+        except Exception as e:
+            self.write(e.message) 
 
     def get(self):
         _id = self.get_argument("id", None)

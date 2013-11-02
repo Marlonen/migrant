@@ -1,44 +1,15 @@
-<!doctype html>
-<html>
-<head>
-	<meta charset="utf-8"/>
-	<title>Migrant 分类管理</title>
-	{% include ress.html %}
-</head>
+{% extends "base.html" %}
 
-<body>
+{% block title %}回归线 分类管理{% end %}
 
-	{% include header.html %}
-	<section id="secondary_bar">
-		<div class="user">
-			<p>欢迎 {{ current_request.username}} </p>
-			<a class="logout_user" href="/admin/logout" title="Logout">退出</a> 
-		</div>
-		<div class="breadcrumbs_container">
-			<article class="breadcrumbs"><a href="/admin/account">内容管理</a> 
-			<div class="breadcrumb_divider"></div> <a class="current">分类管理</a></article>
-		</div>
-	</section>
-	{% include leftbar.html %}
+{% block map %} <a href="/admin/account">内容管理</a> <div class="breadcrumb_divider"></div> <a class="current">分类管理</a>{% end %}
 
-	<section id="main" class="column">
+{% block body %}  
 		<article class="module width_full">
 			<header><h3 class="tabs_involved">分类管理</h3>
 			<ul class="tabs">
 	   			<li><a href="javascript:void(0)" id='additembtn'>添加分类</a></li>
 			</ul>
-			<ul class="tabs">
-			    <li><a href="javascript:void(0);">所属分组</a></li>
-			    <li>
-			        <select id='querygroup'>
-			        {% for group in groups %}
-			            <option value = "{{ group.get('_id')}}">{{ group.get('name')}}</option>
-			        {% end%}
-			        </select>
-			    </li>
-	   			
-			</ul>
-
 			</header>
 			<div class="tab_container">
 				<div class="tab_content">
@@ -46,7 +17,8 @@
 				<tbody> 
 					{% for item in data %}
 					<tr id="{{ item.get('_id') }}">
-						<td width='50%'><a href='/admin/category/product/{{ item.get("_id")}}'>{{ item.get('name')}}</a></td>
+						<td width='40%'><a href='#'>{{ item.get('name')}}</a></td>
+						<td width='40%'>{{ item.get('listname')}}</td>
 						<td class='right'><input type="image" src="/static/admin/images/icn_search.png" title="预览"><input type="image" src="/static/admin/images/icn_edit.png" class='edit_btn' title="编辑"><input type="image" src="/static/admin/images/icn_trash.png" title="删除" class='delbtn'></td>
 					</tr>
 					{% end %}
@@ -66,56 +38,16 @@
 					<fieldset>
 					<table width="100%">
 						<tr><td>
-							<label>所属分组</label>
-			                <select id='slgroup' name='groupid'>
-			                {% for group in groups %}
-			                    <option value = "{{ group.get('_id')}}">{{ group.get('name')}}</option>
-			                {% end%}
-			                </select>
-						</td></tr>
-						<tr><td>
 							<label>分类名称</label>
 							<input type="text" id='tvname' name='name'>
-						</td></tr>
-						<tr><td>
-							<label>图标</label>
-							<input type="text" id='tvlogo' name='logo' datatype='s0-0|url' >
 						</td></tr>
 						<tr><td>
 							<label>域名</label>
 							<input type="text" id='tvlistname' name='listname' datatype="s0-0|s3-20" >
 						</td></tr>
-						<tr><td>
-							<label>标签(使用|分割)</label>
-							<input type="text" id='tvtags' name='tags'>
-						</td></tr>
-						<tr><td>
-							<label>简介</label>
-							<input type="text" id='tvintro' name='intro' >
-						</td></tr>
 					</table>
 					</fieldset>
-                    <h4 class="alert_error">An Error Message</h4>
-					<!--seo start -->
-					<fieldset>
-					<legend>seo 信息:</legend>
-					<table width="100%">
-						<tr><td>
-							<label>标题</label>
-							<input type="text" id='tvtitle' name='title'   >
-						</td></tr>
-						<tr><td>
-							<label>关键词</label>
-							<input type="text" id='tvkeyword' name='keyword'  >
-						</td></tr>
-						<tr><td>
-							<label>描述</label>
-							<input type="text" id='tvremark' name='remark'  >
-						</td></tr>
-
-					</table>
-					</fieldset>
-					<!--seo end  -->
+                    <h4 class="alert_error"></h4>
 			</div>
 			<footer>
 				<div class="submit_link">
@@ -124,26 +56,20 @@
 			</footer>
 			</form>
 		</article>
-	</section>
+{% end %}
 
-</body>
+{% block script %}  
 <script>
 	$(function(){
 		
-        $('#querygroup').val('{{ groupid }}');
-        
 		$('a.close').click(function(){
 			$(this).parents('.floatview').hide();
 		})
 		
-		$('#querygroup').change(function(){
-		    location.href = '/admin/category?groupid='+$(this).val();
-		});
 
 		$('#additembtn').click(function(){
 		    $(".validform input[type='text']").val('');
 		    $('.alert_error').hide();
-		    $('#slgroup').val($('#querygroup').val());
 			$('.floatview').show();
 		})
 
@@ -156,14 +82,7 @@
 		            $('#tvlogo').val(r.data.logo);
 		            $('#tvlistname').val(r.data.listname);
 		            $('#tvintro').val(r.data.intro);
-		            $('#slgroup').val(r.data.groupid);
-		            if(r.data.tags){
-		                $('#tvtags').val(r.data.tags.join('|'));
-		            }
 		            
-		            $('#tvtitle').val(r.data.seo.title);
-		            $('#tvkeyword').val(r.data.seo.keyword);
-		            $('#tvremark').val(r.data.seo.remark);
 		            
 		            $('.floatview').show();
 		            
@@ -208,5 +127,4 @@
 
 	})
 </script>
-</html>
-
+{% end %}
