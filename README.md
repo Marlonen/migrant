@@ -8,8 +8,7 @@ migrant 回归线
 相关链接
 -----------
 
-* `设计需求文档 <https://github.com/comger/migrant/wiki>`_
-* `技术文档及约定 <https://github.com/comger/migrant/blob/master/doc/web.md>`_
+* [设计需求文档](https://github.com/comger/migrant/wiki)
 * [技术文档及约定](https://github.com/comger/migrant/blob/master/doc/web.md)
 
 
