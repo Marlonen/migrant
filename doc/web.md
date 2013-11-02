@@ -13,6 +13,7 @@
  	> '/m/account/login' 为url
  	> 'username,password' 为请求参数
  	> //用户登录;Cookie 记录 uid, nickname : 注解说明
+* 列表类页面及接口带分页功能,p 为页码
 ```
 
 ### 用户中心
@@ -36,8 +37,17 @@ account {
 ```
 label {
 	name:'标签内容',
-	category:'0:profession, 1: skill, 2: 用户个人标签'
+	category:'0:profession, 1: skill, 2: 用户个人标签,3:资讯'
 	hot:'热度'
+}
+```
+
+###### 收藏
+```
+collect {
+	f_id: 被收藏的_id,
+	category:'0:资讯、1：项目、2：招聘职位',
+	uid:用户
 }
 ```
 
@@ -63,5 +73,52 @@ label {
 6. (status,label|msg)		(post'/m/label/add','name,category')	//添加标签
 7. (status,list(label)|msg) (get'/m/label/suggest','key,category')	//标签智能提示 key 为关键词
 8. (status,list(label)|msg) (get'/m/label/list/(category)')		//获取分类标签
+
+
+### 资讯
+
+###### 资讯字典
+```
+news {
+	title:'标题，3~18',
+	body: '内容',
+	category:分类_id,
+	labels:标签 list(),
+	author:作者_id
+}
+```
+
+###### 资讯分类字典
+```
+category {
+	name:'名称',
+	listname:'唯一代号, 英文字母+数字',
+	parent:'父节点_id'
+}
+```
+
+###### 资讯评论字典
+```
+comment {
+	news_id : 资讯_id,
+	body : 内容,
+	author : 作者,
+	ref : 引用评论_id
+}
+```
+
+###### 页面
+
+1. `资讯` '/news/(listname)?p=1'  // listname 为分类代号 ,listname 为空时，显示所有资讯
+2. `资讯详情` '/news/info/(_id)' // _id 为资讯_id ; 资讯详情下方有评论信息列表
+3. `投递新闻` '/news/create'		// 投递新闻
+
+
+###### 站内接口
+
+1. (status,list(comment)|msg)     (get'/m/comment/list', 'news_id,p') // 获取资讯评论列表
+2. (status,comment|msg)			  (post'/m/comment/post','news_id,body,author,ref') //发布资讯评论
+3. (status,news|msg)			  (post'/m/news/create','title、body、category,labels,author') //发布资讯
+
 
 
