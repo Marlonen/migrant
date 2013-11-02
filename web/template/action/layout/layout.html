@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/static/action/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/action/css/frm.css" rel="stylesheet">
+    <style>
+        /* Sticky footer styles
+        -------------------------------------------------- */
+        html,
+        body {
+          height: 100%;
+          /* The html and body elements cannot have any padding or margin. */
+        }
+
+        /* Wrapper for page content to push down footer */
+        #wrap {
+          min-height: 100%;
+          height: auto;
+          /* Negative indent footer by its height */
+          margin: 0 auto -60px;
+          /* Pad bottom by footer height */
+          padding: 0 0 60px;
+        }
+
+        /* Set the fixed height of the footer here */
+        footer {
+          height: 60px;
+            padding-top: 10px;;
+            border-top: 1px solid #eeeeee;
+        }
+
+        header{
+            height: 80px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eeeeee;
+        }
+        .content{
+            margin-top: 20px;
+        }
+    </style>
+    {% block style %}
+    {% end %}
+</head>
+
+<body>
+<div id="wrap">
+    {% block header %}
+        <header>
+            <div class="container">
+                <ul class="nav nav-pills pull-right">
+                  {% include ../menu.html %}
+                </ul>
+                <h1 class='logo-title pull-left'><a href="/">回归线</a></h1>
+            </div>
+        </header>
+    {% end %}
+    <div class="container">
+        <div class="content">
+            {% block content %}
+            {% end %}
+        </div>
+    </div>
+</div>
+{% block footer %}
+<footer>
+    <div class="container">
+        <p>&copy; 回归线 2013</p>
+    </div>
+</footer>
+{% end %}
+<!-- /container -->
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+
+<!-- Just for debugging purposes. Don't actually copy this line! -->
+<!--[if lt IE 9]>
+<script src="docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+<![endif]-->
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="/static/action/js/jquery-1.10.2.min.js"></script>
+<script src="/static/action/js/bootstrap.min.js"></script>
+{% block javascript%}
+{% end %}
+</body>
+</html>
