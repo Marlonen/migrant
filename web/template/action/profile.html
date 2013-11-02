@@ -1,59 +1,42 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-  <head>
-    <title>回归线 个人信息</title>
-    <meta name="description" content="">
-    {% include ress.html %}
+{% extends "layout/layout.html" %}
+{% block style %}
     <style type="text/css">
-    .bs-docs-sidenav {
-        width: 258px;
-    }
-    .bs-docs-sidenav {
-        background-color: #FFFFFF;
-        border-radius: 6px 6px 6px 6px;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
-        padding: 0;
-        width: 228px;
-    }
+        .bs-docs-sidenav {
+            width: 258px;
+        }
+        .bs-docs-sidenav {
+            background-color: #FFFFFF;
+            border-radius: 6px 6px 6px 6px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
+            padding: 0;
+            width: 228px;
+        }
 
-    .bs-docs-sidenav > li:first-child > a {
-        border-radius: 6px 6px 0 0;
-    }
-    .bs-docs-sidenav > li > a {
-    }
+        .bs-docs-sidenav > li:first-child > a {
+            border-radius: 6px 6px 0 0;
+        }
+        .bs-docs-sidenav > li > a {
+        }
 
-    .bs-docs-sidenav > li > a {
-        border: 1px solid #E5E5E5;
-        display: block;
-        margin: 0 0 -1px;
-        padding: 8px 14px;
-    }
+        .bs-docs-sidenav > li > a {
+            border: 1px solid #E5E5E5;
+            display: block;
+            margin: 0 0 -1px;
+            padding: 8px 14px;
+        }
 
-    .active a, a:hover {
-        background: #0088cc;
-        color: #ffffff;
-    }
+        .nav .active a, .nav a:hover {
+            background-color: #0088cc;
+            color: #ffffff;
+        }
 
-    .bs-docs-sidenav .glyphicon { 
-      float: right;
-    }
-
+        .bs-docs-sidenav .glyphicon {
+          float: right;
+        }
     </style>
+{% end %}
 
-  </head>
-
-  <body>
-
-    <div class="container header" >
-        <ul class="nav nav-pills pull-right">
-          {% include menu.html %}
-        </ul>
-
-        <h2 class='logotitle'><a href="/">回归线</a></h2>
-    </div>
-
-    <hr>
-    <div class="container">
+  {% block content %}
     <div class="row">
       <div class="col-md-3">
         <div class="span3 bs-docs-sidebar">
@@ -116,8 +99,10 @@
         </form>
       </div>
     </div>
+  {% end %}
 
-    {% include footer.html %}
+
+    {% block javascript %}
     </div> <!-- /container -->
     <script type="text/javascript">
       $(function(){
@@ -150,9 +135,6 @@
           })
 
       });
-
     </script>
-  </body>
-</html>
+  {% end%}
 
-       

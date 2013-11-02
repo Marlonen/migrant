@@ -1,17 +1,14 @@
-<!-- 子页顶部样式 -->
-.logotitle { 
+/* 子页顶部样式 */
+.logo-title {
   margin-top: 3px;
 }
-.logotitle a{ 
+.logo-title a{
   color: #010101;
   text-decoration: none;
 }
-
-.logotitle a:hover{
+.logo-title a:hover{
   color: #428BCA;
 }
-
-.header { 
-  margin-top: 15px; 
-  margin-bottom: 10px;
+.logo-title{
+    margin: 0;
 }

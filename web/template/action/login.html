@@ -1,45 +1,26 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-  <head>
-    <title>回归线 登录</title>
-    <meta name="description" content="">
-    {% include ress.html %}
+{% extends "layout/layout.html" %}
 
-    <style type="text/css">
-
+{% block style %}
+<style>
     .loginform {
-      margin: 0 auto 20px;
-      max-width: 400px;
-      border-radius: 5px;
-      background-color: #f5f5f5;
-      padding: 15px;
+        margin:  50px auto;
+        max-width: 400px;
+        border-radius: 5px;
+        background-color: #f5f5f5;
+        padding: 15px;
     }
 
     .loginform h3{
-      margin-bottom: 20px;
+        margin-bottom: 20px;
     }
-    </style>
-
-  </head>
-
-  <body>
-
-    <div class="container header" >
-        <ul class="nav nav-pills pull-right">
-          {% include menu.html %}
-        </ul>
-
-        <h2 class='logotitle'><a href="/">回归线</a></h2>
-    </div>
-
-    <hr>
-    <div class="container">
-      
-      <div class="alert alert-danger alert-dismissable " style='display:none'>
+</style>
+{% end %}
+{% block content%}
+    <div class="alert alert-danger alert-dismissable " style='display:none'>
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         <strong>登录失败!</strong> 请检查你的账号和密码。
-      </div>
-      
+    </div>
+
       <form class="form-horizontal loginform" role="form" action='/m/account/login' method='post'>
         <h3>登录回归线</h3>
         <div class="form-group">
@@ -65,9 +46,9 @@
           </div>
         </div>
       </form>
+{% end %}
 
-    {% include footer.html %}
-    </div> <!-- /container -->
+{% block javascript %}
     <script type="text/javascript">
       $(function(){
           $('#loginbtn').click(function(){
@@ -84,11 +65,8 @@
                   })
               }else{
                   $('.alert').show();
-              }              
+              }
           });
-      })
+      });
     </script>
-  </body>
-</html>
-
-       
+{% end %}
