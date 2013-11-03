@@ -16,20 +16,20 @@ class AccountModel(BaseModel):
     city = IntField()
 
 
-def add(username,password,city=None,**kwargs):
+def add(username, password, city=None, **kwargs):
     try:
-        not_empty(username,password)
-        r = m_exists(TName,username=username,password=password)
+        not_empty(username, password)
+        r = m_exists(TName, username=username)
         if not r:
-            val = dict(username=username,password=password,city=city)
+            val = dict(username=username, password=password, city=city)
             val.update(kwargs)
-            _id = Tb().insert(val,saft=True)
+            _id = Tb().insert(val, saft=True)
             val['_id'] = str(_id)
-            return True,val
+            return True, val
         else:
-            return False,'EXITS'
+            return False, 'EXISTS'
     except Exception as e:
-        return False,e.message
+        return False, e.message
 
 def login(username,password,isadmin = None):
     try:
