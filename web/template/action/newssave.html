@@ -1,4 +1,5 @@
 {% extends "layout/layout.html" %}
+{% block title %}资讯投递{% end %}
 {% block style %}
     <style type="text/css">
        .content p {
@@ -7,7 +8,7 @@
        } 
        .labels .label {
           margin: 5px;
-          padding: 5px 2px;
+          padding: 10px 3px;
        }
     </style>
 {% end %}
@@ -16,20 +17,34 @@
     <div class="row">
       <div class="col-md-9">
         <h3>资讯投递</h3>
-        <form class="form-horizontal" role="form">
+        <form class="form-horizontal" role="form" method='post'>
           <div class="form-group">
             <label for="title" class="col-sm-1 control-label">标题</label>
             <div class="col-sm-11">
-              <input type="email" class="form-control" id="title" placeholder="标题">
+              <input type="text" name='title' class="form-control" placeholder="标题">
             </div>
           </div>
           <div class="form-group">
             <label for="category" class="col-sm-1 control-label">分类</label>
-            <div class="col-sm-11 labels">
-              <span class="label label-success col-md-2">政策 </span>
-              <span class="label label-info col-md-2">新闻 </span>
-              <span class="label label-info col-md-2">活动 </span>
-              <span class="label label-info col-md-2">公告 </span>
+            <div class="col-sm-11 labels categorys">
+              <input type='hidden' name='category' id='tvcategory'>
+              <input type='hidden' name='author' value='{{ handler.uid }}'>
+              {% for cate in handler.categorys %}
+              <span class="label label-info col-md-2" value='{{ cate["listname"] }}'>{{ cate['name'] }}</span>
+              {% end %}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="labels" class="col-sm-1 control-label">标签</label>
+            <div class="col-sm-3">
+              <input type="text" class="form-control typeahead" name='labels' autocomplete="off">
+            </div>
+            <div class="col-sm-3">
+              <input type="text" class="form-control typeahead" name='labels' autocomplete="off">
+            </div>
+            <div class="col-sm-3">
+              <input type="text" class="form-control typeahead" name='labels' autocomplete="off">
             </div>
           </div>
 
@@ -49,7 +64,7 @@
       </div>
 
       <div class="col-md-3">
-          asds
+          <h3>投递提示</h3>
       </div>
     </div>
 
@@ -59,10 +74,21 @@
 
     {% block javascript %}
     </div> <!-- /container -->
+    <script src="/static/js/bootstrap.typeahead.js"></script>
     <script type="text/javascript">
       $(function(){
+          $('.categorys .label').click(function(){
+              $('.categorys .label').removeClass('label-success');
+              $('.categorys .label').addClass('label-info');
+              $(this).toggleClass('label-info label-success');
+              $('#tvcategory').val($(this).attr('value'));
+          })
 
-
+          $('.typeahead').typeahead({
+              source: [{% for i in handler.labels %} '{{ i}}', {% end %}],
+              items:6
+          })
+          
       });
     </script>
   {% end%}
