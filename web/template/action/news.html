@@ -1,0 +1,191 @@
+{% extends "layout/layout.html" %}
+{% block style %}
+    <style type="text/css">
+        .bs-docs-sidenav {
+            width: 258px;
+        }
+        .bs-docs-sidenav {
+            background-color: #FFFFFF;
+            border-radius: 6px 6px 6px 6px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
+            padding: 0;
+            width: 228px;
+        }
+
+        .bs-docs-sidenav > li:first-child > a {
+            border-radius: 6px 6px 0 0;
+        }
+        .bs-docs-sidenav > li > a {
+        }
+
+        .bs-docs-sidenav > li > a {
+            border: 1px solid #E5E5E5;
+            display: block;
+            margin: 0 0 -1px;
+            padding: 8px 14px;
+        }
+
+        .nav .active a, .nav a:hover {
+            background-color: #0088cc;
+            color: #ffffff;
+        }
+
+        .bs-docs-sidenav .glyphicon {
+          float: right;
+        }
+
+        #labels .label{ margin: 5px; padding: 5px 2px;}
+
+        .nav-tabs {
+          background: #dedede;
+        }
+
+        .tab-content {
+          border: 1px solid #dddddd;
+          border-top: 0px ;
+          margin-bottom: 20px;
+        }
+        .tab-content ul{
+            margin-left: 0px;
+            padding: 5px;
+        }
+        .tab-content li { 
+           list-style-type: none;
+          line-height: 28px;
+        }
+
+        .newsitem { padding: 5px;}
+    </style>
+{% end %}
+
+  {% block content %}
+    <div class="row">
+      <div class="col-md-9">
+        <!-- hotnews start -->
+        <ul class="nav nav-tabs" id='hotnews'>
+          <li class="active">
+            <a href="#day">当天</a>
+          </li>
+          <li><a href="#week">一周</a></li>
+          <li><a href="#month">本月</a></li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active" id="day">
+            <ul>
+                {% for i in range(5)%}
+                    <li><a href="/news/info/{{i}}">当天新闻资讯标题 {{ i}}</a></li>
+                {% end %}
+            </ul>
+          </div>
+          <div class="tab-pane" id="week">
+            <ul>
+                {% for i in range(5)%}
+                    <li><a href="/news/info/{{i}}">本周新闻资讯标题 {{ i}}</a></li>
+                {% end %}
+            </ul>
+          </div>
+          <div class="tab-pane" id="month">
+            <ul>
+                {% for i in range(5)%}
+                    <li><a href="/news/info/{{i}}">本月新闻资讯标题 {{ i}}</a></li>
+                {% end %}
+            </ul>
+          </div>
+        </div>
+        <!-- hotnews end -->
+
+        <!-- category news start -->
+        <ul class="nav nav-tabs" id='categorynews'>
+          <li class="active">
+            <a href="#news">新闻</a>
+          </li>
+          <li><a href="#zc">政策</a></li>
+          <li><a href="#hd">活动</a></li>
+          <li><a href="#gg">公告</a></li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active" id="news">
+            {% for i in range(10)%}
+               <div class='newsitem'>
+                  <strong><a href='/news/info/{{i}}'>新闻 资讯测试标题 {{ i }}</a></strong>
+                  <p>Perl Audio Converter 5.0 稳定版发布了，包含一些代码优化和改变，更新了 README 程序描述；修复了 amr、mmf、ra、wma 和其他编码格式的支持问题；支持一些模糊的音频格式.</p>
+               </div>
+            {% end %}
+
+            <ul class="pager">
+              <li class="previous"><a href="#">上一页</a></li>
+              <li class="next"><a href="#">下一页</a></li>
+            </ul>
+
+          </div>
+          <div class="tab-pane" id="zc">
+            {% for i in range(10)%}
+               <div class='newsitem'>
+                  <strong><a href='/news/info/{{i}}'>政策 资讯测试标题 {{ i }}</a></strong>
+                  <p>Perl Audio Converter 5.0 稳定版发布了，包含一些代码优化和改变，更新了 README 程序描述；修复了 amr、mmf、ra、wma 和其他编码格式的支持问题；支持一些模糊的音频格式.</p>
+               </div>
+            {% end %}
+          </div>
+          <div class="tab-pane" id="hd">
+            {% for i in range(10)%}
+               <div class='newsitem'>
+                  <strong><a href='/news/info/{{i}}'>活动 资讯测试标题 {{ i }}</a></strong>
+                  <p>Perl Audio Converter 5.0 稳定版发布了，包含一些代码优化和改变，更新了 README 程序描述；修复了 amr、mmf、ra、wma 和其他编码格式的支持问题；支持一些模糊的音频格式.</p>
+               </div>
+            {% end %}
+          </div>
+          <div class="tab-pane" id="gg">
+            {% for i in range(10)%}
+               <div class='newsitem'>
+                  <strong><a href='/news/info/{{i}}'>公告 资讯测试标题 {{ i }}</a></strong>
+                  <p>Perl Audio Converter 5.0 稳定版发布了，包含一些代码优化和改变，更新了 README 程序描述；修复了 amr、mmf、ra、wma 和其他编码格式的支持问题；支持一些模糊的音频格式.</p>
+               </div>
+            {% end %}
+
+          </div>
+        </div>
+        <!-- hotnews end -->
+
+      </div>
+
+      <div class="col-md-3">
+          <h3>标签云</h3>
+          <div class='row' id='labels'>
+             
+              {% for i in range(13) %}
+               <a href='/news/label?key=xxx'>
+                  <span class="label label-success col-md-3">标签{{ i }} </span>
+               </a>
+               
+              {% end %}
+          </div>
+
+          <h3>最新评论</h3>
+          <div class='comments'>
+            {% for i in range(10)%}
+               <div class='newsitem'>
+                  <strong><a href='#'>公告 资讯测试标题 {{ i }}</a></strong>
+                  <p>Perl Audio Converter 5.0 稳定版发布了，包含一些代码优化和改变</p>
+               </div>
+            {% end %}
+          </div>
+      </div>
+    </div>
+
+
+  {% end %}
+
+
+    {% block javascript %}
+    </div> <!-- /container -->
+    <script type="text/javascript">
+      $(function(){
+          $('.nav-tabs a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+          })
+
+      });
+    </script>
+  {% end%}
+
