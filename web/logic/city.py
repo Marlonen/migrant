@@ -30,7 +30,7 @@ def add(name,parent=None,level=0):
 def getList(parent=None):
     cond = dict(parent=parent)
     cond.update(StatusCond)
-    lst = list(Tb().find(cond,{'id':0,'status':0}))
+    lst = list(Tb().find(cond,{'status':0}))
     return mongo_conv(lst)
 
 

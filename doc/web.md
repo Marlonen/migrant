@@ -84,7 +84,8 @@ news {
 	body: '内容',
 	category:分类listname,
 	labels:标签 list(),
-	author:作者_id
+	author:作者_id,
+	city: 城市_id
 }
 ```
 

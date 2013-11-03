@@ -121,6 +121,9 @@
 					callback();
 	            }
 	            
+                if(!parent){
+                  append_select($('#childcitys'),rs.data[0]._id);
+                }
 	            
 	        })
 	    }

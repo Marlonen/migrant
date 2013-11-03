@@ -5,7 +5,7 @@
 import json
 from kpages import LogicContext,reflesh_config
 from logic.city import add
-from logic.utility import m_page
+from logic.utility import m_page,m_update
 from unittest import TestCase
 
 class CityCate(object):
@@ -40,9 +40,22 @@ class DemoCase(TestCase):
     def setUp(self):
         pass
 
-    def testprint(self):
-        print m_page('city')
+    def test_upadte(self):
+        r,parents =  m_page('city',size = 1000, parent=None)
+        for i,item in enumerate(parents):
+            m_update('city',item.get('_id'),id=i)
+            r,rs = m_page('city',size=1000,parent=item.get('_id'))
+            for n,city in enumerate(rs):
+                m_update('city',city.get('_id'),id=int(str(i)+str(n)))
+                r,items = m_page('city',size=1000,parent=city.get('_id'))
+                for m,_city in enumerate(items):
+                    m_update('city',_city.get('_id'),id=int(str(i)+str(n)+str(m)))
 
+
+        print 'update end'
+        parents =  m_page('city',level=0,parent=None)
+        print parents
+        
 
 if __name__ == '__main__':
     from pyquery import PyQuery as pyq
