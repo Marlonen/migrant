@@ -8,7 +8,7 @@
 from kpages import url
 from utility import ActionHandler
 from logic.category import TName as T_CATEGORY,CategoryModel
-from logic.utility import m_page,m_del,m_info,m_update
+from logic.utility import m_page,m_del,m_info,m_update,m_exists
 
 @url(r"/admin/category/find")
 class CategoryFindHandler(ActionHandler):
@@ -41,8 +41,13 @@ class CategorySaveHandler(ActionHandler,CategoryModel):
     def post(self):
         try:
             data = self._get_postdata()
-            self._save(data)
-            self.write(dict(status=True,data=data))
+            r = m_exists(T_CATEGORY,listname=data['listname'])
+            if not r:
+                r, data = self._save(data)
+            else:
+                r, data = False,"已存在此域名"
+
+            self.write(dict(status=r,data=data))
         except Exception as e:
             self.write(dict(status=False,data=e.message))
 
@@ -58,7 +63,7 @@ class CategorySaveHandler(ActionHandler,CategoryModel):
 class CategoryDeleteHandler(ActionHandler):
     def post(self):
         _id = self.get_argument("id", None)
-        r,v = m_delete(T_CATEGORY,_id)
+        r,v = m_del(T_CATEGORY,_id)
         self.write(dict(status = r,data = v))
 
 
