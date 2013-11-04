@@ -46,7 +46,7 @@ class AuthLoginHandler(BaseHandler):
         self.write(dict(status = r, data = v))
 
 
-@url(r'/m/account/add')
+@url(r'/m/account/join')
 class AddHandler(RestfulHandler):
     def get(self):
         username = self.get_argument('username')
