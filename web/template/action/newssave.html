@@ -74,7 +74,7 @@
 
     {% block javascript %}
     </div> <!-- /container -->
-    <script src="/static/js/bootstrap.typeahead.js"></script>
+    <script src="/static/js/bootstrap.typeahead.ajax.js"></script>
     <script type="text/javascript">
       $(function(){
           $('.categorys .label').click(function(){
@@ -85,9 +85,9 @@
           })
 
           $('.typeahead').typeahead({
-              source: [{% for i in handler.labels %} '{{ i}}', {% end %}],
-              items:6
-          })
+              items:6,
+              ajax:'/m/label/suggest/0'
+            })
           
       });
     </script>
