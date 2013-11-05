@@ -86,7 +86,14 @@
 
           $('.typeahead').typeahead({
               items:6,
-              ajax:'/m/label/suggest/0'
+              ajax:{
+                triggerLength:1,
+                url:'/m/label/suggest/0',
+                preProcess:function(rs){
+                  console.log(rs);
+                  return rs.data;
+                }
+              }
             })
           
       });
