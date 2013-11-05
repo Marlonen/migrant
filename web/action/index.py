@@ -22,7 +22,7 @@ class Profile(BaseHandler):
     def get(self):
         self.render('action/profile.html')
 
-@url(r'/account?')
-class Account(BaseHandler):
+@url(r'/setpwd?')
+class SetPwd(BaseHandler):
     def get(self):
         self.render('action/account.html')
