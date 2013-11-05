@@ -36,7 +36,7 @@
       <div class="col-md-3">
         <div class="span3 bs-docs-sidebar">
           <ul class="nav nav-list bs-docs-sidenav">
-            <li class='active'><a href="/profile"><i class="glyphicon glyphicon-chevron-right"></i> 个人信息</a></li>
+            <li><a href="/profile"><i class="glyphicon glyphicon-chevron-right"></i> 个人信息</a></li>
             <li><a href="/setpwd"><i class="glyphicon glyphicon-chevron-right"></i> 账号安全</a></li>
           </ul>
         </div>
@@ -49,78 +49,3 @@
       </div>
     </div>
   {% end %}
-
-
-    {% block javascript %}
-    
-     <script src="/static/js/bootstrap.typeahead.ajax.js"></script>
-    <script type="text/javascript">
-      $(function(){
-          function loadselect(sel,parent){
-            var url = '/m/city/list';
-            if(parent){
-                url = url +"/"+parent;
-            }
-
-            sel.find('option').remove();
-            $.get(url,function(rs){
-                if(rs.status){
-                    $(rs.data).each(function(i,item){
-                        var opt = $('<option>').attr('value',item._id).html(item.name);
-                        sel.append(opt);
-                    })
-
-                    if(!parent){
-                      loadselect($('#sl_city'),rs.data[0]._id);
-                    }
-                }
-            })
-
-
-          }
-
-          loadselect($('#sl_cityparent'));
-          $('#sl_cityparent').change(function(){
-              loadselect($('#sl_city'),$(this).val());
-          })
-
-          $('.typeahead-profession').typeahead({
-              items:6,
-              ajax:{
-                triggerLength:1,
-                url:'/m/label/suggest/0',
-                preProcess:function(rs){
-                  console.log(rs);
-                  return rs.data;
-                }
-              }
-            })
-
-          $('.typeahead-skill').typeahead({
-              items:6,
-              ajax:{
-                triggerLength:1,
-                url:'/m/label/suggest/1',
-                preProcess:function(rs){
-                  console.log(rs);
-                  return rs.data;
-                }
-              }
-            })
-
-          $('.typeahead-labels').typeahead({
-              items:6,
-              ajax:{
-                triggerLength:1,
-                url:'/m/label/suggest/2',
-                preProcess:function(rs){
-                  console.log(rs);
-                  return rs.data;
-                }
-              }
-            })
-
-      });
-    </script>
-  {% end%}
-

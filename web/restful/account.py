@@ -26,7 +26,7 @@ class LoginHandler(BaseHandler):
             self.write(dict(status = r, errormsg = "登录失败"))
 
 
-@url(r'/m/account/register')
+@url(r'/m/account/join')
 class RegisterHandler(BaseHandler):
 
     def post(self):
@@ -43,6 +43,8 @@ class RegisterHandler(BaseHandler):
             self.set_secure_cookie('uid', value['_id'])
             self.set_secure_cookie('nickname', value['username'])
 
+            del value['password']
+
         self.write(dict(status=result, data=value))
 
 
@@ -55,20 +57,6 @@ class AuthLoginHandler(BaseHandler):
             del v['password']
             del v['status']
 
-        self.write(dict(status = r, data = v))
-
-
-@url(r'/m/account/join')
-class AddHandler(RestfulHandler):
-    def get(self):
-        username = self.get_argument('username')
-        password = self.get_argument('password')
-        
-        r,v = add(username,password,self.get_argument('city',None))
-        if '@' in username:
-            username,emailhost = username.split('@')
-
-        openfire_add(username,password,username)
         self.write(dict(status = r, data = v))
 
 

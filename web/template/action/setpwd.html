@@ -1,6 +1,6 @@
 {% extends "layout/profile_base.html" %}
 {% block form_content %}
-        <form class="form-horizontal loginform" role="form" action='/m/account/login' method='post'>
+        <form class="form-horizontal loginform" role="form" action='/m/account/resetpwd' method='post'>
           <h3>账号安全  <small>--{{ handler.nickname }}</small></h3>
           <hr>
           <div class="form-group">
@@ -34,3 +34,9 @@
           </div>
         </form>
 {% end %}
+
+        {% block javascript %}
+            <script>
+                $('.bs-docs-sidenav li').eq(1).addClass('active').siblings('li').removeClass('active');
+            </script>
+        {% end %}
