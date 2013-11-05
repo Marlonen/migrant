@@ -36,11 +36,8 @@
       <div class="col-md-3">
         <div class="span3 bs-docs-sidebar">
           <ul class="nav nav-list bs-docs-sidenav">
-            <li class='active'><a href="/profile"><i class="glyphicon glyphicon-chevron-right"></i> 基本信息</a></li>
-            <li><a href="#gridSystem"><i class="glyphicon glyphicon-chevron-right"></i> 职业信息</a></li>
-            <li><a href="#fluidGridSystem"><i class="glyphicon glyphicon-chevron-right"></i> 技能信息</a></li>
-            <li><a href="#layouts"><i class="glyphicon glyphicon-chevron-right"></i> 个人标签</a></li>
-            <li><a href="/account"><i class="glyphicon glyphicon-chevron-right"></i> 账号安全</a></li>
+            <li class='active'><a href="/profile"><i class="glyphicon glyphicon-chevron-right"></i> 个人信息</a></li>
+            <li><a href="/setpwd"><i class="glyphicon glyphicon-chevron-right"></i> 账号安全</a></li>
           </ul>
         </div>
 
@@ -55,7 +52,8 @@
 
 
     {% block javascript %}
-    </div> <!-- /container -->
+    
+     <script src="/static/js/bootstrap.typeahead.ajax.js"></script>
     <script type="text/javascript">
       $(function(){
           function loadselect(sel,parent){
@@ -85,6 +83,42 @@
           $('#sl_cityparent').change(function(){
               loadselect($('#sl_city'),$(this).val());
           })
+
+          $('.typeahead-profession').typeahead({
+              items:6,
+              ajax:{
+                triggerLength:1,
+                url:'/m/label/suggest/0',
+                preProcess:function(rs){
+                  console.log(rs);
+                  return rs.data;
+                }
+              }
+            })
+
+          $('.typeahead-skill').typeahead({
+              items:6,
+              ajax:{
+                triggerLength:1,
+                url:'/m/label/suggest/1',
+                preProcess:function(rs){
+                  console.log(rs);
+                  return rs.data;
+                }
+              }
+            })
+
+          $('.typeahead-labels').typeahead({
+              items:6,
+              ajax:{
+                triggerLength:1,
+                url:'/m/label/suggest/2',
+                preProcess:function(rs){
+                  console.log(rs);
+                  return rs.data;
+                }
+              }
+            })
 
       });
     </script>

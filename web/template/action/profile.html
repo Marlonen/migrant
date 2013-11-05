@@ -1,6 +1,6 @@
 {% extends "layout/profile_base.html" %}
 {% block form_content %}
-        <form class="form-horizontal loginform" role="form" action='/m/account/login' method='post'>
+        <form class="form-horizontal loginform" role="form" action='/m/account/update' method='post'>
           <h3>个人信息  <small>--{{ handler.nickname }}</small></h3>
           <hr>
           <div class="form-group">
@@ -33,6 +33,39 @@
             <label  class="col-sm-2 "></label>
           </div>
           <div class="form-group">
+            <label for="profession" class="col-sm-2 control-label">职业</label>
+            <div class="col-sm-3">
+              <input type="text"  class="form-control typeahead-profession"  name='profession' autocomplete="off">
+            </div>
+            <div class="col-sm-3">
+              <input type="text" class="form-control typeahead-profession" name='profession' autocomplete="off">
+            </div>
+            <label  class="col-sm-4 "></label>
+          </div>
+
+          <div class="form-group">
+            <label for="skill" class="col-sm-2 control-label">技能</label>
+            <div class="col-sm-3">
+              <input type="text"  class="form-control typeahead-skill"  name='skill' autocomplete="off">
+            </div>
+            <div class="col-sm-3">
+              <input type="text" class="form-control typeahead-skill" name='skill' autocomplete="off">
+            </div>
+            <label  class="col-sm-4 "></label>
+          </div>
+
+          <div class="form-group">
+            <label for="labels" class="col-sm-2 control-label">个人标签</label>
+            <div class="col-sm-3">
+              <input type="text"  class="form-control typeahead-labels"  name='labels' autocomplete="off">
+            </div>
+            <div class="col-sm-3">
+              <input type="text" class="form-control typeahead-labels" name='labels' autocomplete="off">
+            </div>
+            <label  class="col-sm-4 "></label>
+          </div>
+
+          <div class="form-group">
             <label for="intro" class="col-sm-2 control-label">简介</label>
             <div class="col-sm-5">
               <textarea class="form-control" id="intro" placeholder="简介" name='intro'></textarea>
@@ -47,3 +80,4 @@
           </div>
         </form>
 {% end %}
+
