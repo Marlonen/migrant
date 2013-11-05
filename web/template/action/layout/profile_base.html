@@ -1,0 +1,92 @@
+{% extends "layout.html" %}
+{% block style %}
+    <style type="text/css">
+        .bs-docs-sidenav {
+            width: 258px;
+        }
+        .bs-docs-sidenav {
+            background-color: #FFFFFF;
+            border-radius: 6px 6px 6px 6px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
+            padding: 0;
+            width: 228px;
+        }
+
+        .bs-docs-sidenav > li:first-child > a {
+            border-radius: 6px 6px 0 0;
+        }
+        .bs-docs-sidenav > li > a {
+        }
+
+        .bs-docs-sidenav > li > a {
+            border: 1px solid #E5E5E5;
+            display: block;
+            margin: 0 0 -1px;
+            padding: 8px 14px;
+        }
+
+        .bs-docs-sidenav .glyphicon {
+          float: right;
+        }
+    </style>
+{% end %}
+
+  {% block content %}
+    <div class="row">
+      <div class="col-md-3">
+        <div class="span3 bs-docs-sidebar">
+          <ul class="nav nav-list bs-docs-sidenav">
+            <li class='active'><a href="/profile"><i class="glyphicon glyphicon-chevron-right"></i> 基本信息</a></li>
+            <li><a href="#gridSystem"><i class="glyphicon glyphicon-chevron-right"></i> 职业信息</a></li>
+            <li><a href="#fluidGridSystem"><i class="glyphicon glyphicon-chevron-right"></i> 技能信息</a></li>
+            <li><a href="#layouts"><i class="glyphicon glyphicon-chevron-right"></i> 个人标签</a></li>
+            <li><a href="/account"><i class="glyphicon glyphicon-chevron-right"></i> 账号安全</a></li>
+          </ul>
+        </div>
+
+      </div>
+      <div class="col-md-9">
+        {% block form_content%}
+
+        {% end %}
+      </div>
+    </div>
+  {% end %}
+
+
+    {% block javascript %}
+    </div> <!-- /container -->
+    <script type="text/javascript">
+      $(function(){
+          function loadselect(sel,parent){
+            var url = '/m/city/list';
+            if(parent){
+                url = url +"/"+parent;
+            }
+
+            sel.find('option').remove();
+            $.get(url,function(rs){
+                if(rs.status){
+                    $(rs.data).each(function(i,item){
+                        var opt = $('<option>').attr('value',item._id).html(item.name);
+                        sel.append(opt);
+                    })
+
+                    if(!parent){
+                      loadselect($('#sl_city'),rs.data[0]._id);
+                    }
+                }
+            })
+
+
+          }
+
+          loadselect($('#sl_cityparent'));
+          $('#sl_cityparent').change(function(){
+              loadselect($('#sl_city'),$(this).val());
+          })
+
+      });
+    </script>
+  {% end%}
+

@@ -10,6 +10,8 @@ from utility import m_update,m_del,m_page,m_exists,m_info,BaseModel
 TName = 'account'
 Tb = lambda :get_context().get_mongo()[TName]
 
+INIT, ACTIVATED, IDENTIFIED = range(3)
+
 class AccountModel(BaseModel):
     username = CharField(required=True)
     password = CharField(required=True)
@@ -28,8 +30,8 @@ def add(username, password, city=None, **kwargs):
             return True, val
         else:
             return False, 'EXISTS'
-    except Exception as e:
-        return False, e.message
+    except ValueError:
+        return False, 'NO_EMPTY'
 
 def login(username,password,isadmin = None):
     try:

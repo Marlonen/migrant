@@ -189,7 +189,7 @@
                   // simple rule, converted to {required:true}
                 username: {
                     required: true,
-                    minlength: 5
+                    email: true
                 },
                 // compound rule
                 password: {
@@ -200,7 +200,7 @@
               messages: {
                   username: {
                       required: "账号不能为空",
-                      minlength: $.format("账号不能少于 {0} 个字符")
+                      email: "邮箱格式不正确"
                   },
                   password: {
                       required: "密码不能为空",

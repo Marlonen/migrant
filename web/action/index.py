@@ -21,3 +21,8 @@ class Login(BaseHandler):
 class Profile(BaseHandler):
     def get(self):
         self.render('action/profile.html')
+
+@url(r'/account?')
+class Account(BaseHandler):
+    def get(self):
+        self.render('action/account.html')

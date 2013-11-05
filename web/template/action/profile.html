@@ -1,72 +1,26 @@
-{% extends "layout/layout.html" %}
-{% block style %}
-    <style type="text/css">
-        .bs-docs-sidenav {
-            width: 258px;
-        }
-        .bs-docs-sidenav {
-            background-color: #FFFFFF;
-            border-radius: 6px 6px 6px 6px;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
-            padding: 0;
-            width: 228px;
-        }
-
-        .bs-docs-sidenav > li:first-child > a {
-            border-radius: 6px 6px 0 0;
-        }
-        .bs-docs-sidenav > li > a {
-        }
-
-        .bs-docs-sidenav > li > a {
-            border: 1px solid #E5E5E5;
-            display: block;
-            margin: 0 0 -1px;
-            padding: 8px 14px;
-        }
-
-        .bs-docs-sidenav .glyphicon {
-          float: right;
-        }
-    </style>
-{% end %}
-
-  {% block content %}
-    <div class="row">
-      <div class="col-md-3">
-        <div class="span3 bs-docs-sidebar">
-          <ul class="nav nav-list bs-docs-sidenav">
-            <li class='active'><a href="#global"><i class="glyphicon glyphicon-chevron-right"></i> 基本信息</a></li>
-            <li><a href="#gridSystem"><i class="glyphicon glyphicon-chevron-right"></i> 职业信息</a></li>
-            <li><a href="#fluidGridSystem"><i class="glyphicon glyphicon-chevron-right"></i> 技能信息</a></li>
-            <li><a href="#layouts"><i class="glyphicon glyphicon-chevron-right"></i> 个人标签</a></li>
-            <li><a href="#responsive"><i class="glyphicon glyphicon-chevron-right"></i> 账号安全</a></li>
-          </ul>
-        </div>
-
-      </div>
-      <div class="col-md-9">
+{% extends "layout/profile_base.html" %}
+{% block form_content %}
         <form class="form-horizontal loginform" role="form" action='/m/account/login' method='post'>
           <h3>个人信息  <small>--{{ handler.nickname }}</small></h3>
           <hr>
           <div class="form-group">
-            <label for="inputEmail3" class="col-sm-1 control-label">呢称</label>
+            <label for="nickname" class="col-sm-2 control-label">呢称</label>
             <div class="col-sm-5">
-              <input type="text" class="form-control" placeholder="呢称" name='nickname' >
+              <input type="text" id="nickname" class="form-control" placeholder="呢称" name='nickname' >
             </div>
-            <label  class="col-sm-6 "></label>
+            <label  class="col-sm-5 "></label>
           </div>
 
           <div class="form-group">
-            <label for="inputEmail3" class="col-sm-1 control-label">手机</label>
+            <label for="mobile" class="col-sm-2 control-label">手机</label>
             <div class="col-sm-5">
-              <input type="text" class="form-control" placeholder="手机" name='mobile' >
+              <input type="text" id="mobile" class="form-control" placeholder="手机" name='mobile' >
             </div>
-            <label  class="col-sm-6 "></label>
+            <label  class="col-sm-5 "></label>
           </div>
 
           <div class="form-group">
-            <label for="inputEmail3" class="col-sm-1 control-label">城市</label>
+            <label for="sl_cityparent" class="col-sm-2 control-label">城市</label>
             <div class="col-sm-4">
               <select class="form-control" id='sl_cityparent'>
               </select>
@@ -76,60 +30,20 @@
 
               </select>
             </div>
-            <label  class="col-sm-3 "></label>
+            <label  class="col-sm-2 "></label>
           </div>
           <div class="form-group">
-            <label for="inputEmail3" class="col-sm-1 control-label">简介</label>
+            <label for="intro" class="col-sm-2 control-label">简介</label>
             <div class="col-sm-5">
-              <textarea class="form-control" placeholder="简介" name='intro'></textarea>
+              <textarea class="form-control" id="intro" placeholder="简介" name='intro'></textarea>
             </div>
-            <label  class="col-sm-6 "></label>
+            <label  class="col-sm-5 "></label>
           </div>
 
           <div class="form-group">
-            <div class="col-sm-offset-1 col-sm-11">
+            <div class="col-sm-offset-2 col-sm-10">
               <a href='#' class="btn btn-primary" id='loginbtn'>修改</a>
             </div>
           </div>
         </form>
-      </div>
-    </div>
-  {% end %}
-
-
-    {% block javascript %}
-    </div> <!-- /container -->
-    <script type="text/javascript">
-      $(function(){
-          function loadselect(sel,parent){
-            var url = '/m/city/list';
-            if(parent){
-                url = url +"/"+parent;
-            }
-
-            sel.find('option').remove();
-            $.get(url,function(rs){
-                if(rs.status){
-                    $(rs.data).each(function(i,item){
-                        var opt = $('<option>').attr('value',item._id).html(item.name);
-                        sel.append(opt);
-                    })
-
-                    if(!parent){
-                      loadselect($('#sl_city'),rs.data[0]._id);
-                    }
-                }
-            })
-
-
-          }
-
-          loadselect($('#sl_cityparent'));
-          $('#sl_cityparent').change(function(){
-              loadselect($('#sl_city'),$(this).val());
-          })
-
-      });
-    </script>
-  {% end%}
-
+{% end %}

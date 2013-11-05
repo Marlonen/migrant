@@ -8,7 +8,7 @@ from kpages import url
 from utility import RestfulHandler,BaseHandler
 
 from logic.utility import *
-from logic.account import add,login,TName as T_ACCOUNT,auth_login
+from logic.account import add,login,TName as T_ACCOUNT,auth_login, INIT
 from logic.city import TName as T_CITY
 from logic.openfireusers import add as openfire_add
 
@@ -33,7 +33,7 @@ class RegisterHandler(BaseHandler):
         username = self.get_argument('username', None)
         password = self.get_argument('password', None)
 
-        result, value = add(username, password, self.get_argument('city', None))
+        result, value = add(username, password, self.get_argument('city', None), status=INIT)
 
         if result:
             if '@' in username:
@@ -42,6 +42,7 @@ class RegisterHandler(BaseHandler):
 
             self.set_secure_cookie('uid', value['_id'])
             self.set_secure_cookie('nickname', value['username'])
+
         self.write(dict(status=result, data=value))
 
 
