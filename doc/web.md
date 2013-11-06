@@ -38,7 +38,8 @@ account {
 label {
 	name:'标签内容',
 	category:'0:profession, 1: skill, 2: 用户个人标签,3:资讯'
-	hot:'热度'
+	hot:'热度'，点击浏览计数
+	usage: 使用次数
 }
 ```
 
