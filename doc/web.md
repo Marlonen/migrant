@@ -125,7 +125,30 @@ comment {
 4. (status,list(news)|msg)		  (get'/m/news/label','key') //按标签查询生成资讯列表
 5. (status,msg)					  (post'/m/news/delete','_id') //删除资讯
 
+### 项目
 
+###### 项目字典
+```
+project {
+	name:项目名称，
+	city:城市id,
+	description:简介,
+	advantage：优势,
+	partner：合伙人 list （智能标签）,
+	status: 状态 (0:好主意、1：项目计划书、2：产品原型、3:测试、4：正式上线、5：已有收入、6：已有营利),
+	author:发起人,
+	apply：申请人列表及状态 list {
+		name:合伙标签,
+		uid:申请用户,
+		status:状态 0:申请, 1:合作中
+		}
+	
+}
+```
 
+###### 页面
 
-
+1. `项目列表` '/project/(label)?p=1' 标签可选 支持分页
+2. `项目详情` '/project/info/_id'    项目详情显示项目状态、合作人申请数、成功合作人数
+3. `创建项目` '/project/create'	     项目项目 合作人为 智能标签 用户编辑时可删除、添加
+4. `申请加入` '/project/join/_id?uid=xx?partner=xxx' 
