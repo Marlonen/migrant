@@ -8,7 +8,7 @@ from kpages import url
 from utility import RestfulHandler,BaseHandler
 
 from logic.utility import *
-from logic.account import add,login,TName as T_ACCOUNT,auth_login, INIT
+from logic.account import add,login,TName as T_ACCOUNT,auth_login, INIT, reset_pwd
 from logic.city import TName as T_CITY
 from logic.openfireusers import add as openfire_add
 
@@ -19,7 +19,8 @@ class LoginHandler(BaseHandler):
         print r,v
         if r:
             self.set_secure_cookie('uid',v['_id'])
-            self.set_secure_cookie('nickname',v['username'])
+            self.set_secure_cookie('nickname', v['nickname'])
+            self.set_secure_cookie('username', v['username'])
             del v['password']
             self.write(dict(status = r, data = v))
         else: 
@@ -78,6 +79,21 @@ class UpdateHandler(RestfulHandler):
         }
         r, v = m_update(T_ACCOUNT, self.uid, **args)
         self.write(dict(status=r, data=v))
+
+
+@url(r'/m/account/resetpwd')
+@url(r'/m/account/resetpwd/(.*)')
+class ResetPwdHandler(RestfulHandler):
+    def post(self, _id=None):
+        old_password = self.get_argument('password')
+        new_password = self.get_argument('new_password')
+        confirm_password = self.get_argument('confirm_password')
+
+        if new_password == confirm_password:
+            r, v = reset_pwd(_id or self.uid, old_password, new_password)
+            self.write(dict(status=r, data=v))
+        else:
+            self.write(dict(status=False, data='DIFFERENT_PWD'))
 
 
 @url(r'/m/account/info')

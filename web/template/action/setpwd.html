@@ -43,13 +43,13 @@
 
           </div>
           <div class="col-md-9">
-                <form class="form-horizontal loginform" role="form" action='/m/account/resetpwd' method='post'>
+                <form class="form-horizontal resetpwd-form" role="form" action='/m/account/resetpwd' method='post'>
                   <h3>账号安全  <small>--{{ handler.nickname }}</small></h3>
                   <hr>
                   <div class="form-group">
                     <label for="password" class="col-sm-2 control-label">原始密码</label>
                     <div class="col-sm-5">
-                      <input type="text" id="password" class="form-control" placeholder="原始密码" name='password' >
+                      <input type="password" id="password" class="form-control" placeholder="原始密码" name='password' >
                     </div>
                     <label  class="col-sm-5 "></label>
                   </div>
@@ -57,7 +57,7 @@
                   <div class="form-group">
                     <label for="new_password" class="col-sm-2 control-label">新密码</label>
                     <div class="col-sm-5">
-                      <input type="text" id="new_password" class="form-control" placeholder="新密码" name='new_password' >
+                      <input type="password" id="new_password" class="form-control" placeholder="新密码" name='new_password' >
                     </div>
                     <label  class="col-sm-6 "></label>
                   </div>
@@ -65,14 +65,14 @@
                   <div class="form-group">
                     <label for="confirm_password" class="col-sm-2 control-label">确认密码</label>
                     <div class="col-sm-5">
-                      <input type="text" id="confirm_password" class="form-control" placeholder="确认密码" name='confirm_password' >
+                      <input type="password" id="confirm_password" class="form-control" placeholder="确认密码" name='confirm_password' >
                     </div>
                     <label  class="col-sm-5 "></label>
                   </div>
 
                   <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                      <a href='#' class="btn btn-primary" id='loginbtn'>修改</a>
+                      <button class="btn btn-primary" id='resetpwd-btn'>修改</button>
                     </div>
                   </div>
                 </form>
@@ -81,6 +81,39 @@
 {% end %}
 
 {% block javascript %}
+    <script src="/static/js/libs/jquery.form.min.js"></script>
     <script>
+        $(function(){
+            $('#resetpwd-btn').click(function(e){
+                e.preventDefault();
+                $('.resetpwd-form').ajaxSubmit(function(res){
+                    if(res.status) {
+                        $.pnotify({
+                            title: '成功',
+                            text: '密码修改成功',
+                            type: 'success'
+                        });
+                    }else if(res.data == 'INVALIDED'){
+                        $.pnotify({
+                            title: '错误',
+                            text: '原始密码不正确',
+                            type: 'error'
+                        });
+                    }else if(res.data == 'DIFFERENT_PWD'){
+                        $.pnotify({
+                            title: '错误',
+                            text: '两次密码不一致',
+                            type: 'error'
+                        });
+                    }else if(res.data == 'NO_EMPTY'){
+                        $.pnotify({
+                            title: '错误',
+                            text: '各字段不能为空',
+                            type: 'error'
+                        });
+                    }
+                });
+            });
+        });
     </script>
 {% end %}
