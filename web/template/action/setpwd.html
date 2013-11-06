@@ -29,6 +29,11 @@
         .bs-docs-sidenav .glyphicon {
           float: right;
         }
+
+        .resetpwd-form label.error{
+            color: red;
+            display: inline;
+        }
     </style>
 {% end %}
 
@@ -52,7 +57,6 @@
                     <div class="col-sm-5">
                       <input type="password" id="password" class="form-control" placeholder="原始密码" name='password' >
                     </div>
-                    <label  class="col-sm-5 "></label>
                   </div>
 
                   <div class="form-group">
@@ -60,7 +64,6 @@
                     <div class="col-sm-5">
                       <input type="password" id="new_password" class="form-control" placeholder="新密码" name='new_password' >
                     </div>
-                    <label  class="col-sm-6 "></label>
                   </div>
 
                   <div class="form-group">
@@ -68,73 +71,60 @@
                     <div class="col-sm-5">
                       <input type="password" id="confirm_password" class="form-control" placeholder="确认密码" name='confirm_password' >
                     </div>
-                    <label  class="col-sm-5 "></label>
                   </div>
 
                   <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                      <button class="btn btn-primary" id='resetpwd-btn'>修改</button>
+                      <button type="submit" class="btn btn-primary" id='resetpwd-btn'>修改</button>
                     </div>
                   </div>
-
-                  <div class="alert alert-success" style='display:hidden'>
-                    <a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>
-                    修改密码成功
-                  </div>
-
-                  <div class="alert alert-warning" style='display:hidden'>
-                    <a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>
-                    <strong>错误</strong>原始密码不正确
-                  </div>
-
-                  <div class="alert alert-warning" style='display:hidden'>
-                    <a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>
-                    <strong>错误</strong>原始密码不正确
-                  </div>
-
                 </form>
           </div>
         </div>
 {% end %}
 
 {% block javascript %}
+    <script src="/static/js/libs/jquery.validate.min.js"></script>
     <script src="/static/js/libs/jquery.form.min.js"></script>
     <script>
         $(function(){
-            $(".alert").alert('close');
-            $('#resetpwd-btn').click(function(e){
-                e.preventDefault();
-                $('.resetpwd-form').ajaxSubmit(function(res){
-                    if(res.status) {
-                        /**
-                        $.pnotify({
-                            title: '成功',
-                            text: '密码修改成功',
-                            type: 'success'
-                        });
-**/
-                        $('.alert-success').show();
-
-                    }else if(res.data == 'INVALIDED'){
-                        $.pnotify({
-                            title: '错误',
-                            text: '原始密码不正确',
-                            type: 'error'
-                        });
-                    }else if(res.data == 'DIFFERENT_PWD'){
-                        $.pnotify({
-                            title: '错误',
-                            text: '两次密码不一致',
-                            type: 'error'
-                        });
-                    }else if(res.data == 'NO_EMPTY'){
-                        $.pnotify({
-                            title: '错误',
-                            text: '各字段不能为空',
-                            type: 'error'
-                        });
+            $('.resetpwd-form').validate({
+                rules: {
+                    password: 'required',
+                    new_password: 'required',
+                    confirm_password: {
+                        required: true,
+                        equalTo: "#new_password"
                     }
-                });
+                },
+                messages: {
+                    password: '请输入原始密码',
+                    new_password:'请输入新密码',
+                    confirm_password: {
+                        required: '请再次输入新密码',
+                        equalTo: '两次输入的密码不一致'
+                    }
+                },
+                errorPlacement: function(error, element) {
+                      error.insertAfter(element.parent('div')).addClass('col-sm-5 help-block');
+                  },
+                submitHandler: function(form){
+                    $(form).ajaxSubmit(function(res){
+                        if(res.status) {
+                            $.pnotify({
+                                title: '成功',
+                                text: '密码修改成功',
+                                type: 'success'
+                            });
+                        }else if(res.data == 'INVALIDED'){
+                            $.pnotify({
+                                title: '错误',
+                                text: '原始密码不正确',
+                                type: 'error'
+                            });
+                        }
+                    });
+                }
             });
         });
     </script>
