@@ -62,38 +62,47 @@ class AuthLoginHandler(BaseHandler):
 
 @url(r'/m/account/update')
 class UpdateHandler(RestfulHandler):
+    def post(self):
+        self.get()
+
     def get(self):
-        val = dict()
-        tocity = self.get_argument('tocity',None)
-        if tocity:val.update(tocity=tocity)
-
-        city = self.get_argument('city',None)
-        if city:val.update(city=city)
-        
-        icon = self.get_argument('icon',None)
-        if icon:val.update(icon=icon)
-
-        intro = self.get_argument('intro',None)
-        if intro:val.update(intro=intro)
-
-        r,v = m_update(T_ACCOUNT,self.uid,**val)
-        self.write(dict(status = r, data = v))
+        args = {
+            'mobile': self.get_argument('mobile', None),
+            'labels': self.get_arguments('labels'),
+            'profession': self.get_arguments('profession'),
+            'intro': self.get_arguments('intro'),
+            'skill': self.get_arguments('skill'),
+            'nickname': self.get_argument('nickname'),
+            'parent_city': self.get_argument('parent_city', None),
+            'city': self.get_argument('city', None)
+        }
+        r, v = m_update(T_ACCOUNT, self.uid, **args)
+        self.write(dict(status=r, data=v))
 
 
 @url(r'/m/account/info')
 @url(r'/m/account/info/(.*)')
 class InfoHandler(RestfulHandler):
-    def get(self,_id = None):
-        r,v = m_info(T_ACCOUNT,_id or self.uid)
+    def get(self, _id=None):
+        r, v = m_info(T_ACCOUNT, _id or self.uid)
         if not r:
-            return self.write(dict(status=r,data =v))
+            return self.write(dict(status=r, data=v))
 
-        if v and v.get('city',None):
-            cr,cv = m_info(T_CITY,v['city'])
-            v['cityname'] = cv['name']
+        if v and v.get('parent_city', None):
+            cr, cv = m_info(T_CITY, v['parent_city'])
+            v['parent_city'] = cv['name']
+            v['parent_city_id'] = cv['_id']
 
-        if v and v.get('tocity',None):
-            cr,cv = m_info(T_CITY,v['tocity'])
-            v['tocityname'] = cv['name']
+        if v and v.get('city', None):
+            cr, cv = m_info(T_CITY, v['city'])
+            v['city'] = cv['name']
+            v['city_id'] = cv['_id']
 
-        self.write(dict(status=True,data=v))
+        if v and v.get('to_city', None):
+            cr, cv = m_info(T_CITY, v['to_city'])
+            v['to_city'] = cv['name']
+            v['to_city_id'] = cv['_id']
+
+        del v['password']
+
+        self.write(dict(status=True, data=v))
