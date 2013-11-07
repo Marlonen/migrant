@@ -40,10 +40,14 @@ def add(category, name, **kwargs):
         return False,e.message
 
 
-def suggest(category, top=10):
+def suggest(category, top=10, key=None):
     """
         按热度排序,返回category 分类前top 条记录
     """
-    pass
+    cond = dict(category=category,status={'$ne':-1})
+    if key:
+        cond.update(name = {'$regex':key})
 
+    lst = Tb().find(cond).limit(top).sort('usage',-1)
+    return mongo_conv(list(lst))
 

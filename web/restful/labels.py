@@ -9,23 +9,28 @@ from tornado.web import RequestHandler
 from kpages import url
 from utility import RestfulHandler
 from logic.utility import m_page
+from logic.label import add,suggest
 
 @url(r'/m/label/suggest/(.*)')
-class SuggestLabel(RequestHandler):
-    def post(self, category=None):
-        arr = ["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"]
-        #self.write(json.dumps(arr))
-        arr = ['码爱','码农','码工要']
+class SuggestLabel(RestfulHandler):
+    def get(self, category=None):
+        key = self.get_argument('key',None)
+        rs = suggest(int(category),key=key)
+        arr = [ item['name'] for item in rs]
         self.write(dict(status=True,data=arr))
+
 
 @url(r'/m/label/add')
 class AddLabel(RestfulHandler):
     def post(self):
-        pass
+       name = self.get_argument('name',None)
+       category = int(self.get_argument('category','0'))
+       r,v = add(category, name)
+       self.write(dict(status=r, data=v))
 
 
 @url(r'/m/label/list/(.*)')
 class ListLable(RestfulHandler):
     def get(self, category=None):
-        pass
-
+        rs = suggest(int(category))
+        self.write(dict(status=True, data=rs))
