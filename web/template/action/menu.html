@@ -5,6 +5,7 @@
           <li><a href="/help">帮助</a></li>
           {% if handler.uid %}
           <li><a href="/profile">{{ handler.nickname }}</a></li>
+          <li><a href="/logout">退出</a></li>
           {% else %}
           <li class='active'><a href="/login">登录</a></li>
           {% end %}

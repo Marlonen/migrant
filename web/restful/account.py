@@ -20,8 +20,8 @@ class LoginHandler(BaseHandler):
         print r,v
         if r:
             self.set_secure_cookie('uid',v['_id'])
-            self.set_secure_cookie('nickname', v['nickname'])
-            self.set_secure_cookie('username', v['username'])
+            self.set_secure_cookie('nickname', v.get('nickname',v['username']))
+            self.set_secure_cookie('city', v['city'])
             del v['password']
             self.write(dict(status = r, data = v))
         else: 

@@ -17,6 +17,13 @@ class Login(BaseHandler):
         self.render('action/login.html')
 
 
+@url(r'/logout?')
+class Logout(BaseHandler):
+    def get(self):
+        self.clear_cookie('uid')
+        self.clear_cookie('city')
+        self.redirect('/')
+
 @url(r'/profile?')
 class Profile(BaseHandler):
     def get(self):

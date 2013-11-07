@@ -21,11 +21,10 @@ class NewsModel(BaseModel):
     body = CharField()
     category = CharField(required=True)
     author = CharField(required=True)
-    city = CharField()
     labels = ListField(datatype=CharField)
 
 
-def hot(top, dtype='day'):
+def hot(top, days=1):
     """
         dtype : day, week, month 
         get top hot news by dtype

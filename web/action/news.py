@@ -8,6 +8,7 @@ from utility import BaseHandler
 from logic.news import NewsModel
 from logic.category import TName as T_Category
 from logic.utility import m_page
+from logic.label import add as addlabel
 
 @url(r'/news?')
 class News(BaseHandler):
@@ -24,16 +25,19 @@ class NewsInfo(BaseHandler):
 class CreateNews(BaseHandler,NewsModel):
     def post(self):
         try:
-            data = self._get_postdata(author=self.uid)
+            data = self._get_postdata(city=self.city)
+            print data
             r,v = self._save(data)
+            for i in data.get('labels',()):
+                if i:
+                    addlabel(3,i)
+
             self.write(dict(status=r,data=v)) 
         except Exception as e:
             self.write(e.message)
 
     def get(self):
-        self.labels = ['码农'.decode('utf-8'),'码码代']
         r,self.categorys = m_page(T_Category,size=10)        
-        print self.categorys 
         self.render('action/newssave.html')
 
 
