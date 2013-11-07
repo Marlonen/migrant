@@ -10,6 +10,7 @@ from utility import RestfulHandler,BaseHandler
 from logic.utility import *
 from logic.account import add,login,TName as T_ACCOUNT,auth_login, INIT, reset_pwd
 from logic.city import TName as T_CITY
+from logic.label import add as addlabel
 from logic.openfireusers import add as openfire_add
 
 @url(r'/m/account/login')
@@ -71,12 +72,27 @@ class UpdateHandler(RestfulHandler):
             'mobile': self.get_argument('mobile', None),
             'labels': self.get_arguments('labels'),
             'profession': self.get_arguments('profession'),
-            'intro': self.get_arguments('intro'),
+            'intro': self.get_argument('intro'),
             'skill': self.get_arguments('skill'),
             'nickname': self.get_argument('nickname'),
             'parent_city': self.get_argument('parent_city', None),
             'city': self.get_argument('city', None)
         }
+
+        ur,uv = m_info(T_ACCOUNT,self.uid)
+        
+        for i in args.get('profession'):
+            if i and not i in uv.get('profession',()):
+                addlabel(0,i)
+
+        for i in args.get('skill'):
+            if i and not i in uv.get('skill',()):
+                addlabel(1,i)
+
+        for i in args.get('labels'):
+            if i and not i in uv.get('labels',()):
+                addlabel(2,i)
+
         r, v = m_update(T_ACCOUNT, self.uid, **args)
         self.write(dict(status=r, data=v))
 
