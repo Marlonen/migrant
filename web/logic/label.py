@@ -22,7 +22,7 @@ class LabelModel(BaseModel):
 
 def add(category, name, **kwargs):
     try:
-        not_empty(category,name)
+        not_empty(name)
         cond = dict(category = category, name=name)
         val = m_exists(TName,**cond)
         if not val:
