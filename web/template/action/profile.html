@@ -1,93 +1,139 @@
-{% extends "layout/profile_base.html" %}
-{% block form_content %}
-        <form class="form-horizontal loginform" role="form" action='/m/account/update' method='post'>
-          <h3>个人信息  <small>--{{ handler.nickname }}</small></h3>
-          <hr>
-          <div class="form-group">
-            <label for="nickname" class="col-sm-2 control-label">呢称</label>
-            <div class="col-sm-5">
-              <input type="text" id="nickname" class="form-control" placeholder="呢称" name='nickname' >
-            </div>
-            <label  class="col-sm-5 "></label>
-          </div>
+{% extends "layout/layout.html" %}
+{% block style %}
+    <style type="text/css">
+        .bs-docs-sidenav {
+            width: 258px;
+        }
+        .bs-docs-sidenav {
+            background-color: #FFFFFF;
+            border-radius: 6px 6px 6px 6px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
+            padding: 0;
+            width: 228px;
+        }
 
-          <div class="form-group">
-            <label for="mobile" class="col-sm-2 control-label">手机</label>
-            <div class="col-sm-5">
-              <input type="text" id="mobile" class="form-control" placeholder="手机" name='mobile' >
-            </div>
-            <label  class="col-sm-5 "></label>
-          </div>
+        .bs-docs-sidenav > li:first-child > a {
+            border-radius: 6px 6px 0 0;
+        }
+        .bs-docs-sidenav > li > a {
+        }
 
-          <div class="form-group">
-            <label for="sl_cityparent" class="col-sm-2 control-label">城市</label>
-            <div class="col-sm-4">
-              <select class="form-control" id='sl_cityparent'>
-              </select>
-            </div>
-            <div class="col-sm-4">
-              <select class="form-control" id='sl_city'>
+        .bs-docs-sidenav > li > a {
+            border: 1px solid #E5E5E5;
+            display: block;
+            margin: 0 0 -1px;
+            padding: 8px 14px;
+        }
 
-              </select>
-            </div>
-            <label  class="col-sm-2 "></label>
-          </div>
-          <div class="form-group">
-            <label for="profession" class="col-sm-2 control-label">职业</label>
-            <div class="col-sm-3">
-              <input type="text"  class="form-control typeahead-profession"  name='profession' autocomplete="off">
-            </div>
-            <div class="col-sm-3">
-              <input type="text" class="form-control typeahead-profession" name='profession' autocomplete="off">
-            </div>
-            <label  class="col-sm-4 "></label>
-          </div>
+        .bs-docs-sidenav .glyphicon {
+          float: right;
+        }
+    </style>
+<link rel="stylesheet" href=""/>
+{% end %}
 
-          <div class="form-group">
-            <label for="skill" class="col-sm-2 control-label">技能</label>
-            <div class="col-sm-3">
-              <input type="text"  class="form-control typeahead-skill"  name='skill' autocomplete="off">
+{% block content %}
+        <div class="row">
+          <div class="col-md-3">
+            <div class="span3 bs-docs-sidebar">
+              <ul class="nav nav-list bs-docs-sidenav">
+                <li class="active"><a href="/profile"><i class="glyphicon glyphicon-chevron-right"></i> 个人信息</a></li>
+                <li><a href="/setpwd"><i class="glyphicon glyphicon-chevron-right"></i> 账号安全</a></li>
+              </ul>
             </div>
-            <div class="col-sm-3">
-              <input type="text" class="form-control typeahead-skill" name='skill' autocomplete="off">
-            </div>
-            <label  class="col-sm-4 "></label>
-          </div>
 
-          <div class="form-group">
-            <label for="labels" class="col-sm-2 control-label">个人标签</label>
-            <div class="col-sm-3">
-              <input type="text"  class="form-control typeahead-labels"  name='labels' autocomplete="off">
-            </div>
-            <div class="col-sm-3">
-              <input type="text" class="form-control typeahead-labels" name='labels' autocomplete="off">
-            </div>
-            <label  class="col-sm-4 "></label>
           </div>
+          <div class="col-md-9">
+              <form class="form-horizontal profile-form" role="form" action='/m/account/update' method='post'>
+                  <h3>个人信息  <small>--{{ handler.nickname }}</small></h3>
+                  <hr>
+                  <div class="form-group">
+                    <label for="nickname" class="col-sm-2 control-label">呢称</label>
+                    <div class="col-sm-5">
+                      <input type="text" id="nickname" class="form-control" placeholder="呢称" name='nickname' >
+                    </div>
+                    <label  class="col-sm-5 "></label>
+                  </div>
 
-          <div class="form-group">
-            <label for="intro" class="col-sm-2 control-label">简介</label>
-            <div class="col-sm-5">
-              <textarea class="form-control" id="intro" placeholder="简介" name='intro'></textarea>
-            </div>
-            <label  class="col-sm-5 "></label>
-          </div>
+                  <div class="form-group">
+                    <label for="mobile" class="col-sm-2 control-label">手机</label>
+                    <div class="col-sm-5">
+                      <input type="text" id="mobile" class="form-control" placeholder="手机" name='mobile' >
+                    </div>
+                    <label  class="col-sm-5 "></label>
+                  </div>
 
-          <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-              <a href='#' class="btn btn-primary" id='loginbtn'>修改</a>
-            </div>
+                  <div class="form-group">
+                    <label for="sl_cityparent" class="col-sm-2 control-label">城市</label>
+                    <div class="col-sm-4">
+                      <select class="form-control" name="parent_city" id='sl_cityparent'>
+                      </select>
+                    </div>
+                    <div class="col-sm-4">
+                      <select class="form-control" name="city" id='sl_city'>
+
+                      </select>
+                    </div>
+                    <label  class="col-sm-2 "></label>
+                  </div>
+                  <div class="form-group">
+                    <label for="profession" class="col-sm-2 control-label">职业</label>
+                    <div class="col-sm-3">
+                      <input type="text" id="profession"  class="form-control typeahead-profession"  name='profession' autocomplete="off">
+                    </div>
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control typeahead-profession" name='profession' autocomplete="off">
+                    </div>
+                    <label  class="col-sm-4 "></label>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="skill" class="col-sm-2 control-label">技能</label>
+                    <div class="col-sm-3">
+                      <input type="text" id="skill" class="form-control typeahead-skill"  name='skill' autocomplete="off">
+                    </div>
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control typeahead-skill" name='skill' autocomplete="off">
+                    </div>
+                    <label  class="col-sm-4 "></label>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="labels" class="col-sm-2 control-label">个人标签</label>
+                    <div class="col-sm-3">
+                      <input type="text"  class="form-control typeahead-labels" id="labels" name='labels' autocomplete="off">
+                    </div>
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control typeahead-labels" name='labels' autocomplete="off">
+                    </div>
+                    <label  class="col-sm-4 "></label>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="intro" class="col-sm-2 control-label">简介</label>
+                    <div class="col-sm-5">
+                      <textarea class="form-control" id="intro" placeholder="简介" name='intro'></textarea>
+                    </div>
+                    <label  class="col-sm-5 "></label>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <button type="button" class="btn btn-primary" id='submit-btn'>修改</button>
+                    </div>
+                  </div>
+                </form>
           </div>
-        </form>
+        </div>
 {% end %}
 
 
         {% block javascript %}
     <script src="/static/js/bootstrap.typeahead.ajax.js"></script>
+    <script src="/static/js/libs/jquery.form.min.js"></script>
     <script type="text/javascript">
       $(function(){
-          $('.bs-docs-sidenav li').eq(0).addClass('active').siblings('li').removeClass('active');
-          function loadselect(sel,parent){
+          function loadselect(sel, parent, callback){
             var url = '/m/city/list';
             if(parent){
                 url = url +"/"+parent;
@@ -99,21 +145,76 @@
                     $(rs.data).each(function(i,item){
                         var opt = $('<option>').attr('value',item._id).html(item.name);
                         sel.append(opt);
-                    })
-
-                    if(!parent){
-                      loadselect($('#sl_city'),rs.data[0]._id);
-                    }
+                    });
+                    if(!!callback) callback();
                 }
             })
-
-
           }
 
-          loadselect($('#sl_cityparent'));
+          function loadProfile(){
+              var url = '/m/account/info';
+              $.get(url,function(rs){
+                    if(rs.status){
+                        var data = rs.data;
+                        $('#nickname').val(data.nickname);
+                        $('#mobile').val(data.mobile);
+
+                        loadselect($('#sl_cityparent'), null, function(){
+                            if(!!data.parent_city_id){
+                                $('#sl_cityparent').val(data.parent_city_id);
+                                loadselect($('#sl_city'), data.parent_city_id, function(){
+                                    $('#sl_city').val(data.city_id);
+                                });
+                            }else{
+                                var parent_city_sel = $('#sl_cityparent');
+                                var first_parent_city = parent_city_sel.find('option').eq(0).val();
+                                parent_city_sel.val(first_parent_city);
+                                loadselect($('#sl_city'), first_parent_city, function(){
+                                    var city_sel = $('#sl_city');
+                                    var city = city_sel.find('option').eq(0).val();
+                                    $('#sl_city').val(city);
+                                });
+                            }
+                        });
+
+                        $('#intro').val(data.intro);
+                        $(data.profession).each(function(index, value){
+                            $('input[name=profession]').eq(index).val(value);
+                        });
+                        $(data.skill).each(function(index, value){
+                            $('input[name=skill]').eq(index).val(value);
+                        });
+                        $(data.labels).each(function(index, value){
+                            $('input[name=labels]').eq(index).val(value);
+                        });
+
+                    }
+                })
+          }
+
           $('#sl_cityparent').change(function(){
               loadselect($('#sl_city'),$(this).val());
-          })
+          });
+
+          loadProfile();
+
+          $('#submit-btn').click(function(){
+              $('.profile-form').ajaxSubmit(function(res){
+                  if(res.status) {
+                        $.pnotify({
+                            title: '成功',
+                            text: '个人信息更新成功',
+                            type: 'success'
+                        });
+                  }else{
+                      $.pnotify({
+                            title: '成功',
+                            text: '服务器繁忙，请稍后再试',
+                            type: 'error'
+                        });
+                  }
+              });
+          });
 
           $('.typeahead-profession').typeahead({
               items:6,
@@ -125,7 +226,7 @@
                   return rs.data;
                 }
               }
-            })
+            });
 
           $('.typeahead-skill').typeahead({
               items:6,
@@ -137,7 +238,7 @@
                   return rs.data;
                 }
               }
-            })
+            });
 
           $('.typeahead-labels').typeahead({
               items:6,

@@ -33,6 +33,22 @@ def add(username, password, city=None, **kwargs):
     except ValueError:
         return False, 'NO_EMPTY'
 
+
+def reset_pwd(uid, old_password, new_password):
+    try:
+        not_empty(uid, old_password, new_password)
+        _id = ObjectId(uid)
+        kwargs = dict(_id=_id, password=old_password)
+        valid = m_exists(TName, **kwargs)
+        if valid:
+            Tb().update(kwargs, {'$set': {'password': new_password}})
+            return True, 'OK'
+        else:
+            return False, 'INVALIDED'
+    except ValueError:
+        return False, 'NO_EMPTY'
+
+
 def login(username,password,isadmin = None):
     try:
         not_empty(username,password)
