@@ -21,3 +21,9 @@ class Login(BaseHandler):
 class Profile(BaseHandler):
     def get(self):
         self.render('action/profile.html')
+
+@url(r'/setpwd?')
+class SetPwd(BaseHandler):
+    def get(self):
+        print self.request.uri
+        self.render('action/setpwd.html')

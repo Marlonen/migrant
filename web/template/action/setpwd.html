@@ -1,0 +1,131 @@
+{% extends "layout/layout.html" %}
+{% block title %}修改密码{% end %}
+{% block style %}
+    <style type="text/css">
+        .bs-docs-sidenav {
+            width: 258px;
+        }
+        .bs-docs-sidenav {
+            background-color: #FFFFFF;
+            border-radius: 6px 6px 6px 6px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
+            padding: 0;
+            width: 228px;
+        }
+
+        .bs-docs-sidenav > li:first-child > a {
+            border-radius: 6px 6px 0 0;
+        }
+        .bs-docs-sidenav > li > a {
+        }
+
+        .bs-docs-sidenav > li > a {
+            border: 1px solid #E5E5E5;
+            display: block;
+            margin: 0 0 -1px;
+            padding: 8px 14px;
+        }
+
+        .bs-docs-sidenav .glyphicon {
+          float: right;
+        }
+
+        .resetpwd-form label.error{
+            color: red;
+            display: inline;
+        }
+    </style>
+{% end %}
+
+{% block content %}
+        <div class="row">
+          <div class="col-md-3">
+            <div class="span3 bs-docs-sidebar">
+              <ul class="nav nav-list bs-docs-sidenav">
+                <li><a href="/profile"><i class="glyphicon glyphicon-chevron-right"></i> 个人信息</a></li>
+                <li class="active"><a href="/setpwd"><i class="glyphicon glyphicon-chevron-right"></i> 账号安全</a></li>
+              </ul>
+            </div>
+
+          </div>
+          <div class="col-md-9">
+                <form class="form-horizontal resetpwd-form" role="form" action='/m/account/resetpwd' method='post'>
+                  <h3>账号安全  <small>--{{ handler.nickname }}</small></h3>
+                  <hr>
+                  <div class="form-group">
+                    <label for="password" class="col-sm-2 control-label">原始密码</label>
+                    <div class="col-sm-5">
+                      <input type="password" id="password" class="form-control" placeholder="原始密码" name='password' >
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="new_password" class="col-sm-2 control-label">新密码</label>
+                    <div class="col-sm-5">
+                      <input type="password" id="new_password" class="form-control" placeholder="新密码" name='new_password' >
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="confirm_password" class="col-sm-2 control-label">确认密码</label>
+                    <div class="col-sm-5">
+                      <input type="password" id="confirm_password" class="form-control" placeholder="确认密码" name='confirm_password' >
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <button type="submit" class="btn btn-primary" id='resetpwd-btn'>修改</button>
+                    </div>
+                  </div>
+                </form>
+          </div>
+        </div>
+{% end %}
+
+{% block javascript %}
+    <script src="/static/js/libs/jquery.validate.min.js"></script>
+    <script src="/static/js/libs/jquery.form.min.js"></script>
+    <script>
+        $(function(){
+            $('.resetpwd-form').validate({
+                rules: {
+                    password: 'required',
+                    new_password: 'required',
+                    confirm_password: {
+                        required: true,
+                        equalTo: "#new_password"
+                    }
+                },
+                messages: {
+                    password: '请输入原始密码',
+                    new_password:'请输入新密码',
+                    confirm_password: {
+                        required: '请再次输入新密码',
+                        equalTo: '两次输入的密码不一致'
+                    }
+                },
+                errorPlacement: function(error, element) {
+                      error.insertAfter(element.parent('div')).addClass('col-sm-5 help-block');
+                  },
+                submitHandler: function(form){
+                    $(form).ajaxSubmit(function(res){
+                        if(res.status) {
+                            $.pnotify({
+                                title: '成功',
+                                text: '密码修改成功',
+                                type: 'success'
+                            });
+                        }else if(res.data == 'INVALIDED'){
+                            $.pnotify({
+                                title: '错误',
+                                text: '原始密码不正确',
+                                type: 'error'
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+{% end %}

@@ -10,26 +10,44 @@ from utility import m_update,m_del,m_page,m_exists,m_info,BaseModel
 TName = 'account'
 Tb = lambda :get_context().get_mongo()[TName]
 
+INIT, ACTIVATED, IDENTIFIED = range(3)
+
 class AccountModel(BaseModel):
     username = CharField(required=True)
     password = CharField(required=True)
-    city = IntField()
+    city = CharField()
 
 
-def add(username,password,city=None,**kwargs):
+def add(username, password, city=None, **kwargs):
     try:
-        not_empty(username,password)
-        r = m_exists(TName,username=username,password=password)
+        not_empty(username, password)
+        r = m_exists(TName, username=username)
         if not r:
-            val = dict(username=username,password=password,city=city)
+            val = dict(username=username, password=password, city=city)
             val.update(kwargs)
-            _id = Tb().insert(val,saft=True)
+            _id = Tb().insert(val, saft=True)
             val['_id'] = str(_id)
-            return True,val
+            return True, val
         else:
-            return False,'EXITS'
-    except Exception as e:
-        return False,e.message
+            return False, 'EXISTS'
+    except ValueError:
+        return False, 'NO_EMPTY'
+
+
+def reset_pwd(uid, old_password, new_password):
+    try:
+        not_empty(uid, old_password, new_password)
+        _id = ObjectId(uid)
+        kwargs = dict(_id=_id, password=old_password)
+        valid = m_exists(TName, **kwargs)
+        if valid:
+            Tb().update(kwargs, {'$set': {'password': new_password}})
+            return True, 'OK'
+        else:
+            return False, 'INVALIDED'
+    except ValueError:
+        return False, 'NO_EMPTY'
+
 
 def login(username,password,isadmin = None):
     try:
