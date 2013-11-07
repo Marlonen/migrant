@@ -15,7 +15,7 @@ INIT, ACTIVATED, IDENTIFIED = range(3)
 class AccountModel(BaseModel):
     username = CharField(required=True)
     password = CharField(required=True)
-    city = IntField()
+    city = CharField()
 
 
 def add(username, password, city=None, **kwargs):
