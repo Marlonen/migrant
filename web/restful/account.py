@@ -5,13 +5,16 @@
 """
 import json
 from kpages import url
+import tornado
 from utility import RestfulHandler,BaseHandler
 
 from logic.utility import *
-from logic.account import add,login,TName as T_ACCOUNT,auth_login, INIT, reset_pwd, forgot_pwd
+from logic.account import add,login,TName as T_ACCOUNT,auth_login, INIT, reset_pwd, forgot_pwd, reset_forgotten_password
 from logic.city import TName as T_CITY
 from logic.label import add as addlabel
 from logic.openfireusers import add as openfire_add
+from utils.string_utils import random_key
+
 
 @url(r'/m/account/login')
 class LoginHandler(BaseHandler):
@@ -21,7 +24,8 @@ class LoginHandler(BaseHandler):
         if r:
             self.set_secure_cookie('uid',v['_id'])
             self.set_secure_cookie('nickname', v.get('nickname',v['username']))
-            self.set_secure_cookie('city', v['city'])
+            print v['city']
+            self.set_secure_cookie('city', v['city'] or '')
             del v['password']
             self.write(dict(status = r, data = v))
         else: 
@@ -114,10 +118,26 @@ class ResetPwdHandler(RestfulHandler):
 
 @url(r'/m/account/forgot_password')
 class ForgetPwdHandler(BaseHandler):
+    @tornado.web.asynchronous
     def get(self):
         username = self.get_argument('username', None)
         r, v = forgot_pwd(username)
         self.write(dict(status=r, data=v))
+        self.finish()
+
+
+@url(r'/m/account/reset_forgotten_password')
+class UpdateForgottenPwdHandler(BaseHandler):
+    def post(self):
+        key = self.get_argument('key')
+        new_password = self.get_argument('new_password')
+        confirm_password = self.get_argument('confirm_password')
+        print key ,new_password, confirm_password
+        if new_password != confirm_password:
+            self.write(dict(status=False, data='两次输入的密码不一致'))
+        else:
+            r, v = reset_forgotten_password(key, new_password)
+            self.write(dict(status=r, data=v))
 
 
 @url(r'/m/account/info')

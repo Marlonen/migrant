@@ -58,18 +58,34 @@ def forgot_pwd(username):
         existed = m_exists(TName, username=username)
         if existed:
             key = random_key()
-            with get_context() as context:
-                redis = context.get_redis()
-                redis.set('key', key, 60 * 60)
-            send_mail([username], '找回密码',
-                      get_email_content('email_forget_password.html', key=key, username=username))
+            redis = get_context().get_redis()
+            redis.set(key, username, 60 * 60)
+            r = send_mail([username], '找回密码',
+                          get_email_content('email_forget_password.html', key=key, username=username))
+            return r, 'OK' if r else 'FAIL'
         else:
-            return False, 'EXPIRED'
+            return False, 'NO_EXIST'
     except ValueError:
         return False, 'NO_EMPTY'
 
 
+def reset_forgotten_password(key, new_password):
+    try:
+        not_empty(key, new_password)
+        redis = get_context().get_redis()
+        username = redis.get(key)
+        if not username:
+            return False, 'EXPIRED'
 
+        existed = m_exists(TName, username=username)
+        if existed:
+            Tb().update(dict(username=username), {'$set': {'password': new_password}})
+            return True, 'OK'
+        else:
+            return False, 'NO_EXIST'
+
+    except ValueError:
+        return False, 'NO_EMPTY'
 
 
 def login(username, password, isadmin=None):

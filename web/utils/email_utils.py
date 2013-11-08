@@ -50,8 +50,9 @@ def send_mail(to, subject, text,
         smtp.login(auth_info['user'], auth_info['password'])
         smtp.sendmail(frm, to, msg.as_string())
         smtp.quit()
+        return True
     except Exception:
-        raise
+        return False
 
 if __name__ == "__main__":
     send_mail(["sarike@timefly.cn"], "Test Subject", "Test Message")

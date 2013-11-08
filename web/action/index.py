@@ -41,16 +41,23 @@ class SetPwd(BaseHandler):
 
 
 @url(r'/forgot_password?')
-@url(r'/forgot_password/(.*)')
 class SetPwd(BaseHandler):
-    def get(self, key=None):
+    def get(self):
+        key = self.get_argument('key', None)
+        kwargs = {
+            'key': None,
+            'expired': False
+        }
+        template_file = 'action/forget_password.html'
         if not key:
-            self.render('action/forget_password.html')
+            self.render(template_file, **kwargs)
         else:
             with get_context() as context:
                 redis = context.get_redis()
                 username = redis.get(key)
                 if username:
-                    self.render('action/xxxx.html', username=username)
+                    kwargs.update(key=key)
+                    self.render(template_file, **kwargs)
                 else:
-                    self.render('action/xxxx.html', username=username)
+                    kwargs.update(expired=True)
+                    self.render(template_file, **kwargs)
