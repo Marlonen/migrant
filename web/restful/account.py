@@ -8,7 +8,7 @@ from kpages import url
 from utility import RestfulHandler,BaseHandler
 
 from logic.utility import *
-from logic.account import add,login,TName as T_ACCOUNT,auth_login, INIT, reset_pwd
+from logic.account import add,login,TName as T_ACCOUNT,auth_login, INIT, reset_pwd, forgot_pwd
 from logic.city import TName as T_CITY
 from logic.label import add as addlabel
 from logic.openfireusers import add as openfire_add
@@ -110,6 +110,14 @@ class ResetPwdHandler(RestfulHandler):
             self.write(dict(status=r, data=v))
         else:
             self.write(dict(status=False, data='DIFFERENT_PWD'))
+
+
+@url(r'/m/account/forgot_password')
+class ForgetPwdHandler(BaseHandler):
+    def get(self):
+        username = self.get_argument('username', None)
+        r, v = forgot_pwd(username)
+        self.write(dict(status=r, data=v))
 
 
 @url(r'/m/account/info')

@@ -6,11 +6,14 @@
 from kpages import not_empty,get_context,mongo_conv
 from kpages.model import *
 from utility import m_update,m_del,m_page,m_exists,m_info,BaseModel
+from utils.email_utils import send_mail, get_email_content
+from utils.string_utils import random_key
 
 TName = 'account'
 Tb = lambda :get_context().get_mongo()[TName]
 
 INIT, ACTIVATED, IDENTIFIED = range(3)
+
 
 class AccountModel(BaseModel):
     username = CharField(required=True)
@@ -49,14 +52,34 @@ def reset_pwd(uid, old_password, new_password):
         return False, 'NO_EMPTY'
 
 
-def login(username,password,isadmin = None):
+def forgot_pwd(username):
+    try:
+        not_empty(username)
+        existed = m_exists(TName, username=username)
+        if existed:
+            key = random_key()
+            with get_context() as context:
+                redis = context.get_redis()
+                redis.set('key', key, 60 * 60)
+            send_mail([username], '找回密码',
+                      get_email_content('email_forget_password.html', key=key, username=username))
+        else:
+            return False, 'EXPIRED'
+    except ValueError:
+        return False, 'NO_EMPTY'
+
+
+
+
+
+def login(username, password, isadmin=None):
     try:
         not_empty(username,password)
-        cond = dict(username=username,password=password)
+        cond = dict(username=username, password=password)
         if isadmin:
-            cond.update(isadmin = isadmin)
+            cond.update(isadmin=isadmin)
 
-        r = m_exists(TName,**cond)
+        r = m_exists(TName, **cond)
         if r:
             r = mongo_conv(r)
             return True, r
