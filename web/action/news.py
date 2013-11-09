@@ -5,7 +5,7 @@
 """
 from kpages import url
 from utility import BaseHandler
-from logic.news import NewsModel
+from logic.news import NewsModel,hot,TName as TNews
 from logic.category import TName as T_Category
 from logic.utility import m_page
 from logic.label import add as addlabel
@@ -13,6 +13,15 @@ from logic.label import add as addlabel
 @url(r'/news?')
 class News(BaseHandler):
     def get(self):
+        self.oneday = hot(5,1)
+        self.weeknews = hot(5,7)
+        self.monthnews = hot(5,30)
+        r,self.categorys = m_page(T_Category,size=10)        
+        news = {}
+        for cate in self.categorys:
+            r,news[cate.get('listname')] = m_page(TNews,category=cate.get('listname'))
+
+        self.news = news
         self.render('action/news.html')
 
 

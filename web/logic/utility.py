@@ -64,7 +64,7 @@ def m_del(table,_id,is_del=False):
 
     return True,None
 
-def m_page(table,since=None,size=10,**kwargs):
+def m_page(table,since=None,size=10,sort=[('_id',-1),],**kwargs):
     """
         通用数据集查询方案,一次性获取size条大于since 及大于addon的数据记录
     """
@@ -77,20 +77,10 @@ def m_page(table,since=None,size=10,**kwargs):
             cond.update(_id = {'$lt':cond_id})
         cond.update(kwargs)
         
-        if cond.get('addon',None):
-            #查询addon 时间以后的记录 
-            t = float(cond.pop('addon'))
-            t = hex(int(t))[2:]
-            _id = '{0}{1}'.format(t,'0'*16)
-            if cond_id and cond_id >ObjectId(_id):
-                cond.update({'_id':{'$lt':ObjectId(_id)}})
-        elif 'addon' in cond:
-            cond.pop('addon')
-        
         print cond
-        lst = list(Tb(table).find(cond,{'status':0}).limit(size).sort('_id',-1))
+        lst = list(Tb(table).find(cond,{'status':0}).limit(size).sort(sort))
         for item in lst:
-            if 'addon' not in item:item['addon'] = item['_id'].generation_time.strftime('%Y:%m:%d %H:%M:%S')
+            if 'addon' not in item:item['addon'] = item['_id'].generation_time
         
         return True, mongo_conv(lst)
     except Exception as e:

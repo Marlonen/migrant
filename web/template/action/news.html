@@ -67,22 +67,22 @@
         <div class="tab-content">
           <div class="tab-pane active" id="day">
             <ul>
-                {% for i in range(5)%}
-                    <li><a href="/news/info/{{i}}">当天新闻资讯标题 {{ i}}</a></li>
+                {% for item in handler.oneday %}
+                    <li><a href="/news/info/{{ item.get('_id')}}">{{ item.get('title')}}</a></li>
                 {% end %}
             </ul>
           </div>
           <div class="tab-pane" id="week">
             <ul>
-                {% for i in range(5)%}
-                    <li><a href="/news/info/{{i}}">本周新闻资讯标题 {{ i}}</a></li>
+                {% for item in handler.weeknews %}
+                    <li><a href="/news/info/{{ item.get('_id')}}">{{ item.get('title')}}</a></li>
                 {% end %}
             </ul>
           </div>
           <div class="tab-pane" id="month">
             <ul>
-                {% for i in range(5)%}
-                    <li><a href="/news/info/{{i}}">本月新闻资讯标题 {{ i}}</a></li>
+                {% for item in handler.monthnews %}
+                    <li><a href="/news/info/{{ item.get('_id')}}">{{ item.get('title')}}</a></li>
                 {% end %}
             </ul>
           </div>
@@ -91,55 +91,26 @@
 
         <!-- category news start -->
         <ul class="nav nav-tabs" id='categorynews'>
-          <li class="active">
-            <a href="#news">新闻</a>
-          </li>
-          <li><a href="#zc">政策</a></li>
-          <li><a href="#hd">活动</a></li>
-          <li><a href="#gg">公告</a></li>
+          {% for cate in handler.categorys %}
+          <li><a href="#{{ cate.get('listname')}}">{{ cate.get('name')}} </a></li>
+          {% end %}
         </ul>
         <div class="tab-content">
-          <div class="tab-pane active" id="news">
-            {% for i in range(10)%}
-               <div class='newsitem'>
-                  <strong><a href='/news/info/{{i}}'>新闻 资讯测试标题 {{ i }}</a></strong>
-                  <p>Perl Audio Converter 5.0 稳定版发布了，包含一些代码优化和改变，更新了 README 程序描述；修复了 amr、mmf、ra、wma 和其他编码格式的支持问题；支持一些模糊的音频格式.</p>
-               </div>
-            {% end %}
+          {% for cate in handler.categorys %}
+          <div class="tab-pane active" id="{{ cate.get('listname')}}">
 
-            <ul class="pager">
-              <li class="previous"><a href="#">上一页</a></li>
-              <li class="next"><a href="#">下一页</a></li>
-            </ul>
-
-          </div>
-          <div class="tab-pane" id="zc">
-            {% for i in range(10)%}
+            {% for item in handler.news.get(cate.get('listname')) %}
                <div class='newsitem'>
-                  <strong><a href='/news/info/{{i}}'>政策 资讯测试标题 {{ i }}</a></strong>
-                  <p>Perl Audio Converter 5.0 稳定版发布了，包含一些代码优化和改变，更新了 README 程序描述；修复了 amr、mmf、ra、wma 和其他编码格式的支持问题；支持一些模糊的音频格式.</p>
-               </div>
-            {% end %}
-          </div>
-          <div class="tab-pane" id="hd">
-            {% for i in range(10)%}
-               <div class='newsitem'>
-                  <strong><a href='/news/info/{{i}}'>活动 资讯测试标题 {{ i }}</a></strong>
-                  <p>Perl Audio Converter 5.0 稳定版发布了，包含一些代码优化和改变，更新了 README 程序描述；修复了 amr、mmf、ra、wma 和其他编码格式的支持问题；支持一些模糊的音频格式.</p>
-               </div>
-            {% end %}
-          </div>
-          <div class="tab-pane" id="gg">
-            {% for i in range(10)%}
-               <div class='newsitem'>
-                  <strong><a href='/news/info/{{i}}'>公告 资讯测试标题 {{ i }}</a></strong>
-                  <p>Perl Audio Converter 5.0 稳定版发布了，包含一些代码优化和改变，更新了 README 程序描述；修复了 amr、mmf、ra、wma 和其他编码格式的支持问题；支持一些模糊的音频格式.</p>
+                  <strong><a href="/news/info/{{ item.get('_id')}}">{{ item.get('title')}}</a></strong>
+                  <p>{% raw item.get('body','') %}</p>
                </div>
             {% end %}
 
           </div>
+          {% end %}
+
         </div>
-        <!-- hotnews end -->
+        <!-- category end -->
 
       </div>
 
