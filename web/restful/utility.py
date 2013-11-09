@@ -13,6 +13,7 @@ class BaseHandler(ContextHandler,RequestHandler):
 
 class RestfulHandler(ContextHandler,RequestHandler):
     uid = property(lambda self:self.get_secure_cookie('uid'))
+    city = property(lambda self:self.get_secure_cookie('city'))
     
     def prepare(self):
         if not self.uid and self.request.uri not in ["/m/account/login", ]:

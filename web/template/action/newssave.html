@@ -50,7 +50,7 @@
         <form class="form-horizontal" role="form" method='post'>
           <div class="form-group">
             <label for="title" class="col-sm-1 control-label">标题</label>
-            <div class="col-sm-11">
+            <div class="col-sm-6">
               <input type="text" name='title' class="form-control" placeholder="标题">
             </div>
           </div>
@@ -59,6 +59,7 @@
             <div class="col-sm-11 labels categorys">
               <input type='hidden' name='category' id='tvcategory'>
               <input type='hidden' name='author' value='{{ handler.uid }}'>
+              <input type='hidden' name='city' value='{{ handler.city }}'>
               {% for cate in handler.categorys %}
               <span class="label label-info col-md-2" value='{{ cate["listname"] }}'>{{ cate['name'] }}</span>
               {% end %}
@@ -82,11 +83,10 @@
             <div class="col-sm-offset-1 col-sm-11">
               <!--
               <textarea style='width:98%; height:350px;'></textarea>-->
+              <input type='hidden' name='body' id='tvbody'>
               {% include editor.html %}
             </div>
           </div>
-
-
 
           <div class="form-group">
             <div class="col-sm-offset-1 col-sm-11">
@@ -94,10 +94,6 @@
             </div>
           </div>
         </form>
-
-
-
-
 
       </div>
 
@@ -111,6 +107,8 @@
     <script src="/static/js/bootstrap.typeahead.ajax.js"></script>
     <script src="http://www.bootcss.com/p/bootstrap-wysiwyg/bootstrap-wysiwyg.js"></script>
     <script src="https://mindmup.s3.amazonaws.com/lib/jquery.hotkeys.js"></script>
+    <script src="/static/js/libs/jquery.validate.min.js"></script>
+    <script src="/static/js/libs/jquery.form.min.js"></script>
     <script type="text/javascript">
       $(function(){
           $('.categorys .label').click(function(){
@@ -120,13 +118,15 @@
               $('#tvcategory').val($(this).attr('value'));
           })
 
+          $('.categorys .label').eq(0).toggleClass('label-info label-success'); 
+          $('#tvcategory').val($('.categorys .label').eq(0).attr('value'));
+
           $('.typeahead').typeahead({
               items:6,
               ajax:{
                 triggerLength:1,
-                url:'/m/label/suggest/0',
+                url:'/m/label/suggest/3',
                 preProcess:function(rs){
-                  console.log(rs);
                   return rs.data;
                 }
               }
@@ -160,6 +160,42 @@
         };
         initToolbarBootstrapBindings();  
         $('#editor').wysiwyg();
+
+
+        $('.form-horizontal').validate({
+            rules: {
+                title: 'required',
+            },
+            messages: {
+                title: '标题不能为空',
+            },
+            errorPlacement: function(error, element) {
+                  error.insertAfter(element.parent('div')).addClass('col-sm-5 help-block');
+              },
+            submitHandler: function(form){
+                $('#tvbody').val($('#editor').html());
+
+                $(form).ajaxSubmit(function(res){
+                    if(res.status) {
+                        $.pnotify({
+                            title: '成功',
+                            text: '发布资讯成功',
+                            type: 'success'
+                        });
+
+                        $('.form-horizontal input').val('');
+                        $('#editor').html('');
+
+                    }else {
+                        $.pnotify({
+                            title: '错误',
+                            text: res.data,
+                            type: 'error'
+                        });
+                    }
+                });
+            }
+        });
           
       });
     </script>

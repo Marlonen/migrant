@@ -8,5 +8,6 @@ from kpages import ContextHandler
 
 class BaseHandler(ContextHandler,RequestHandler):
     uid = property(lambda self: self.get_secure_cookie('uid'))
+    city = property(lambda self: self.get_secure_cookie('city'))
     nickname = property(lambda self: self.get_secure_cookie('nickname'))
 
