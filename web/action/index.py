@@ -41,7 +41,7 @@ class SetPwd(BaseHandler):
 
 
 @url(r'/forgot_password?')
-class SetPwd(BaseHandler):
+class ForgotPassword(BaseHandler):
     def get(self):
         key = self.get_argument('key', None)
         kwargs = {
