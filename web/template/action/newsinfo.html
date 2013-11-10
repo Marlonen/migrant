@@ -35,12 +35,7 @@
       <div class="col-md-3">
           <h3>最新评论</h3>
           <div class='comments'>
-            {% for i in range(5)%}
-               <div class='newsitem'>
-                  <strong><a href='#'>公告 资讯测试标题 {{ i }}</a></strong>
-                  <p>Perl Audio Converter 5.0 稳定版发布了，包含一些代码优化和改变</p>
-               </div>
-            {% end %}
+
           </div>
           <ul class="pager">
             <li class="previous"><a href="#">上一页</a></li>
@@ -87,7 +82,9 @@
                     $(rs.data).each(function(i,item){
                         var div = $('<div>').addClass('newsitem');
                         div.html(item.body);
+
                         celm.append(div);
+                        celm.append($('<p>').html(item.addon));
 
                     })
                 }
@@ -115,7 +112,7 @@
                             text: '评论成功',
                             type: 'success'
                         });
-
+                        loadcomment();
                         $('.commentform textarea').val('');
 
                     }else {
