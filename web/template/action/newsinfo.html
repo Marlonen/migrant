@@ -41,19 +41,21 @@
                   <p>Perl Audio Converter 5.0 稳定版发布了，包含一些代码优化和改变</p>
                </div>
             {% end %}
-
-            <ul class="pager">
-              <li class="previous"><a href="#">上一页</a></li>
-              <li class="next"><a href="#">下一页</a></li>
-            </ul>
-
-            <form style='width:98%'>
-                <div>
-                <textarea style='width:98%' ></textarea></div>
-                <div>
-                <button stype='submit' >提交</button></div>
-            </form>
           </div>
+          <ul class="pager">
+            <li class="previous"><a href="#">上一页</a></li>
+            <li class="next"><a href="#">下一页</a></li>
+          </ul>
+
+          <form style='width:98%' action='/m/comment/post' class='commentform' method='post'>
+              <div>
+                <input type='hidden' name='author' value='{{ handler.uid }}'>
+                <input type='hidden' name='news_id' value='{{ info.get("_id")}}'>
+                
+                <textarea style='width:98%' name='body'></textarea></div>
+              <div>
+              <button stype='submit' >提交</button></div>
+          </form>
       </div>
     </div>
 
@@ -63,12 +65,69 @@
 
     {% block javascript %}
     </div> <!-- /container -->
+    <script src="/static/js/libs/jquery.validate.min.js"></script>
+    <script src="/static/js/libs/jquery.form.min.js"></script>
     <script type="text/javascript">
       $(function(){
-          $('.nav-tabs a').click(function (e) {
-            e.preventDefault();
-            $(this).tab('show');
-          })
+        $('.nav-tabs a').click(function (e) {
+          e.preventDefault();
+          $(this).tab('show');
+        })
+
+        function loadcomment(since){
+            var url = '/m/comment/list/{{ info.get("_id")}}';
+            if(since){
+                url = url + '?since='+since;        
+            }
+
+            var celm = $('.comments');
+            $.get(url,function(rs){
+                if(rs.status){
+                    celm.find('.newsitem').remove();
+                    $(rs.data).each(function(i,item){
+                        var div = $('<div>').addClass('newsitem');
+                        div.html(item.body);
+                        celm.append(div);
+
+                    })
+                }
+            })
+        }
+
+        loadcomment();
+        
+
+        $('.commentform').validate({
+            rules: {
+                body: 'required',
+            },
+            messages: {
+                title: '评论内容不能为空',
+            },
+            errorPlacement: function(error, element) {
+                  error.insertAfter(element.parent('div'));
+              },
+            submitHandler: function(form){
+                $(form).ajaxSubmit(function(res){
+                    if(res.status) {
+                        $.pnotify({
+                            title: '成功',
+                            text: '评论成功',
+                            type: 'success'
+                        });
+
+                        $('.commentform textarea').val('');
+
+                    }else {
+                        $.pnotify({
+                            title: '错误',
+                            text: res.data,
+                            type: 'error'
+                        });
+                    }
+                });
+            }
+        });
 
       });
     </script>
