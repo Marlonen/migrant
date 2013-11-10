@@ -52,6 +52,41 @@ def reset_pwd(uid, old_password, new_password):
         return False, 'NO_EMPTY'
 
 
+def apply_active_account(username):
+    try:
+        not_empty(username)
+        existed = m_exists(TName, username=username)
+        if existed:
+            key = random_key()
+            redis = get_context().get_redis()
+            redis.set(key, username, 60 * 60)
+            r = send_mail([username], '账号激活',
+                          get_email_content('email_active_account.html', key=key, username=username))
+            return r, 'OK' if r else 'FAIL'
+        else:
+            return False, 'NO_EXIST'
+    except ValueError:
+        return False, 'NO_EMPTY'
+
+
+def active_account(key):
+    try:
+        not_empty(key)
+        redis = get_context().get_redis()
+        username = redis.get(key)
+        if not username:
+            return False, 'EXPIRED'
+        existed = m_exists(TName, username=username)
+        if existed:
+            Tb().update(dict(username=username),
+                        {'$set': {'status': ACTIVATED}})
+            return True, dict(username=username)
+        else:
+            return False, 'NO_EXIST'
+    except ValueError:
+        return False, 'NO_EMPTY'
+
+
 def forgot_pwd(username):
     try:
         not_empty(username)
@@ -90,7 +125,7 @@ def reset_forgotten_password(key, new_password):
 
 def login(username, password, isadmin=None):
     try:
-        not_empty(username,password)
+        not_empty(username, password)
         cond = dict(username=username, password=password)
         if isadmin:
             cond.update(isadmin=isadmin)
@@ -98,11 +133,15 @@ def login(username, password, isadmin=None):
         r = m_exists(TName, **cond)
         if r:
             r = mongo_conv(r)
+            if r['status'] == INIT:
+                return False, 'UNACTIVATED'
             return True, r
         else:
-            return False,None
+            return False, 'NO_EXISTED'
+    except ValueError:
+        return False, 'NO_EMPTY'
     except Exception as e:
-        return False,e.message
+        return False, e.message
 
 
 def auth_login(site,otherid,name,**kwargs):

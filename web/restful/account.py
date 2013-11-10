@@ -9,7 +9,7 @@ import tornado
 from utility import RestfulHandler,BaseHandler
 
 from logic.utility import *
-from logic.account import add,login,TName as T_ACCOUNT,auth_login, INIT, reset_pwd, forgot_pwd, reset_forgotten_password
+from logic.account import add,login,TName as T_ACCOUNT,auth_login, INIT, reset_pwd, forgot_pwd, reset_forgotten_password, apply_active_account
 from logic.city import TName as T_CITY
 from logic.label import add as addlabel
 from logic.openfireusers import add as openfire_add
@@ -19,17 +19,16 @@ from utils.string_utils import random_key
 @url(r'/m/account/login')
 class LoginHandler(BaseHandler):
     def post(self):
-        r,v = login(self.get_argument('username'),self.get_argument('password'))
-        print r,v
+        r, v = login(self.get_argument('username'), self.get_argument('password'))
         if r:
-            self.set_secure_cookie('uid',v['_id'])
-            self.set_secure_cookie('nickname', v.get('nickname',v['username']))
+            self.set_secure_cookie('uid', v['_id'])
+            self.set_secure_cookie('nickname', v.get('nickname', v['username']))
             print v['city']
             self.set_secure_cookie('city', v['city'] or '')
             del v['password']
-            self.write(dict(status = r, data = v))
+            self.write(dict(status=r, data=v))
         else: 
-            self.write(dict(status = r, errormsg = "登录失败"))
+            self.write(dict(status=r, data=v))
 
 
 @url(r'/m/account/join')
@@ -45,12 +44,6 @@ class RegisterHandler(BaseHandler):
             if '@' in username:
                 username, email_host = username.split('@')
             openfire_add(username, password, username)
-
-            self.set_secure_cookie('uid', value['_id'])
-            self.set_secure_cookie('nickname', value['username'])
-
-            del value['password']
-
         self.write(dict(status=result, data=value))
 
 

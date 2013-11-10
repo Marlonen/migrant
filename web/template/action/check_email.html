@@ -1,0 +1,74 @@
+{% extends "layout/layout.html" %}
+
+{% block style %}
+<style>
+    .forgot-pwd-form {
+        margin:  50px auto;
+        max-width: 700px;
+        border-radius: 5px;
+        background-color: #f5f5f5;
+        line-height: 40px;
+        padding: 15px;
+    }
+
+    .forgot-pwd-form h3{
+        margin-bottom: 20px;
+        text-align: center;
+    }
+</style>
+{% end %}
+
+{% block content%}
+      <form class="form-horizontal forgot-pwd-form" role="form" method='post'>
+          <h3>账号激活</h3>
+      {% if not key %}
+            {% if frm and frm=='join' %}
+                亲爱的 {{ username }}，恭喜您成功注册回归线，还差最后一步
+            {% else %}
+                亲爱的 {{ username }}，您的账号尚未激活
+            {% end %}
+
+            <br/>
+            我们给您发了一封账号激活邮件，请点击邮件中的链接激活账号
+            <br/>
+            如果您未收到激活邮件，请点击 <a class="resend" data-username="{{ username }}" href="javascript:void(0);">重新发送激活邮件</a>
+      {% else %}
+          {% if not status %}
+             {% if data=='EXPIRED' %}
+                邮件已经过期，
+                请点击 <a class="resend" data-username="{{ username }}" href="javascript:void(0);">重新发送激活邮件</a>
+             {% else %}
+                验证失败
+             {% end %}
+          {% else %}
+                验证成功，
+                <a href='./login'>登录</a>
+          {% end %}
+      {% end %}
+      </form>
+{% end %}
+
+{% block javascript %}
+    <script>
+        $(function(){
+            $('.resend').click(function(e){
+                var target = $(e.currentTarget);
+                $.post('./checkmail', {username: target.data('username'), from: 'resend'}, function(res){
+                    if(res.status) {
+                        $.pnotify({
+                            title: '成功',
+                            text: '邮件重新发送成功',
+                            type: 'success'
+                        });
+                    }else{
+                        $.pnotify({
+                            title: '失败',
+                            text: '邮件重新发送失败',
+                            type: 'error'
+                        });
+                    }
+                })
+            });
+        });
+    </script>
+{% end %}
