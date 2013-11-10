@@ -1,28 +1,35 @@
 {% extends "layout/layout.html" %}
+{% block title %}{{ info.get('title')}}{% end %}
 {% block style %}
     <style type="text/css">
        .content p {
           line-height: 28px;
           text-indent: 28px;
        } 
+       .tags {
+          padding:5px; 
+          line-height:30px;
+          background-color: #eeeeee;
+       }
+       .tags span{
+          margin-left: 10px; margin-right: 10px;
+       }
     </style>
 {% end %}
 
   {% block content %}
     <div class="row">
       <div class="col-md-9 content">
-        <h4>资讯标题xxxxx xxxx xxx </h4>
-        <p>
-          微软联合创始人比尔盖茨认为， 互联网不能拯救世界，不管Mark Zuckerberg和其他硅谷亿万富翁对此深信不疑。相反，根除疾病却可能拯救世界。盖茨自称是技术统治论者（technocrat），但他不相信技术 能拯救世界。更精确的说，他认为技术无法解决发展中国家根深蒂固且相互关联的问题：疾病、贫困，缺乏机会和由此产生的绝望感。他说，如果我们想要改善生 活，必须去解决更基本的问题，如儿童生存和儿童营养。今天，美国西海岸的每一位亿万富翁对技术如何将生活变得更美好都有一套设想。他们共识的核心部分是互 联网。Zuckerberg认为，连接没上网的50亿人是这一代人的最大挑战。在被问到给予互联网接入是否比发现疟疾疫苗更重要，世界第二富人没有掩盖他的愤怒：“作为当务之急？这是笑话。”盖茨表示他不认为联网高于疟疾疫苗。
-        </p>
-
-        <p>
-          微软联合创始人比尔盖茨认为， 互联网不能拯救世界，不管Mark Zuckerberg和其他硅谷亿万富翁对此深信不疑。相反，根除疾病却可能拯救世界。盖茨自称是技术统治论者（technocrat），但他不相信技术 能拯救世界。更精确的说，他认为技术无法解决发展中国家根深蒂固且相互关联的问题：疾病、贫困，缺乏机会和由此产生的绝望感。他说，如果我们想要改善生 活，必须去解决更基本的问题，如儿童生存和儿童营养。今天，美国西海岸的每一位亿万富翁对技术如何将生活变得更美好都有一套设想。他们共识的核心部分是互 联网。Zuckerberg认为，连接没上网的50亿人是这一代人的最大挑战。在被问到给予互联网接入是否比发现疟疾疫苗更重要，世界第二富人没有掩盖他的愤怒：“作为当务之急？这是笑话。”盖茨表示他不认为联网高于疟疾疫苗。
-        </p>
-
-        <p>
-          微软联合创始人比尔盖茨认为， 互联网不能拯救世界，不管Mark Zuckerberg和其他硅谷亿万富翁对此深信不疑。相反，根除疾病却可能拯救世界。盖茨自称是技术统治论者（technocrat），但他不相信技术 能拯救世界。更精确的说，他认为技术无法解决发展中国家根深蒂固且相互关联的问题：疾病、贫困，缺乏机会和由此产生的绝望感。他说，如果我们想要改善生 活，必须去解决更基本的问题，如儿童生存和儿童营养。今天，美国西海岸的每一位亿万富翁对技术如何将生活变得更美好都有一套设想。他们共识的核心部分是互 联网。Zuckerberg认为，连接没上网的50亿人是这一代人的最大挑战。在被问到给予互联网接入是否比发现疟疾疫苗更重要，世界第二富人没有掩盖他的愤怒：“作为当务之急？这是笑话。”盖茨表示他不认为联网高于疟疾疫苗。
-        </p>
+        <h4>{{ info.get('title')}} </h4>
+        <div class='tags'>
+          <strong>作者</strong> <span>{{ info.get('authorname')}}</span>
+          <strong>分类</strong><a href='/news/{{ info.get("category")}}?'><span class='label label-info'> {{ info.get('categoryname')}}</span></a>
+          <strong>标签：</strong>
+          {% for l in info.get('labels')%}
+          <a href='/news/label?key={{ l }}' title='{{ l }}'><span class='label label-success'>{{ l }}</span></a>
+          {% end%}
+        </div>
+        {% raw info.get('body') %}
       </div>
 
       <div class="col-md-3">

@@ -22,6 +22,7 @@ class NewsModel(BaseModel):
     body = CharField()
     category = CharField(required=True)
     author = CharField(required=True)
+    city = CharField(required=True)
     labels = ListField(datatype=CharField)
 
 

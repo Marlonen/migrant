@@ -90,10 +90,13 @@ def m_exists(table,**cond):
     cond.update(StatusCond)
     return Tb(table).find_one(cond)
 
-def m_info(table,_id):
+def m_info(table,_id, key='_id'):
     not_empty(_id)
     try:
-        cond = dict(_id=ObjectId(_id))
+        if key=='_id':
+            _id = ObjectId(_id)
+
+        cond = {key:_id}
         cond.update(StatusCond)
         return True,mongo_conv(Tb(table).find_one(cond,{'status':0}))
     except InvalidId as e:

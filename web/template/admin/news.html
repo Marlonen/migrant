@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}回归线 资讯管理{% end %}
+
+{% block map %} <a href="/admin/account">内容管理</a> <div class="breadcrumb_divider"></div> <a class="current">资讯管理</a>{% end %}
+
+{% block body %}  
+		<article class="module width_full">
+			<header><h3 class="tabs_involved">资讯管理</h3>
+			</header>
+			<div class="tab_container">
+				<div class="tab_content">
+				<table class="tablesorter" cellspacing="0"> 
+				<tbody> 
+					{% for item in data %}
+					<tr id="{{ item.get('_id') }}">
+						<td width='60%'><a href='/news/info/{{ item.get("_id") }}' target='_bland'>{{ item.get('title')}}</a></td>
+						<td >{{ item.get('category')}}</td>
+						<td class='right'>
+
+							<input type="image" src="/static/admin/images/icn_edit.png" class='edit_btn' title="编辑">
+							<input type="image" src="/static/admin/images/icn_trash.png" title="删除" class='delbtn'></td>
+					</tr>
+					{% end %}
+				</tbody> 
+				</table>
+				</div>
+			</div>
+		</article>
+		{% if len(data) >=10 %}
+		<article class="module width_full pager">
+				<a href='?since={{ data[-1].get("_id")}}'>下一页</a>				
+		</article>
+		{% end %}
+{% end %}
+
+{% block script %}  
+<script>
+	$(function(){
+		
+		$('a.close').click(function(){
+			$(this).parents('.floatview').hide();
+		})
+		
+
+		$('.delbtn').click(function(){
+			var _tr = $(this).parents('tr');
+			$.post('/admin/news/delete?id='+_tr.attr('id'),function(data){
+				if(data.status){
+					_tr.remove();
+				}
+			})
+		})
+
+
+
+	})
+</script>
+{% end %}
