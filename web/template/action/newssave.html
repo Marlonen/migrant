@@ -119,7 +119,8 @@
           })
 
           $('.categorys .label').eq(0).toggleClass('label-info label-success'); 
-          $('#tvcategory').val($('.categorys .label').eq(0).attr('value');
+          $('#tvcategory').val($('.categorys .label').eq(0).attr('value'));
+
 
           $('.typeahead').typeahead({
               items:6,
@@ -184,6 +185,7 @@
                         });
 
                         $('.form-horizontal input').val('');
+                        $('#editor').html('');
 
                     }else {
                         $.pnotify({
