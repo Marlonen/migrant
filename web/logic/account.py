@@ -7,7 +7,7 @@ from kpages import not_empty,get_context,mongo_conv
 from kpages.model import *
 from utility import m_update,m_del,m_page,m_exists,m_info,BaseModel
 from utils.email_utils import send_mail, get_email_content
-from utils.string_utils import random_key
+from utils.string_utils import random_key,hashPassword
 
 TName = 'account'
 Tb = lambda :get_context().get_mongo()[TName]
@@ -20,13 +20,12 @@ class AccountModel(BaseModel):
     password = CharField(required=True)
     city = CharField()
 
-
 def add(username, password, city=None, **kwargs):
     try:
         not_empty(username, password)
         r = m_exists(TName, username=username)
         if not r:
-            val = dict(username=username, password=password, city=city)
+            val = dict(username=username, password=hashPassword(password), city=city)
             val.update(kwargs)
             _id = Tb().insert(val, saft=True)
             val['_id'] = str(_id)
@@ -41,10 +40,10 @@ def reset_pwd(uid, old_password, new_password):
     try:
         not_empty(uid, old_password, new_password)
         _id = ObjectId(uid)
-        kwargs = dict(_id=_id, password=old_password)
+        kwargs = dict(_id=_id, password=hashPassword(old_password))
         valid = m_exists(TName, **kwargs)
         if valid:
-            Tb().update(kwargs, {'$set': {'password': new_password}})
+            Tb().update(kwargs, {'$set': {'password': hashPassword(new_password)}})
             return True, 'OK'
         else:
             return False, 'INVALIDED'
@@ -114,7 +113,7 @@ def reset_forgotten_password(key, new_password):
 
         existed = m_exists(TName, username=username)
         if existed:
-            Tb().update(dict(username=username), {'$set': {'password': new_password}})
+            Tb().update(dict(username=username), {'$set': {'password': hashPassword(new_password)}})
             return True, 'OK'
         else:
             return False, 'NO_EXIST'
@@ -126,7 +125,7 @@ def reset_forgotten_password(key, new_password):
 def login(username, password, isadmin=None):
     try:
         not_empty(username, password)
-        cond = dict(username=username, password=password)
+        cond = dict(username=username, password=hashPassword(password))
         if isadmin:
             cond.update(isadmin=isadmin)
 
