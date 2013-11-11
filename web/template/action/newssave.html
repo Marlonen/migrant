@@ -100,7 +100,7 @@
       <div class="col-md-3">
           <h3>投递提示</h3>
       </div>
-    
+    </div>
   {% end %}
 
     {% block javascript %}
@@ -119,7 +119,7 @@
           })
 
           $('.categorys .label').eq(0).toggleClass('label-info label-success'); 
-          $('#tvcategory').val($('.categorys .label').eq(0).html());
+          $('#tvcategory').val($('.categorys .label').eq(0).attr('value');
 
           $('.typeahead').typeahead({
               items:6,
