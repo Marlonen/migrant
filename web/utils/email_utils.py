@@ -30,13 +30,14 @@ def get_email_content(template_file, **kwargs):
 
 
 def send_mail(to, subject, text,
-              smtp='smtp.126.com',
-              account='migrant_service@126.com',
-              password='migrant123'):
+              smtp=None,
+              account=None,
+              password=None):
 
     assert type(to) == list
 
-    frm = '回归线<%s>' % account
+    _account = account or __conf__.SMTP_FROM
+    frm = '回归线<%s>' % _account
     msg = MIMEMultipart()
     msg['From'] = frm
     msg['Subject'] = subject
@@ -45,8 +46,13 @@ def send_mail(to, subject, text,
     msg.attach(MIMEText(text, 'html', _charset='UTF-8'))
 
     try:
-        auth_info = {'smtp': smtp, 'user': account, 'password': password}
-        smtp = smtplib.SMTP(auth_info['smtp'], 25, timeout=20)
+        _port = 25
+        if __conf__.SMTP_PORT:
+            _port = int(__conf__.SMTP_PORT)
+
+        auth_info = {'smtp': smtp or __conf__.SMTP_HOST, 'user': _account,
+                     'password': password or __conf__.SMTP_PASSWORD}
+        smtp = smtplib.SMTP(auth_info['smtp'], _port, timeout=20)
         smtp.login(auth_info['user'], auth_info['password'])
         smtp.sendmail(frm, to, msg.as_string())
         smtp.quit()
@@ -55,4 +61,4 @@ def send_mail(to, subject, text,
         return False
 
 if __name__ == "__main__":
-    send_mail(["sarike@timefly.cn"], "Test Subject", "Test Message")
+    send_mail(["cmaj135@gmail.com"], "Test Subject", "Test Message")
