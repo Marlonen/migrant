@@ -63,10 +63,17 @@ python apprun.py  或 ./apprun.py
 
 ### 执行测试案例
 ```
-    python tool.py --test test_city.DemoCase.testprint :test testprint method
+    python tool.py --test test_city.DemoCase.test_update :test testprint method
     python tool.py --test test_city.DemoCase           :test methods in DemoCase class
     python tool.py --test test_city                    :test methods in test_city.py
     python tool.py --test all                          :test methods in app's __conf__.UTEST_DIR
+
+```
+
+### 执行nose测试,并且查看覆盖率
+```
+    python nose_test
+    当前目录下会生成cover目录
 ```
 
 

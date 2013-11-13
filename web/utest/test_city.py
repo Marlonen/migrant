@@ -40,7 +40,7 @@ class DemoCase(TestCase):
     def setUp(self):
         pass
 
-    def test_upadte(self):
+    def test_update(self):
         r,parents =  m_page('city',size = 1000, parent=None)
         for i,item in enumerate(parents):
             m_update('city',item.get('_id'),id=i)
@@ -55,6 +55,9 @@ class DemoCase(TestCase):
         print 'update end'
         parents =  m_page('city',level=0,parent=None)
         print parents
+
+    def test_hash_password(self):
+        pass
         
 
 if __name__ == '__main__':
