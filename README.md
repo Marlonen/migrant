@@ -10,6 +10,8 @@ migrant 回归线
 
 * [设计需求文档](https://github.com/comger/migrant/wiki)
 * [技术文档及约定](https://github.com/comger/migrant/blob/master/doc/web.md)
+* [IOS 客户端](https://github.com/comger/migrant-ios)
+* [Android 客户端](https://github.com/comger/migrant-android)
 
 
 项目相关技术

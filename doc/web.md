@@ -151,5 +151,11 @@ project {
 
 1. `项目列表` '/project/(label)?p=1' 标签可选 支持分页
 2. `项目详情` '/project/info/_id'    项目详情显示项目状态、合作人申请数、成功合作人数
-3. `创建项目` '/project/create'	     项目项目 合作人为 智能标签 用户编辑时可删除、添加
-4. `申请加入` '/project/join/_id?uid=xx?partner=xxx' 
+3. `创建项目` '/project/create'	     项目创建 合作人员 智能标签 用户编辑时可删除、添加
+
+
+
+###### 站内接口
+1. （status,msg） 			(post'/m/project/join','uid,pid,partner')	//加入项目
+2.  (status,project|msg)		(post'/m/project/create','name,city,description,advantage,ststus,author,apply') //创建项目
+
