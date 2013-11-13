@@ -12,6 +12,7 @@ migrant 回归线
 * [技术文档及约定](https://github.com/comger/migrant/blob/master/doc/web.md)
 * [IOS 客户端](https://github.com/comger/migrant-ios)
 * [Android 客户端](https://github.com/comger/migrant-android)
+* [Kpages 依赖](https://github.com/comger/kpages)
 
 
 项目相关技术
