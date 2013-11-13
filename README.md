@@ -72,8 +72,8 @@ python apprun.py  或 ./apprun.py
 
 ### 执行nose测试,并且查看覆盖率
 ```
-    python nose_test
-    当前目录下会生成cover目录
+    python nose_test.py
+    当前目录下会生成cover目录,打开 index.html即可看到覆盖率
 ```
 
 
