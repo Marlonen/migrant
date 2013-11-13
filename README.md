@@ -63,9 +63,9 @@ python apprun.py  或 ./apprun.py
 
 ### 执行测试案例
 ```
-    python tool.py --test test_city.DemoCase.test_update :test testprint method
-    python tool.py --test test_city.DemoCase           :test methods in DemoCase class
-    python tool.py --test test_city                    :test methods in test_city.py
+    python tool.py --test test_label.LabelCase.test_update :test test_update method
+    python tool.py --test test_label.LabelCase           :test methods in LabelCase class
+    python tool.py --test test_label                    :test methods in test_label.py
     python tool.py --test all                          :test methods in app's __conf__.UTEST_DIR
 
 ```
