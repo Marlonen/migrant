@@ -30,7 +30,7 @@
 					<table width="100%">
 						<tr><td>
 							<label>用户名</label>
-							<input type="text" name='username' value='{{ info.get("username","")}}' datatype="s5-16" errormsg="用户名至少5个字符,最多16个字符！" {% if info%} readonly="true" {% end %}>
+							<input type="text" name='username' value='{{ info.get("username","")}}' datatype="e" errormsg="用户名必须是邮件格式" {% if info%} readonly="true" {% end %}>
 						</td></tr>
 						<tr><td>
 							<label>城市</label>
