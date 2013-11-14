@@ -66,10 +66,17 @@ python apprun.py  或 ./apprun.py
 
 ### 执行测试案例
 ```
-    python tool.py --test test_city.DemoCase.testprint :test testprint method
-    python tool.py --test test_city.DemoCase           :test methods in DemoCase class
-    python tool.py --test test_city                    :test methods in test_city.py
+    python tool.py --test test_label.LabelCase.test_update :test test_update method
+    python tool.py --test test_label.LabelCase           :test methods in LabelCase class
+    python tool.py --test test_label                    :test methods in test_label.py
     python tool.py --test all                          :test methods in app's __conf__.UTEST_DIR
+
+```
+
+### 执行nose测试,并且查看覆盖率
+```
+    python nose_test.py
+    当前目录下会生成cover目录,打开 index.html即可看到覆盖率
 ```
 
 

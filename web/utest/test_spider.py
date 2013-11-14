@@ -6,7 +6,6 @@
 import tornado
 import urllib2
 from unittest import TestCase
-from spiders import spiderloader
 
 class SpiderCase(TestCase):
     
@@ -14,10 +13,7 @@ class SpiderCase(TestCase):
         pass
 
     def test_getspiders(self):
-        item =  spiderloader.spiders.get('baidunews',None)
-        if item:
-            item().page(callback=self.on_end,city='厦门',index=2)
-            tornado.ioloop.IOLoop.instance().start()
+        pass
 
     def on_end(self,data):
         print len(data)

@@ -14,7 +14,7 @@ class LabelCase(TestCase):
     def setUp(self):
         pass
 
-    def test_upadte(self):
+    def test_update(self):
         label = dict(name='80后',category=1)
         val = m_exists(TName,**label)
         if val:

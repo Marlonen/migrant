@@ -18,12 +18,12 @@ def add(name,parent=None,level=0):
         not_empty(name)
         r = m_exists(TName,name=name,parent=parent,level=level)
         if not r:
-            val = dict(name=name,parent=parent,level=level)
+            val = dict(name=name,parent=parent,level=level,status=0)
             _id = Tb().insert(val,saft=True)
             val['_id'] = str(_id)
             return True,val
         else:
-            return False,'EXITS'
+            return False,'EXIST'
     except Exception as e:
         return False,e.message
 
@@ -34,7 +34,7 @@ def getList(parent=None):
     return mongo_conv(lst)
 
 
-def reflesh():
+def refresh():
     citys = Tb().find({'level':{'$in':[0,1]}})
     for _city in citys:
         CITY_VAL[_city['name']]=str(_city['_id'])
