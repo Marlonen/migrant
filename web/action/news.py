@@ -77,8 +77,8 @@ class CreateNews(BaseHandler,NewsModel):
 @url(r'/news/label?')
 class NewsLabel(BaseHandler):
     def get(self):
-        key = self.get_argument('key')
-        cond = {'labels':{'$in':[key,]}}
+        keys = self.get_arguments('key')
+        cond = {'labels':{'$in':keys}}
         r,news = m_page(TNews,**cond)
         for n in news:
             r,user = m_info(T_Account,n.get('author'))
