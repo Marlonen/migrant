@@ -16,10 +16,11 @@ Tb = lambda :get_context().get_mongo()[TName]
 
 class CommentModel(BaseModel):
     _name = TName
-
-    body = CharField()
-    addon = DatetimeField()
-    news_id = CharField(required=True)
-    ref = CharField()
-    author = CharField(required=True)
+    _fields = dict(
+        body = CharField(),
+        addon = DatetimeField(),
+        news_id = CharField(required=True),
+        ref = CharField(),
+        author = CharField(required=True)
+    )
  

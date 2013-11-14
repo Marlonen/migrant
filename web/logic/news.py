@@ -17,13 +17,14 @@ Tb = lambda :get_context().get_mongo()[TName]
 
 class NewsModel(BaseModel):
     _name = TName
-
-    title = CharField(required=True)
-    body = CharField()
-    category = CharField(required=True)
-    author = CharField(required=True)
-    city = CharField(required=True)
-    labels = ListField(datatype=CharField)
+    _fields = dict(
+        title = CharField(required=True),
+        body = CharField(),
+        category = CharField(required=True),
+        author = CharField(required=True),
+        city = CharField(required=True),
+        labels = ListField(datatype=CharField)
+    )
 
 
 def hot(top, days=1):

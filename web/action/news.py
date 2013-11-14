@@ -35,6 +35,7 @@ class NewsInfo(BaseHandler):
         cr,cv = m_info(T_Category,v['category'],key='listname')
         v['categoryname'] = cv['name']
         
+        
         ur,uv = m_info(T_Account,v['author'])
         v['authorname'] = uv.get('nickname',None) or uv['username']
         
@@ -45,7 +46,7 @@ class CreateNews(BaseHandler,NewsModel):
     def post(self):
         try:
             addon = datetime.datetime.now()
-            data = self._get_postdata(city=self.city,addon=addon)
+            data = self._get_postdata(addon=addon)
             print data
             r,v = self._save(data)
             for i in data.get('labels',()):

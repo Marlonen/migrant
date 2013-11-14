@@ -15,9 +15,10 @@ Tb = lambda :get_context().get_mongo()[TName]
 
 class LabelModel(BaseModel):
     _name = TName
-
-    name = CharField(required=True)
-    category = IntField(Required=True)
+    _fields = dict(
+        name = CharField(required=True),
+        category = IntField(Required=True)
+    )
 
 
 def add(category, name, **kwargs):

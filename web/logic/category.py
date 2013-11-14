@@ -16,10 +16,11 @@ Tb = lambda :get_context().get_mongo()[TName]
 
 class CategoryModel(BaseModel):
     _name = TName
-
-    name = CharField(required=True)
-    listname = CharField(required=True)
-    parent = CharField()
+    _fields = dict(
+        name = CharField(required=True),
+        listname = CharField(required=True),
+        parent = CharField(),
+    )
 
 
 
