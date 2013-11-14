@@ -60,64 +60,13 @@
     <div class="row">
       <div class="col-md-9">
         <!-- hotnews start -->
-        <div id='hotnews'>
-          <ul class="nav nav-tabs" >
-            <li class="active">
-              <a href="#day">当天</a>
-            </li>
-            <li><a href="#week">一周</a></li>
-            <li><a href="#month">本月</a></li>
-          </ul>
-          <div class="tab-content">
-            <div class="tab-pane active" id="day">
-              <ul>
-                  {% for item in handler.oneday %}
-                      <li><a href="/news/info/{{ item.get('_id')}}">{{ item.get('title')}}</a></li>
-                  {% end %}
-              </ul>
-            </div>
-            <div class="tab-pane" id="week">
-              <ul>
-                  {% for item in handler.weeknews %}
-                      <li><a href="/news/info/{{ item.get('_id')}}">{{ item.get('title')}}</a></li>
-                  {% end %}
-              </ul>
-            </div>
-            <div class="tab-pane" id="month">
-              <ul>
-                  {% for item in handler.monthnews %}
-                      <li><a href="/news/info/{{ item.get('_id')}}">{{ item.get('title')}}</a></li>
-                  {% end %}
-              </ul>
-            </div>
-          </div>
-        </div>
-        <!-- hotnews end -->
-
-        <!-- category news start -->
-        <div id='categorynews'>
-          <ul class="nav nav-tabs" >
-            {% for cate in handler.categorys %}
-            <li><a href="#{{ cate.get('listname')}}">{{ cate.get('name')}} </a></li>
-            {% end %}
-          </ul>
-          <div class="tab-content">
-            {% for cate in handler.categorys %}
-            <div class="tab-panel" id="{{ cate.get('listname')}}">
-
-              {% for item in handler.news.get(cate.get('listname')) %}
-                 <div class='newsitem'>
-                    <strong><a href="/news/info/{{ item.get('_id')}}">{{ item.get('title')}}</a></strong>
-                    <p>{% raw item.get('intro','') %}</p>
-                 </div>
-              {% end %}
-
-            </div>
-            {% end %}
-
-          </div>
-        </div>
-        <!-- category end -->
+        {% for item in news %}
+           <div class='newsitem'>
+              <strong><a href="/news/info/{{ item.get('_id')}}">{{ item.get('title')}}</a></strong>
+              <p>{% raw item.get('intro','') %}</p>
+              <p><a href="">{{ item.get("authorname")}}</a>发布于({{ item.get('addon')[0:19]}})</p>
+           </div>
+        {% end %}
 
       </div>
 
@@ -140,6 +89,7 @@
                <div class='row'>
                   <strong><a href='/news/info/{{ c.get("news_id")}}'>{{ c.get('title')}}</a></strong>
                   <p>{{ c.get('body')}}</p>
+                  <p>时间:{{ c.get('addon')}}</p>
                </div>
             {% end %}
           </div>

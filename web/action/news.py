@@ -11,7 +11,8 @@ from logic.news import NewsModel,hot,TName as TNews
 from logic.category import TName as T_Category
 from logic.account import TName as T_Account
 from logic.utility import m_page,m_info
-from logic.label import add as addlabel
+from logic.label import add as addlabel,suggest
+from logic.comment import TName as T_Comment
 
 strip_tag_pat=re.compile('</?\w+[^>]*>')
 
@@ -26,8 +27,15 @@ class News(BaseHandler):
         for cate in self.categorys:
             r,news[cate.get('listname')] = m_page(TNews,category=cate.get('listname'))
         
-        
         self.news = news
+        self.labels = suggest(3)
+        r,comments = m_page(T_Comment)
+        for c in comments:
+            r,n = m_info(TNews,c.get('news_id'))
+            if r and n:
+                c['title'] = n.get('title')
+
+        self.comments = comments
         self.render('action/news.html')
 
 
@@ -66,4 +74,22 @@ class CreateNews(BaseHandler,NewsModel):
         r,self.categorys = m_page(T_Category,size=10)        
         self.render('action/newssave.html')
 
+@url(r'/news/label?')
+class NewsLabel(BaseHandler):
+    def get(self):
+        key = self.get_argument('key')
+        cond = {'labels':{'$in':[key,]}}
+        r,news = m_page(TNews,**cond)
+        for n in news:
+            r,user = m_info(T_Account,n.get('author'))
+            n['authorname'] = user.get('nickname',user.get('username'))
 
+        self.labels = suggest(3)
+        r,comments = m_page(T_Comment)
+        for c in comments:
+            r,n = m_info(TNews,c.get('news_id'))
+            if r and n:
+                c['title'] = n.get('title')
+
+        self.comments = comments
+        self.render('action/newslist.html',news=news)
