@@ -53,7 +53,7 @@ def reset_pwd(uid, old_password, new_password):
         return False, 'NO_EMPTY'
 
 
-def apply_active_account(username):
+def apply_active_account(username,host):
     try:
         not_empty(username)
         existed = m_exists(TName, username=username)
@@ -62,7 +62,7 @@ def apply_active_account(username):
             redis = get_context().get_redis()
             redis.set(key, username, 60 * 60)
             r = send_mail([username], '账号激活',
-                          get_email_content('email_active_account.html', key=key, username=username))
+                          get_email_content('email_active_account.html',host=host, key=key, username=username))
             return r, 'OK' if r else 'FAIL'
         else:
             return False, 'NO_EXIST'
@@ -88,7 +88,7 @@ def active_account(key):
         return False, 'NO_EMPTY'
 
 
-def forgot_pwd(username):
+def forgot_pwd(username,host):
     try:
         not_empty(username)
         existed = m_exists(TName, username=username)
@@ -97,7 +97,7 @@ def forgot_pwd(username):
             redis = get_context().get_redis()
             redis.set(key, username, 60 * 60)
             r = send_mail([username], '找回密码',
-                          get_email_content('email_forget_password.html', key=key, username=username))
+                          get_email_content('email_forget_password.html',host=host, key=key, username=username))
             return r, 'OK' if r else 'FAIL'
         else:
             return False, 'NO_EXIST'

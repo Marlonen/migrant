@@ -52,7 +52,6 @@ class CheckMail(BaseHandler):
         key = self.get_argument('key', None)
         username = self.get_argument('username', None)
         frm = self.get_argument('from', None)
-
         kwargs = {
             'key': key,
             'username': username,
@@ -62,7 +61,7 @@ class CheckMail(BaseHandler):
 
         if not key:
             # 注册成功、登录失败
-            r, v = apply_active_account(username)
+            r, v = apply_active_account(username,self.request.host)
 
             if frm and frm == 'resend':
                 self.write(dict(status=r, data=v))

@@ -114,7 +114,7 @@ class ForgetPwdHandler(BaseHandler):
     @tornado.web.asynchronous
     def get(self):
         username = self.get_argument('username', None)
-        r, v = forgot_pwd(username)
+        r, v = forgot_pwd(username,self.request.host)
         self.write(dict(status=r, data=v))
         self.finish()
 
