@@ -41,7 +41,6 @@ python、mongodb、redis、bootstrap, android ,ios, kpages, jquery, html5；
 mongorestore  -d migrant --directoryperdb dump/migrant
 如果需要备份数据,请使用  mongodump -d migrant -o dump
 
-dump数据中的测试账号为： admin , adminpwd
 ```
 
 #### Kpages
