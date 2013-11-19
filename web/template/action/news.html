@@ -31,28 +31,22 @@
 
         #labels .label{ margin: 5px; padding: 5px 2px;}
 
-        .nav-tabs {
-          background: #dedede;
-        }
-
         .tab-content {
           border: 1px solid #dddddd;
           border-top: 0px ;
           margin-bottom: 20px;
         }
-        .tab-content ul{
-            margin-left: 0px;
+        .tab-content .tab-pane{
             padding: 5px;
         }
-        .tab-content li { 
-           list-style-type: none;
-          line-height: 28px;
-        }
+
 
         .newsitem { padding: 5px;}
         .comments {
           padding-left: 0px;
         }
+
+
     </style>
 {% end %}
 
@@ -70,52 +64,68 @@
           </ul>
           <div class="tab-content">
             <div class="tab-pane active" id="day">
-              <ul>
-                  {% for item in handler.oneday %}
-                      <li><a href="/news/info/{{ item.get('_id')}}">{{ item.get('title')}}</a></li>
-                  {% end %}
-              </ul>
+              {% for item in handler.oneday %}
+              <div class="media">
+                <a class="pull-left" href="/news/info/{{ item.get('_id')}}">
+                  <img class="media-object" data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="http://www.oschina.net/img/logo/firefox.png">
+                </a>
+                <div class="media-body">
+                  <h4 class="media-heading"><a href="/news/info/{{ item.get('_id')}}">{{ item.get('title')}}</a></h4>
+                  {{ item.get('intro',item.get('title')+'简介')}}
+                </div>
+
+              </div>
+              {% end %}
             </div>
             <div class="tab-pane" id="week">
-              <ul>
-                  {% for item in handler.weeknews %}
-                      <li><a href="/news/info/{{ item.get('_id')}}">{{ item.get('title')}}</a></li>
-                  {% end %}
-              </ul>
+              {% for item in handler.weeknews %}
+              <div class="media">
+                <a class="pull-left" href="/news/info/{{ item.get('_id')}}">
+                  <img class="media-object" data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="http://www.oschina.net/img/logo/firefox.png">
+                </a>
+                <div class="media-body">
+                  <h4 class="media-heading"><a href="/news/info/{{ item.get('_id')}}">{{ item.get('title')}}</a></h4>
+                  {{ item.get('intro',item.get('title')+'简介')}}
+                </div>
+
+              </div>
+              {% end %}
             </div>
             <div class="tab-pane" id="month">
-              <ul>
-                  {% for item in handler.monthnews %}
-                      <li><a href="/news/info/{{ item.get('_id')}}">{{ item.get('title')}}</a></li>
-                  {% end %}
-              </ul>
+              {% for item in handler.monthnews %}
+              <div class="media">
+                <a class="pull-left" href="/news/info/{{ item.get('_id')}}">
+                  <img class="media-object" alt="64x64" style="width: 64px; height: 64px;" src="http://www.oschina.net/img/logo/firefox.png">
+                </a>
+                <div class="media-body">
+                  <h4 class="media-heading"><a href="/news/info/{{ item.get('_id')}}">{{ item.get('title')}}</a></h4>
+                  {{ item.get('intro',item.get('title')+'简介')}}
+                </div>
+
+              </div>
+              {% end %}
             </div>
           </div>
         </div>
         <!-- hotnews end -->
 
         <!-- category news start -->
-        <div id='categorynews'>
-          <ul class="nav nav-tabs" >
-            {% for cate in handler.categorys %}
-            <li><a href="#{{ cate.get('listname')}}">{{ cate.get('name')}} </a></li>
-            {% end %}
-          </ul>
-          <div class="tab-content">
-            {% for cate in handler.categorys %}
-            <div class="tab-panel" id="{{ cate.get('listname')}}">
-
-              {% for item in handler.news.get(cate.get('listname')) %}
-                 <div class='newsitem'>
-                    <strong><a href="/news/info/{{ item.get('_id')}}">{{ item.get('title')}}</a></strong>
-                    <p>{% raw item.get('intro','') %}</p>
-                 </div>
-              {% end %}
-
+        <div id='categorynews' class='row'>
+        {% for cate in handler.categorys %}
+        <div class='col-md-6'>
+          <div class="panel panel-success">
+            <div class="panel-heading">{{ cate.get('name')}}</div>
+            <div class="panel-body">
+                {% for item in handler.news.get(cate.get('listname')) %}
+                   <div class='newsitem'>
+                      <strong><a href="/news/info/{{ item.get('_id')}}">{{ item.get('title')}}</a></strong>
+                   </div>
+                {% end %}
             </div>
-            {% end %}
-
           </div>
+        </div>
+        {% end %}
+
         </div>
         <!-- category end -->
 
