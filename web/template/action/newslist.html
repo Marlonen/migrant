@@ -59,6 +59,16 @@
   {% block content %}
     <div class="row">
       <div class="col-md-9">
+        <ol class="breadcrumb">
+          <li><a href="/news">资讯</a></li>
+          <li class="active">
+            {% if isinstance(title,list)%}
+            {{ '-'.join(title)}}
+            {% else %}
+            {{ title }}
+            {% end %}
+          </li>
+        </ol>
         <!-- hotnews start -->
         {% for item in news %}
            <div class='newsitem'>
@@ -67,7 +77,15 @@
               <p><a href="">{{ item.get("authorname")}}</a>发布于({{ item.get('addon')[0:19]}})</p>
            </div>
         {% end %}
+        <ul class="pager">
+          {% if since %}
+          <li class="previous"><a href="javascript:history.go(-1);">&larr; 上一页</a></li>        
+          {% end %}
 
+          {% if news and len(news)==10%}
+          <li class="next"><a href="?since={{ news[-1].get('_id')}}">下一页 &rarr;</a></li>
+          {% end %}
+        </ul>
       </div>
 
       <div class="col-md-3">
@@ -86,9 +104,8 @@
           <div class='comments'>
             {% for c in handler.comments%}
                <div class='row'>
-                  <strong><a href='/news/info/{{ c.get("news_id")}}'>{{ c.get('title')}}</a></strong>
                   <p>{{ c.get('body')}}</p>
-                  <p>时间:{{ c.get('addon')}}</p>
+                  网友<a href="#">{{ c.get('authorname')}}</a>对<strong><a href='/news/info/{{ c.get("news_id")}}'>{{ c.get('title')}}</a></strong>的评论。
                </div>
             {% end %}
           </div>

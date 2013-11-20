@@ -35,6 +35,10 @@ class News(BaseHandler):
             if r and n:
                 c['title'] = n.get('title')
 
+            r,user = m_info(T_Account,c.get('author'))
+            if r and user:
+                c['authorname'] = user.get('nickname',user.get('username'))
+        
         self.comments = comments
         self.render('action/news.html')
 
@@ -77,9 +81,10 @@ class CreateNews(BaseHandler,NewsModel):
 @url(r'/news/label?')
 class NewsLabel(BaseHandler):
     def get(self):
+        since = self.get_argument('since',None)
         keys = self.get_arguments('key')
         cond = {'labels':{'$in':keys}}
-        r,news = m_page(TNews,**cond)
+        r,news = m_page(TNews,since=since,**cond)
         for n in news:
             r,user = m_info(T_Account,n.get('author'))
             n['authorname'] = user.get('nickname',user.get('username'))
@@ -90,6 +95,39 @@ class NewsLabel(BaseHandler):
             r,n = m_info(TNews,c.get('news_id'))
             if r and n:
                 c['title'] = n.get('title')
+            
+            r,user = m_info(T_Account,c.get('author'))
+            if r and user:
+                c['authorname'] = user.get('nickname',user.get('username'))
 
         self.comments = comments
-        self.render('action/newslist.html',news=news)
+        self.render('action/newslist.html',news=news,since=since, title=keys)
+
+
+
+@url(r'/news/list/(.*)')
+@url(r'/news/list/(.*)/?')
+class NewsCategory(BaseHandler):
+    def get(self,listname=None):
+        cond = {'category':listname}
+        since = self.get_argument('since',None)
+        r,cate = m_info(T_Category,listname,key='listname')
+
+        r,news = m_page(TNews,since=since,**cond)
+        for n in news:
+            r,user = m_info(T_Account,n.get('author'))
+            n['authorname'] = user.get('nickname',user.get('username'))
+
+        self.labels = suggest(3)
+        r,comments = m_page(T_Comment)
+        for c in comments:
+            r,n = m_info(TNews,c.get('news_id'))
+            if r and n:
+                c['title'] = n.get('title')
+            
+            r,user = m_info(T_Account,c.get('author'))
+            if r and user:
+                c['authorname'] = user.get('nickname',user.get('username'))
+
+        self.comments = comments
+        self.render('action/newslist.html',news=news,since=since, title= cate.get('name'))
