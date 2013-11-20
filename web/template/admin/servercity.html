@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}回归线 分类管理{% end %}
+
+{% block map %} <a href="/admin/account">内容管理</a> <div class="breadcrumb_divider"></div> <a class="current">开通城市</a>{% end %}
+
+{% block body %}  
+		<article class="module width_full">
+			<header><h3 class="tabs_involved">开通城市</h3>
+			<ul class="tabs">
+	   			<li><a href="javascript:void(0)" id='additembtn'>添加城市</a></li>
+			</ul>
+			</header>
+			<div class="tab_container">
+				<div class="tab_content">
+				<table class="tablesorter" cellspacing="0"> 
+				<tbody> 
+					{% for item in data %}
+					<tr id="{{ item.get('_id') }}">
+						<td width='40%'><a href='#'>{{ item.get('name')}}</a></td>
+						<td width='40%'>{{ item.get('listname')}}</td>
+						<td class='right'><input type="image" src="/static/admin/images/icn_edit.png" class='edit_btn' title="编辑"><input type="image" src="/static/admin/images/icn_trash.png" title="删除" class='delbtn'></td>
+					</tr>
+					{% end %}
+				</tbody> 
+				</table>
+				</div>
+			</div>
+		</article>
+
+		<article class="module floatview" style='width:60%; display:none;'>
+			<header><h3 class="tabs_involved">添加城市</h3>
+				<a href='javascript:void(0)' class='close'>关闭</a>
+			</header>
+			<form action='/admin/servercity/save' class='validform' method='post'>
+			<div class="module_content">
+					<input type='hidden' id='tvid' name='id' >
+					<fieldset>
+					<table width="100%">
+						<tr><td>
+							<label>城市名称</label>
+							<input type="text" id='tvname' name='name'>
+						</td></tr>
+						<tr><td>
+							<label>域名</label>
+							<input type="text" id='tvlistname' name='listname' datatype="s0-0|s2-20" >
+						</td></tr>
+					</table>
+					</fieldset>
+                    <h4 class="alert_error"></h4>
+			</div>
+			<footer>
+				<div class="submit_link">
+					<input type="submit" value="保存" class="alt_btn">
+				</div>
+			</footer>
+			</form>
+		</article>
+{% end %}
+
+{% block script %}  
+<script>
+	$(function(){
+		
+		$('a.close').click(function(){
+			$(this).parents('.floatview').hide();
+		})
+		
+
+		$('#additembtn').click(function(){
+		    $(".validform input[type='text']").val('');
+		    $('.alert_error').hide();
+			$('.floatview').show();
+		})
+
+		$('.edit_btn').click(function(){
+		    $('.alert_error').hide();
+		    $.get('/admin/servercity/info/'+$(this).parents('tr').attr('id'),function(r){
+		        if(r.status){
+		            $('#tvid').val(r.data._id);
+		            $('#tvname').val(r.data.name);
+		            $('#tvlogo').val(r.data.logo);
+		            $('#tvlistname').val(r.data.listname);
+		            $('#tvintro').val(r.data.intro);
+		            
+		            
+		            $('.floatview').show();
+		            
+		        }
+		    })
+		})
+
+		$('.delbtn').click(function(){
+			var _tr = $(this).parents('tr');
+			$.post('/admin/servercity/delete?id='+_tr.attr('id'),function(data){
+				if(data.status){
+					_tr.remove();
+				}
+			})
+		})
+
+	    $(".validform").Validform({
+			ajaxPost:true,
+			callback:function(data){
+			    if(data.status){
+			    	location.href = '/admin/servercity';
+			    }else{
+			        $('.alert_error').html(data.data).show();
+			    }
+			},
+	        tiptype:function(msg,o,cssctl){
+	        	var objtip=o.obj.next('.Validform_checktip');
+				if($(objtip).size()==0){
+						objtip = $('<label>').addClass('Validform_checktip');
+						o.obj.after(objtip)
+				}
+				if(!(o.type == 2)){
+					if(!o.obj.is("form")){//验证表单元素时o.obj为该表单元素，全部验证通过提交表单时o.obj为该表单对象;
+						objtip.text(msg).show();
+					}
+				}else{
+					o.obj.next('.Validform_checktip').hide();
+				}
+			}
+
+	    });
+
+	})
+</script>
+{% end %}
