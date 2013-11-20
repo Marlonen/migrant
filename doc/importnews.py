@@ -24,9 +24,9 @@ def get_info(url):
     doc = pyq(url=url)
     params = dict(
         title = doc('h1').text(),
-        author = '51d20461421aa919ca000000',
+        author = '52847ffb1a7f5a7d80fd1ff7',
         category = 'company',
-        city = '51d2c92f421aa91f0b000ad3',
+        city = '51d28ace931e334378000001',
         body = doc('#text').html(),
         labels = '测试',
             )
@@ -38,7 +38,7 @@ def get_info(url):
         tornado.ioloop.IOLoop.instance().stop()
 
     http_client = httpclient.AsyncHTTPClient() 
-    http_client.fetch('http://localhost:8888/news/create',callback,method='POST',body=body)
+    http_client.fetch('http://www.sos360.com:8888/news/create',callback,method='POST',body=body)
     tornado.ioloop.IOLoop.instance().start()
 
 if __name__ == '__main__':
