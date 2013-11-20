@@ -18,7 +18,6 @@ class CommentModel(BaseModel):
     _name = TName
     _fields = dict(
         body = CharField(),
-        addon = DatetimeField(),
         news_id = CharField(required=True),
         ref = CharField(),
         author = CharField(required=True)

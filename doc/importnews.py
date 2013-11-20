@@ -11,8 +11,8 @@ from tornado import httpclient
 
 def main():
     url = 'http://taiwan.huanqiu.com/news/'
-    url = 'http://world.huanqiu.com/observation/'
-    url = 'http://china.huanqiu.com/politics/'
+    #url = 'http://world.huanqiu.com/observation/'
+    #url = 'http://china.huanqiu.com/politics/'
     doc = pyq(url=url)
     alist = doc('.pad20 li a')
     for a in alist:
@@ -25,7 +25,7 @@ def get_info(url):
     params = dict(
         title = doc('h1').text(),
         author = '52847ffb1a7f5a7d80fd1ff7',
-        category = 'company',
+        category = 'policy',
         city = '51d28ace931e334378000001',
         body = doc('#text').html(),
         labels = '测试',

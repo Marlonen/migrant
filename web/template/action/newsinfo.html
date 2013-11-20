@@ -23,7 +23,7 @@
         <h4>{{ info.get('title')}} </h4>
         <div class='tags'>
           <strong>作者</strong> <span>{{ info.get('authorname')}}</span>
-          <strong>分类</strong><a href='/news/{{ info.get("category")}}?'><span class='label label-info'> {{ info.get('categoryname')}}</span></a>
+          <strong>分类</strong><a href='/news/list/{{ info.get("category")}}?'><span class='label label-info'> {{ info.get('categoryname')}}</span></a>
           <strong>标签：</strong>
           {% for l in info.get('labels')%}
           <a href='/news/label?key={{ l }}' title='{{ l }}'><span class='label label-success'>{{ l }}</span></a>
@@ -69,6 +69,8 @@
           $(this).tab('show');
         })
 
+        $('.nav-pills li').eq(0).addClass('active');
+
         function loadcomment(since){
             var url = '/m/comment/list/{{ info.get("_id")}}';
             if(since){
@@ -84,9 +86,15 @@
                         div.html(item.body);
 
                         celm.append(div);
-                        celm.append($('<p>').html(item.addon));
-
+                        celm.append($('<p class="pull-right">').html(item.authorname +'于'+item.addon.substring(5,19)));
+                        celm.append($('<div style="clear:both">'));
                     })
+
+                    if(rs.data.length){
+                       $('.pager').show();
+                    }else{
+                       $('.pager').hide();
+                    }
                 }
             })
         }
