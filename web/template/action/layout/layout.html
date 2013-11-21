@@ -17,6 +17,7 @@
     <!--[if lt IE 9]>
     <link href="/static/css/libs/font-awesome/css/font-awesome-ie7.min.css" media="all" rel="stylesheet" type="text/css" />
     <![endif]-->
+    <link rel="stylesheet/less" type="text/css" href="/static/less/migrant.less" />
     <style>
         /* Sticky footer styles
         -------------------------------------------------- */
@@ -60,14 +61,42 @@
 <body>
 <div id="wrap">
     {% block header %}
-        <header>
-            <div class="container">
-                <ul class="nav nav-pills pull-right">
-                  {% include ../menu.html %}
-                </ul>
-                <h1 class='logo-title pull-left'><a href="/">回归线</a></h1>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">回归线</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/news">资讯</a></li>
+          <li><a href="/project">项目</a></li>
+          <li><a href="/jobs">就业</a></li>
+          <li><a href="/life">生活</a></li>
+          <li><a href="/help">帮助</a></li>
+          {% if handler.uid %}
+            <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ handler.nickname }} <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="/profile">个人信息</a></li>
+              <li><a href="/logout">退出</a></li>
+            </ul>
+          </li>
+          {% else %}
+          <li class='active'><a href="/login">登录</a></li>
+          {% end %}
+        </ul>
+      </div><!-- /.navbar-collapse -->
             </div>
-        </header>
+    </nav>
     {% end %}
     <div class="container">
         <div class="content">
@@ -106,6 +135,7 @@
 <script src="https://code.jquery.com/jquery.js"></script>
 <script src="/static/action/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/static/js/libs/jquery.pnotify.min.js"></script>
+<script type="text/javascript" src="/static/js/libs/less-1.5.0.min.js"></script>
 <script>
     $.pnotify.defaults.history = false;
 </script>

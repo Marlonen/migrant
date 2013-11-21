@@ -1,63 +1,9 @@
 {% extends "layout/layout.html" %}
-{% block style %}
-    <style type="text/css">
-        .bs-docs-sidenav {
-            width: 258px;
-        }
-        .bs-docs-sidenav {
-            background-color: #FFFFFF;
-            border-radius: 6px 6px 6px 6px;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
-            padding: 0;
-            width: 228px;
-        }
-
-        .bs-docs-sidenav > li:first-child > a {
-            border-radius: 6px 6px 0 0;
-        }
-        .bs-docs-sidenav > li > a {
-        }
-
-        .bs-docs-sidenav > li > a {
-            border: 1px solid #E5E5E5;
-            display: block;
-            margin: 0 0 -1px;
-            padding: 8px 14px;
-        }
-
-        .bs-docs-sidenav .glyphicon {
-          float: right;
-        }
-
-        #labels .label{ margin: 5px; padding: 5px 2px;}
-
-        .tab-content {
-          border: 1px solid #dddddd;
-          border-top: 0px ;
-          margin-bottom: 20px;
-        }
-        .tab-content .tab-pane{
-            padding: 5px;
-        }
-
-
-        .newsitem { 
-          line-height: 30px;
-        }
-        .row {
-          margin-bottom: 15px;
-          padding: 0px 10px;
-        }
-
-
-    </style>
-{% end %}
-
-  {% block content %}
+{% block content %}
     <div class="row">
       <div class="col-md-9">
         <!-- hotnews start -->
-        <div id='hotnews'>
+        <div class='hot-news'>
           <ul class="nav nav-tabs" >
             <li class="active">
               <a href="#day">当天</a>
@@ -71,8 +17,8 @@
               <div class="media">
                 <div class="media-body">
                   <div class="media-heading">
-                    <div class="pull-left"><h4><a  href="/news/info/{{ item.get('_id')}}">{{ item.get('title')}}</a></h4></div>
                     <div class="pull-right">{{ item.get('addon')[0:10]}}</div>
+                    <h4><a href="/news/info/{{ item.get('_id')}}">{{ item.get('title')}}</a></h4>
                   </div>
                   <p style='clear:both'>{{ item.get('intro',item.get('title')+'简介')}}</p>
                   
@@ -86,8 +32,8 @@
               <div class="media">
                 <div class="media-body">
                   <div class="media-heading">
-                    <div class="pull-left"><h4><a  href="/news/info/{{ item.get('_id')}}">{{ item.get('title')}}</a></h4></div>
                     <div class="pull-right">{{ item.get('addon')[0:10]}}</div>
+                    <h4><a  href="/news/info/{{ item.get('_id')}}">{{ item.get('title')}}</a></h4>
                   </div>
                   <p style='clear:both'>{{ item.get('intro',item.get('title')+'简介')}}</p>
                   
@@ -101,8 +47,8 @@
               <div class="media">
                 <div class="media-body">
                   <div class="media-heading">
-                    <div class="pull-left"><h4><a  href="/news/info/{{ item.get('_id')}}">{{ item.get('title')}}</a></h4></div>
                     <div class="pull-right">{{ item.get('addon')[0:10]}}</div>
+                    <h4><a  href="/news/info/{{ item.get('_id')}}">{{ item.get('title')}}</a></h4>
                   </div>
                   <p style='clear:both'>{{ item.get('intro',item.get('title')+'简介')}}</p>
                   
@@ -119,7 +65,7 @@
         <div id='categorynews' class='row'>
         {% for cate in handler.categorys %}
         <div class='col-md-6'>
-          <div class="panel panel-success">
+          <div class="panel panel-default">
             <div class="panel-heading"><a href='/news/list/{{ cate.get("listname")}}'>{{ cate.get('name')}}</a></div>
             <div class="panel-body">
                 {% for item in handler.news.get(cate.get('listname')) %}
@@ -139,28 +85,32 @@
       </div>
 
       <div class="col-md-3">
-          <a href='/news/create'><span class="label label-info" style='padding:5px 10px; '>投递资讯</span></a>
-          <h4>标签云</h4>
-          <div class='row' id='labels'>
-             
-              {% for label in handler.labels %}
+          <a href='/news/create' class="sub-news btn btn-primary">投递资讯</a>
+
+          <div class="panel panel-default">
+          <div class="panel-heading">标签云</div>
+          <div class="panel-body">
+            {% for label in handler.labels %}
                <a href='/news/label?key={{ label.get("name")}}'>
-                  <span class="label label-success col-md-3">{{ label.get('name')}}</span>
+                      {{ label.get('name')}}
                </a>
-               
               {% end %}
           </div>
+        </div>
 
-          <h4>最新评论</h4>
-          <div class='comments'>
+          <div class="panel panel-default">
+          <div class="panel-heading">最新评论</div>
+          <div class="panel-body">
             {% for c in handler.comments%}
-               <div class='row'>
-                  <p>{{ c.get('body')}}</p>
-                  网友<a href="#">{{ c.get('authorname')}}</a>对<strong><a href='/news/info/{{ c.get("news_id")}}'>{{ c.get('title')}}</a></strong>的评论。
-                  
-               </div>
+              <div class="media">
+                  <div class="media-body">
+                    <h4 class="media-heading">网友<a href="#">{{ c.get('authorname')}}</a></h4>
+                      {{ c.get('body')}}
+                  </div>
+                </div>
             {% end %}
           </div>
+        </div>
       </div>
     </div>
 

@@ -1,0 +1,23 @@
+@baseColor: #dddddd;
+/* 资讯 */
+a.btn.sub-news{
+    margin-bottom: 20px;
+}
+.hot-news{
+    margin-bottom: 20px;
+    .tab-pane{
+        border: 1px solid @baseColor;
+        border-top: 0;
+    }
+    .media{
+      margin-top: 0;
+      border-top: 1px dotted @baseColor;
+      padding: 0 15px;
+      &:first-child{
+        border-top: 0;
+      }
+      &:hover{
+        background-color: lighten(@baseColor, 10%);
+      }
+    }
+}
