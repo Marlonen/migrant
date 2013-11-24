@@ -18,16 +18,25 @@
 {% end %}
 
   {% block content %}
+    <ol class="breadcrumb">
+      <li><a href="/news">资讯</a></li>
+      <li><a href='/news/list/{{ info.get("category")}}?'>{{ info.get('categoryname')}}</a></li>
+      <li class="active">
+         正文
+      </li>
+    </ol>
+
     <div class="row">
       <div class="col-md-9 content">
         <h4>{{ info.get('title')}} </h4>
         <div class='tags'>
           <strong>作者</strong> <span>{{ info.get('authorname')}}</span>
-          <strong>分类</strong><a href='/news/list/{{ info.get("category")}}?'><span class='label label-info'> {{ info.get('categoryname')}}</span></a>
           <strong>标签：</strong>
           {% for l in info.get('labels')%}
           <a href='/news/label?key={{ l }}' title='{{ l }}'><span class='label label-success'>{{ l }}</span></a>
           {% end%}
+          <strong>评论数</strong> 18 
+          <strong>发表于</strong> {{ info.get('addon','')[0:19]}}
         </div>
         {% raw info.get('body') %}
       </div>

@@ -54,7 +54,7 @@ class NewsInfo(BaseHandler):
         
         ur,uv = m_info(T_Account,v['author'])
         v['authorname'] = uv.get('nickname',None) or uv['username']
-        
+
         self.render('action/newsinfo.html',info = v)
 
 @url(r'/news/create')
