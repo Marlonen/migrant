@@ -20,7 +20,7 @@ class ProjectModel(BaseModel):
         name = CharField(required=True),
         description = CharField(),
         advantage = CharField(),
-        partner = ListField(datatype=Charfild),
+        partner = ListField(datatype=CharField),
         author = CharField(required=True),
         city = CharField(required=True),
         status = IntField(initial = 0)
