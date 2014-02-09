@@ -1,0 +1,52 @@
+{% extends "layout/layout.html" %}
+{% block style %}
+    <style type="text/css">
+
+
+    </style>
+{% end %}
+
+  {% block content %}
+    <div class="row">
+      <div class="col-md-9">
+          <div class="panel panel-success">
+            <div class="panel-heading"><a href='#'>项目推荐</a></div>
+            <div class="panel-body">
+                {% for i in range(10) %}
+                   <div class='newsitem'>
+                      <strong class='pull-left'><a href="/project/info/{{ i }}">项目名称</a></strong>
+                      <div class='pull-right'>{{ i }}</div><br>
+                   </div>
+                {% end %}
+            </div>
+          </div>
+
+      </div>
+
+      <div class="col-md-3">
+          <a href='/project/create'><span class="label label-info" style='padding:5px 10px; '>创建项目</span></a>
+          <h4>最新项目</h4>
+          <div class='row' id='labels'>
+             
+
+          </div>
+
+
+      </div>
+    </div>
+
+
+  {% end %}
+
+
+    {% block javascript %}
+    
+    <script type="text/javascript">
+      $(function(){
+
+          $('.nav-pills li').eq(1).addClass('active');
+
+      });
+    </script>
+  {% end%}
+
