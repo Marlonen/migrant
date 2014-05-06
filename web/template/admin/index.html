@@ -1,293 +1,218 @@
-<!doctype html>
-<html>
+{% extends "_base.html" %}
+{% block breadcrumb%}
+<li class="active">控制面板</li>
+{% end %}
+{% block maincontent %}
+<div class="row">
+	<div class="space-6"></div>
 
-<head>
-	<meta charset="utf-8"/>
-	<title>回归线 后台管理</title>
-	{% include ress.html %}
-	<script type="text/javascript">
-	$(document).ready(function() {
-		/**
-		$(".tablesorter").tablesorter(); 
-
-		//When page loads...
-		$(".tab_content").hide(); //Hide all content
-		$("ul.tabs li:first").addClass("active").show(); //Activate first tab
-		$(".tab_content:first").show(); //Show first tab content
-
-		//On Click Event
-		$("ul.tabs li").click(function() {
-
-			$("ul.tabs li").removeClass("active"); //Remove any "active" class
-			$(this).addClass("active"); //Add "active" class to selected tab
-			$(".tab_content").hide(); //Hide all tab content
-
-			var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
-			$(activeTab).fadeIn(); //Fade in the active ID content
-			return false;
-		});
-		$('.column').equalHeight();
-		**/
-
-	});
-    </script>
-
-</head>
-
-
-<body>
-
-	{% include header.html %}
-	
-	<section id="secondary_bar">
-		<div class="user">
-			<p>欢迎 {{ handler.username}} </p>
-			<a class="logout_user" href="/admin/logout" title="Logout">退出</a>
-		</div>
-		<div class="breadcrumbs_container">
-			<article class="breadcrumbs"><a href="index.html">后台管理</a> <div class="breadcrumb_divider"></div> <a class="current">数据面板</a></article>
-		</div>
-	</section><!-- end of secondary bar -->
-	{% include leftbar.html %}
-
-	<section id="main" class="column">
-		
-		<h4 class="alert_info">Welcome to the free MediaLoot admin panel template, this could be an informative message.</h4>
-		
-		<article class="module width_full">
-			<header><h3>Stats</h3></header>
-			<div class="module_content">
-				<article class="stats_graph">
-					<img src="http://chart.apis.google.com/chart?chxr=0,0,3000&chxt=y&chs=520x140&cht=lc&chco=76A4FB,80C65A&chd=s:Tdjpsvyvttmiihgmnrst,OTbdcfhhggcTUTTUadfk&chls=2|2&chma=40,20,20,30" width="520" height="140" alt="" />
-				</article>
-				
-				<article class="stats_overview">
-					<div class="overview_today">
-						<p class="overview_day">Today</p>
-						<p class="overview_count">1,876</p>
-						<p class="overview_type">Hits</p>
-						<p class="overview_count">2,103</p>
-						<p class="overview_type">Views</p>
-					</div>
-					<div class="overview_previous">
-						<p class="overview_day">Yesterday</p>
-						<p class="overview_count">1,646</p>
-						<p class="overview_type">Hits</p>
-						<p class="overview_count">2,054</p>
-						<p class="overview_type">Views</p>
-					</div>
-				</article>
-				<div class="clear"></div>
+	<div class="col-sm-7 infobox-container">
+		<div class="infobox infobox-green  ">
+			<div class="infobox-icon">
+				<i class="icon-comments"></i>
 			</div>
-		</article><!-- end of stats article -->
-		
-		<article class="module width_3_quarter">
-		<header><h3 class="tabs_involved">Content Manager</h3>
-		<ul class="tabs">
-   			<li><a href="#tab1">Posts</a></li>
-    		<li><a href="#tab2">Comments</a></li>
-		</ul>
-		</header>
 
-		<div class="tab_container">
-			<div id="tab1" class="tab_content">
-			<table class="tablesorter" cellspacing="0"> 
-			<thead> 
-				<tr> 
-   					<th></th> 
-    				<th>Entry Name</th> 
-    				<th>Category</th> 
-    				<th>Created On</th> 
-    				<th>Actions</th> 
-				</tr> 
-			</thead> 
-			<tbody> 
-				<tr> 
-   					<td><input type="checkbox"></td> 
-    				<td>Lorem Ipsum Dolor Sit Amet</td> 
-    				<td>Articles</td> 
-    				<td>5th April 2011</td> 
-    				<td><input type="image" src="/static/admin/images/icn_edit.png" title="Edit"><input type="image" src="static/admin/images/icn_trash.png" title="Trash"></td> 
-				</tr> 
-				<tr> 
-   					<td><input type="checkbox"></td> 
-    				<td>Ipsum Lorem Dolor Sit Amet</td> 
-    				<td>Freebies</td> 
-    				<td>6th April 2011</td> 
-   				 	<td><input type="image" src="/static/admin/images/icn_edit.png" title="Edit"><input type="image" src="static/admin/images/icn_trash.png" title="Trash"></td> 
-				</tr>
-				<tr> 
-   					<td><input type="checkbox"></td> 
-    				<td>Sit Amet Dolor Ipsum</td> 
-    				<td>Tutorials</td> 
-    				<td>10th April 2011</td> 
-    				<td><input type="image" src="/static/admin/images/icn_edit.png" title="Edit"><input type="image" src="static/admin/images/icn_trash.png" title="Trash"></td> 
-				</tr> 
-				<tr> 
-   					<td><input type="checkbox"></td> 
-    				<td>Dolor Lorem Amet</td> 
-    				<td>Articles</td> 
-    				<td>16th April 2011</td> 
-   				 	<td><input type="image" src="/static/admin/images/icn_edit.png" title="Edit"><input type="image" src="static/admin/images/icn_trash.png" title="Trash"></td> 
-				</tr>
-				<tr> 
-   					<td><input type="checkbox"></td> 
-    				<td>Dolor Lorem Amet</td> 
-    				<td>Articles</td> 
-    				<td>16th April 2011</td> 
-   				 	<td><input type="image" src="/static/admin/images/icn_edit.png" title="Edit"><input type="image" src="static/admin/images/icn_trash.png" title="Trash"></td> 
-				</tr>  
-			</tbody> 
-			</table>
-			</div><!-- end of #tab1 -->
-			
-			<div id="tab2" class="tab_content">
-			<table class="tablesorter" cellspacing="0"> 
-			<thead> 
-				<tr> 
-   					<th></th> 
-    				<th>Comment</th> 
-    				<th>Posted by</th> 
-    				<th>Posted On</th> 
-    				<th>Actions</th> 
-				</tr> 
-			</thead> 
-			<tbody> 
-				<tr> 
-   					<td><input type="checkbox"></td> 
-    				<td>Lorem Ipsum Dolor Sit Amet</td> 
-    				<td>Mark Corrigan</td> 
-    				<td>5th April 2011</td> 
-    				<td><input type="image" src="/static/admin/images/icn_edit.png" title="Edit"><input type="image" src="static/admin/images/icn_trash.png" title="Trash"></td> 
-				</tr> 
-				<tr> 
-   					<td><input type="checkbox"></td> 
-    				<td>Ipsum Lorem Dolor Sit Amet</td> 
-    				<td>Jeremy Usbourne</td> 
-    				<td>6th April 2011</td> 
-   				 	<td><input type="image" src="/static/admin/images/icn_edit.png" title="Edit"><input type="image" src="static/admin/images/icn_trash.png" title="Trash"></td> 
-				</tr>
-				<tr> 
-   					<td><input type="checkbox"></td> 
-    				<td>Sit Amet Dolor Ipsum</td> 
-    				<td>Super Hans</td> 
-    				<td>10th April 2011</td> 
-    				<td><input type="image" src="/static/admin/images/icn_edit.png" title="Edit"><input type="image" src="static/admin/images/icn_trash.png" title="Trash"></td> 
-				</tr> 
-				<tr> 
-   					<td><input type="checkbox"></td> 
-    				<td>Dolor Lorem Amet</td> 
-    				<td>Alan Johnson</td> 
-    				<td>16th April 2011</td> 
-   				 	<td><input type="image" src="/static/admin/images/icn_edit.png" title="Edit"><input type="image" src="static/admin/images/icn_trash.png" title="Trash"></td> 
-				</tr> 
-				<tr> 
-   					<td><input type="checkbox"></td> 
-    				<td>Dolor Lorem Amet</td> 
-    				<td>Dobby</td> 
-    				<td>16th April 2011</td> 
-   				 	<td><input type="image" src="/static/admin/images/icn_edit.png" title="Edit"><input type="image" src="static/admin/images/icn_trash.png" title="Trash"></td> 
-				</tr> 
-			</tbody> 
-			</table>
+			<div class="infobox-data">
+				<span class="infobox-data-number">32</span>
+				<div class="infobox-content">2个评论</div>
+			</div>
+			<div class="stat stat-success">8%</div>
+		</div>
 
-			</div><!-- end of #tab2 -->
-			
-		</div><!-- end of .tab_container -->
-		
-		</article><!-- end of content manager article -->
-		
-		<article class="module width_quarter">
-			<header><h3>Messages</h3></header>
-			<div class="message_list">
-				<div class="module_content">
-					<div class="message"><p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor.</p>
-					<p><strong>John Doe</strong></p></div>
-					<div class="message"><p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor.</p>
-					<p><strong>John Doe</strong></p></div>
-					<div class="message"><p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor.</p>
-					<p><strong>John Doe</strong></p></div>
-					<div class="message"><p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor.</p>
-					<p><strong>John Doe</strong></p></div>
-					<div class="message"><p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor.</p>
-					<p><strong>John Doe</strong></p></div>
+		<div class="infobox infobox-blue  ">
+			<div class="infobox-icon">
+				<i class="icon-twitter"></i>
+			</div>
+
+			<div class="infobox-data">
+				<span class="infobox-data-number">11</span>
+				<div class="infobox-content">新粉丝</div>
+			</div>
+
+			<div class="badge badge-success">
+				+32%
+				<i class="icon-arrow-up"></i>
+			</div>
+		</div>
+
+		<div class="infobox infobox-pink  ">
+			<div class="infobox-icon">
+				<i class="icon-shopping-cart"></i>
+			</div>
+
+			<div class="infobox-data">
+				<span class="infobox-data-number">8</span>
+				<div class="infobox-content">新订单</div>
+			</div>
+			<div class="stat stat-important">4%</div>
+		</div>
+
+		<div class="infobox infobox-red  ">
+			<div class="infobox-icon">
+				<i class="icon-beaker"></i>
+			</div>
+
+			<div class="infobox-data">
+				<span class="infobox-data-number">7</span>
+				<div class="infobox-content">调查</div>
+			</div>
+		</div>
+
+		<div class="infobox infobox-orange2  ">
+			<div class="infobox-chart">
+				<span class="sparkline" data-values="196,128,202,177,154,94,100,170,224"></span>
+			</div>
+
+			<div class="infobox-data">
+				<span class="infobox-data-number">6,251</span>
+				<div class="infobox-content">页面查看次数</div>
+			</div>
+
+			<div class="badge badge-success">
+				7.2%
+				<i class="icon-arrow-up"></i>
+			</div>
+		</div>
+
+		<div class="infobox infobox-blue2  ">
+			<div class="infobox-progress">
+				<div class="easy-pie-chart percentage" data-percent="42" data-size="46">
+					<span class="percent">42</span>%
 				</div>
 			</div>
-			<footer>
-				<form class="post_message">
-					<input type="text" value="Message" onfocus="if(!this._haschanged){this.value=''};this._haschanged=true;">
-					<input type="submit" class="btn_post_message" value=""/>
-				</form>
-			</footer>
-		</article><!-- end of messages article -->
-		
-		<div class="clear"></div>
-		
-		<article class="module width_full">
-			<header><h3>Post New Article</h3></header>
-				<div class="module_content">
-						<fieldset>
-							<label>Post Title</label>
-							<input type="text">
-						</fieldset>
-						<fieldset>
-							<label>Content</label>
-							<textarea rows="12"></textarea>
-						</fieldset>
-						<fieldset style="width:48%; float:left; margin-right: 3%;"> <!-- to make two field float next to one another, adjust values accordingly -->
-							<label>Category</label>
-							<select style="width:92%;">
-								<option>Articles</option>
-								<option>Tutorials</option>
-								<option>Freebies</option>
-							</select>
-						</fieldset>
-						<fieldset style="width:48%; float:left;"> <!-- to make two field float next to one another, adjust values accordingly -->
-							<label>Tags</label>
-							<input type="text" style="width:92%;">
-						</fieldset><div class="clear"></div>
-				</div>
-			<footer>
-				<div class="submit_link">
-					<select>
-						<option>Draft</option>
-						<option>Published</option>
-					</select>
-					<input type="submit" value="Publish" class="alt_btn">
-					<input type="submit" value="Reset">
-				</div>
-			</footer>
-		</article><!-- end of post new article -->
-		
-		<h4 class="alert_warning">A Warning Alert</h4>
-		
-		<h4 class="alert_error">An Error Message</h4>
-		
-		<h4 class="alert_success">A Success Message</h4>
-		
-		<article class="module width_full">
-			<header><h3>Basic Styles</h3></header>
-				<div class="module_content">
-					<h1>Header 1</h1>
-					<h2>Header 2</h2>
-					<h3>Header 3</h3>
-					<h4>Header 4</h4>
-					<p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras mattis consectetur purus sit amet fermentum. Maecenas faucibus mollis interdum. Maecenas faucibus mollis interdum. Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p>
 
-<p>Donec id elit non mi porta <a href="#">link text</a> gravida at eget metus. Donec ullamcorper nulla non metus auctor fringilla. Cras mattis consectetur purus sit amet fermentum. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
+			<div class="infobox-data">
+				<span class="infobox-text">交易使用</span>
 
-					<ul>
-						<li>Donec ullamcorper nulla non metus auctor fringilla. </li>
-						<li>Cras mattis consectetur purus sit amet fermentum.</li>
-						<li>Donec ullamcorper nulla non metus auctor fringilla. </li>
-						<li>Cras mattis consectetur purus sit amet fermentum.</li>
+				<div class="infobox-content">
+					<span class="bigger-110">~</span>
+					剩余58GB
+				</div>
+			</div>
+		</div>
+
+		<div class="space-6"></div>
+
+		<div class="infobox infobox-green infobox-small infobox-dark">
+			<div class="infobox-progress">
+				<div class="easy-pie-chart percentage" data-percent="61" data-size="39">
+					<span class="percent">61</span>%
+				</div>
+			</div>
+
+			<div class="infobox-data">
+				<div class="infobox-content">任务</div>
+				<div class="infobox-content">完成</div>
+			</div>
+		</div>
+
+		<div class="infobox infobox-blue infobox-small infobox-dark">
+			<div class="infobox-chart">
+				<span class="sparkline" data-values="3,4,2,3,4,4,2,2"></span>
+			</div>
+
+			<div class="infobox-data">
+				<div class="infobox-content">获得</div>
+				<div class="infobox-content">$32,000</div>
+			</div>
+		</div>
+
+		<div class="infobox infobox-grey infobox-small infobox-dark">
+			<div class="infobox-icon">
+				<i class="icon-download-alt"></i>
+			</div>
+
+			<div class="infobox-data">
+				<div class="infobox-content">下载次数</div>
+				<div class="infobox-content">1,205</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="vspace-sm"></div>
+
+	<div class="col-sm-5">
+		<div class="widget-box">
+			<div class="widget-header widget-header-flat widget-header-small">
+				<h5>
+					<i class="icon-signal"></i>
+					访问来源
+				</h5>
+
+				<div class="widget-toolbar no-border">
+					<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown">
+						本周
+						<i class="icon-angle-down icon-on-right bigger-110"></i>
+					</button>
+
+					<ul class="dropdown-menu pull-right dropdown-125 dropdown-lighter dropdown-caret">
+						<li class="active">
+							<a href="#" class="blue">
+								<i class="icon-caret-right bigger-110">&nbsp;</i>
+								本周
+							</a>
+						</li>
+
+						<li>
+							<a href="#">
+								<i class="icon-caret-right bigger-110 invisible">&nbsp;</i>
+								上周
+							</a>
+						</li>
+
+						<li>
+							<a href="#">
+								<i class="icon-caret-right bigger-110 invisible">&nbsp;</i>
+								本月
+							</a>
+						</li>
+
+						<li>
+							<a href="#">
+								<i class="icon-caret-right bigger-110 invisible">&nbsp;</i>
+								上月
+							</a>
+						</li>
 					</ul>
 				</div>
-		</article><!-- end of styles article -->
-		<div class="spacer"></div>
-	</section>
+			</div>
+
+			<div class="widget-body">
+				<div class="widget-main">
+					<div id="piechart-placeholder"></div>
+
+					<div class="hr hr8 hr-double"></div>
+
+					<div class="clearfix">
+						<div class="grid3">
+							<span class="grey">
+								<i class="icon-facebook-sign icon-2x blue"></i>
+								&nbsp; likes
+							</span>
+							<h4 class="bigger pull-right">1,255</h4>
+						</div>
+
+						<div class="grid3">
+							<span class="grey">
+								<i class="icon-twitter-sign icon-2x purple"></i>
+								&nbsp; tweets
+							</span>
+							<h4 class="bigger pull-right">941</h4>
+						</div>
+
+						<div class="grid3">
+							<span class="grey">
+								<i class="icon-pinterest-sign icon-2x red"></i>
+								&nbsp; pins
+							</span>
+							<h4 class="bigger pull-right">1,050</h4>
+						</div>
+					</div>
+				</div><!-- /widget-main -->
+			</div><!-- /widget-body -->
+		</div><!-- /widget-box -->
+	</div><!-- /span -->
+</div><!-- /row -->
 
 
-</body>
-
-</html>
+{% end %}

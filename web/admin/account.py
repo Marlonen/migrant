@@ -77,15 +77,16 @@ class LoginHandler(ActionHandler):
     def post(self):
         username = self.get_argument("username", None)
         password = self.get_argument("password", None)
+        nexturl = self.get_argument("next",'/admin')
 
         r,v = login(username, password,True)
 
         if r:
             self.set_secure_cookie("admin_user_name", username)
-            self.signin_admin(v['_id'])
+            self.set_secure_cookie(self._Admin_user_id, v['_id'])
+            self.write(dict(status=r,next=nexturl))
         else:
-            self.render('admin/login.html', errormsg = '登录失败')
-
+            self.write(dict(status=r,message=v))
 
 
 @url(r"/admin/account/setpassword")

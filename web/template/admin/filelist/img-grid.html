@@ -1,0 +1,7 @@
+{% for img in images %}
+<div class="col-xs-6 col-md-3">
+  <div class="thumbnail">
+    <img src="{{img.get("thumbnail", "")}}" alt="{{img.get("url", "")}}" style="width: 100%; display: block;">
+  </div>
+</div>
+{% end %}
