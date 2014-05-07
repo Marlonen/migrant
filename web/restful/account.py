@@ -39,11 +39,12 @@ class RegisterHandler(BaseHandler):
         password = self.get_argument('password', None)
 
         result, value = add(username, password, self.get_argument('city', None), status=INIT)
-
+        '''
         if result:
             if '@' in username:
                 username, email_host = username.split('@')
             openfire_add(username, password, username)
+        '''
         self.write(dict(status=result, data=value))
 
 
