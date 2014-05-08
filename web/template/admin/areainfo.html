@@ -150,7 +150,10 @@ $(function(){
 			}else{
 				o.obj.next('.Validform_checktip').hide();
 			}
-
+		},
+		beforeSubmit:function(curform){
+			$('.KindEditor').html(editor.html());
+			return true;
 		}
     });
 
