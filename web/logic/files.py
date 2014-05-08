@@ -99,7 +99,7 @@ import asyncmongo
 def image_page(page,size=10,ftype='image',callback=None):
     db = get_context().get_asyncmongo()
     tb = db[THUMBNAIL_GFS+'.files']
-    
+
     lst,err = yield gen.Task(tb.find,skip=page*size,limit=size)
     cmd = dict(count=THUMBNAIL_GFS+'.files')
     rs,err = yield gen.Task(db.command,cmd)

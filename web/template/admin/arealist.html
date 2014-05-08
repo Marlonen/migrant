@@ -20,21 +20,34 @@
 			<th>名称</th><th>域名</th><th>描述</th><th>操作</th>
 		</tr>
 	  	{% for item in data %}
-	  	<tr>
-	  		<td>{{ item['name']}}</td><td>{{ item['listname']}}</td><td>{{ item['intro']}}</td>
+	  	<tr id='{{ item["_id"] }}'>
+	  		<td>{{ item['name']}}</td><td>{{ item['listname']}}</td><td>{{ item.get('intro',None) or ""}}</td>
 	  		<td>
 	  			<a href='/admin/area/save?id={{ item["_id"]}}' ><i class="green icon-pencil bigger-130"></i></a>
-	  			<a href='#' ><i class="red icon-trash bigger-130"></i></a>
+	  			<a href='#' class='delbtn' ><i class="red icon-trash bigger-130"></i></a>
 	  		</td>
 	  	</tr>
 	  	{% end %}
 	</table>
+
+
+	{% module admin_uimodule_PageHandler(page,npage) %}
 </div>
 {% end %}
 {% block script %}
 <script type="text/javascript">
 $(function(){
-	$('#nav-list .arealist').addClass('active');
+	select_nav('arealist');
+	$('.delbtn').click(function(e){
+		var tr = $(this).parents('tr');
+		$.post('/admin/area/delete?id='+tr.attr('id'),function(rs){
+			if(rs.status){
+				tr.remove();
+			}else{
+				alert(rs.msg);
+			}
+		})
+	})
 })
  
 </script>

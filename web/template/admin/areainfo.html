@@ -20,7 +20,7 @@
 				<label class="col-sm-3 control-label no-padding-right" > 城区名称</label>
 				<div class="col-sm-9">
 					<input type='hidden' name='_id' value="{{ info.get('_id','')}}">
-					<input type="text" name='name' placeholder="城区名称" class="col-xs-10 col-sm-5" datatype="s4-20" value='{{ info.get("name",'')}}' />
+					<input type="text" name='name' placeholder="城区名称" class="col-xs-10 col-sm-5" datatype="s2-20" value='{{ info.get("name",'')}}' />
 				</div>
 			</div>
 			<div class="space-4"></div>
@@ -36,8 +36,8 @@
 				<div class="col-sm-9">
 		          	<div data-toggle="modal" id='imgbox' data-target="#filemodel">
 		          		<img src="{{ info.get('coverThumbnail','')}}" style='width:100px; height:100px; border:1px solid #ccc' >
-						<input type="text" name='cover' class="hide" value='' id="cover" readonly value="{{ info.get('cover','')}}"/>
-						<input type="text" name='coverThumbnail' id="coverThumbnail" class="hide" value="" readonly/ value="{{ info.get('coverThumbnail','')}}">
+						<input type="text" name='cover' class="hide"  id="cover" readonly value="{{ info.get('cover','')}}"/>
+						<input type="text" name='coverThumbnail' id="coverThumbnail" class="hide"  readonly/ value="{{ info.get('coverThumbnail','')}}">
 		          	</div>
 					<button class="btn btn-app btn-purple btn-sm hide" >
 						<i class="icon-cloud-upload bigger-200"></i>选择</button>
@@ -48,7 +48,7 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label no-padding-right" > 描述</label>
 				<div class="col-sm-9">
-					<textarea name='intro' class="col-xs-10 col-sm-5">{{ info.get('intro','')}}</textarea>
+					<textarea name='intro' class="KindEditor col-xs-10 col-sm-5">{{ info.get('intro','') or ''}}</textarea>
 				</div>
 			</div>
 			<div class="space-4"></div>
@@ -128,6 +128,8 @@
 <script src="/static/metro/js/validform_v5.3.1.js"></script>
 <script type="text/javascript">
 $(function(){
+	select_nav('areasave');
+
     $(".validform").Validform({
 		ajaxPost:true,
 		callback:function(rs){
@@ -160,6 +162,7 @@ $(function(){
 	      params.page = page;
 	    }
 	    var url = '/admin/files/image/?' + $.param(params);
+	    console.log(url);
 	    var pane = $("#filemodel");
 	    console.log(url);
 	    $.getJSON(url, function(data){
@@ -184,19 +187,6 @@ $(function(){
 
 	loadImgGrid(0);
 
-	var editor;
-	KindEditor.ready(function(K) {
-		editor = K.create('textarea[name="intro"]', {
-			resizeType : 1,
-			allowPreviewEmoticons : false,
-			allowImageUpload : false,
-			items : [
-				'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
-				'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
-				'insertunorderedlist', '|', 'emoticons', 'image', 'link']
-		});
-	});
-
   $('#upload-iframe').load(function(){
   // upload done
     var response = $('#upload-iframe').contents().find('pre').text();
@@ -210,7 +200,7 @@ $(function(){
       $('#cover').parent().find("img").removeClass('hide').attr('src', data.thumbnail);
       $('#cover').parent().find("span.btn").addClass('hide');
       $('#filemodel').modal('hide');
-      loadImgGrid(0);
+      loadImgGrid(1);
     }
   });
 

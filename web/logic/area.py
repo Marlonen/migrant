@@ -16,7 +16,7 @@ class AreaModel(Model):
     _name = TName
     _fields = dict(
         name = CharField(required=True),
-        listname = CharField(required=True),
+        listname = CharField(),
         intro = CharField(),
         order = IntField(),
         cover = CharField(),

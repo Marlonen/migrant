@@ -23,20 +23,21 @@ class ServiceArea(ActionHandler):
 @url(r'/admin/area/list')
 class ServerAreaList(ActionHandler):
     def get(self):
-        page = int(self.get_argument('page',0))
-        lst = MArea.page(page=page)
-        self.render('admin/arealist.html',data=lst)
+        page = int(self.get_argument('page',1))
+        lst = MArea.page(page=page-1)
+        npage = (MArea.count()+1)/10+1
+        self.render('admin/arealist.html',data=lst, page=page,npage=npage)
 
 @url(r"/admin/area/save")
 class ServerAreaSave(ActionHandler):
     def post(self):
         try:
             obj = MArea.fetch_data(self)
-            if 'listname' not in obj:
+            if not obj.get('listname',None):
                 obj['listname'] = get_pinyin(obj['name'])
             
             obj['_id'] = self.get_argument('_id',None)
-
+            print obj
             r = MArea.save(obj) 
             self.write(dict(status=True, data = r))
         except Exception as e:
@@ -53,7 +54,12 @@ class ServerAreaSave(ActionHandler):
 class ServerAreaDelete(ActionHandler):
     def post(self):
         _id = self.get_argument("id", None)
-        pass
+        try:
+            MArea.remove(_id)
+            self.write(dict(status=True))
+        except Exception as e:
+            self.write(dict(status=False, msg= e.message))
+
 
 
 

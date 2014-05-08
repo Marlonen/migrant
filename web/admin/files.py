@@ -33,9 +33,8 @@ class FileList(ActionHandler):
         page = int(self.get_argument('page',0)) 
         size = int(self.get_argument('limit',10))
         lst,count = yield image_page(page,size=size, ftype=ftype)
-
         file_list = map(partial(conv, table=ftype), lst)
-        npage = int(math.ceil((count+1)/size))-1
+        npage = int(math.ceil((count+1)/size))
         view = self.get_argument('view','')
         if view == "grid" and ftype == "image":
             grid= self.render_string("admin/filelist/img-grid.html", images=file_list)
