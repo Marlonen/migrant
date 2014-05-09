@@ -5,25 +5,25 @@
 """
 import json
 from kpages import url
+from kpages.model import ModelMaster
 import tornado
 from utility import RestfulHandler,BaseHandler
 
 from logic.utility import *
-from logic.account import add,login,TName as T_ACCOUNT,auth_login, INIT, reset_pwd, forgot_pwd, reset_forgotten_password, apply_active_account
 from logic.city import TName as T_CITY
 from logic.label import add as addlabel
 from logic.openfireusers import add as openfire_add
 from utils.string_utils import random_key
 
+AModel = ModelMaster()('AccountModel')
 
 @url(r'/m/account/login')
 class LoginHandler(BaseHandler):
     def post(self):
-        r, v = login(self.get_argument('username'), self.get_argument('password'))
+        r, v = AModel.login(self.get_argument('username'), self.get_argument('password'))
         if r:
             self.set_secure_cookie('uid', v['_id'])
             self.set_secure_cookie('nickname', v.get('nickname', v['username']))
-            print v['city']
             self.set_secure_cookie('city', v['city'] or '')
             del v['password']
             self.write(dict(status=r, data=v))
@@ -38,7 +38,8 @@ class RegisterHandler(BaseHandler):
         username = self.get_argument('username', None)
         password = self.get_argument('password', None)
 
-        result, value = add(username, password, self.get_argument('city', None), status=INIT)
+        result, value = AModel.add(username, password, 
+                    self.get_argument('city', None), status=INIT)
         '''
         if result:
             if '@' in username:
@@ -51,7 +52,8 @@ class RegisterHandler(BaseHandler):
 @url(r'/m/auth/login')
 class AuthLoginHandler(BaseHandler):
     def post(self):
-        r,v = auth_login(self.get_argument('site'),self.get_argument('otherid'),self.get_argument('name'))
+        r,v = AModel.auth_login(self.get_argument('site'),
+                self.get_argument('otherid'),self.get_argument('name'))
         if r:
             self.set_secure_cookie('uid',v['_id'])
             del v['password']
@@ -77,8 +79,7 @@ class UpdateHandler(RestfulHandler):
             'city': self.get_argument('city', None)
         }
 
-        ur,uv = m_info(T_ACCOUNT,self.uid)
-        
+        uv = AModel.info(self.uid)
         for i in args.get('profession'):
             if i and not i in uv.get('profession',()):
                 addlabel(0,i)
@@ -91,7 +92,7 @@ class UpdateHandler(RestfulHandler):
             if i and not i in uv.get('labels',()):
                 addlabel(2,i)
 
-        r, v = m_update(T_ACCOUNT, self.uid, **args)
+        r, v = AModel.update(self.uid, **args)
         self.write(dict(status=r, data=v))
 
 
@@ -104,7 +105,7 @@ class ResetPwdHandler(RestfulHandler):
         confirm_password = self.get_argument('confirm_password')
 
         if new_password == confirm_password:
-            r, v = reset_pwd(_id or self.uid, old_password, new_password)
+            r, v = AModel.reset_pwd(_id or self.uid, old_password, new_password)
             self.write(dict(status=r, data=v))
         else:
             self.write(dict(status=False, data='DIFFERENT_PWD'))
@@ -115,7 +116,7 @@ class ForgetPwdHandler(BaseHandler):
     @tornado.web.asynchronous
     def get(self):
         username = self.get_argument('username', None)
-        r, v = forgot_pwd(username,self.request.host)
+        r, v = AModel.forgot_pwd(username,self.request.host)
         self.write(dict(status=r, data=v))
         self.finish()
 
@@ -130,7 +131,7 @@ class UpdateForgottenPwdHandler(BaseHandler):
         if new_password != confirm_password:
             self.write(dict(status=False, data='两次输入的密码不一致'))
         else:
-            r, v = reset_forgotten_password(key, new_password)
+            r, v = AModel.reset_forgotten_password(key, new_password)
             self.write(dict(status=r, data=v))
 
 
@@ -138,7 +139,7 @@ class UpdateForgottenPwdHandler(BaseHandler):
 @url(r'/m/account/info/(.*)')
 class InfoHandler(RestfulHandler):
     def get(self, _id=None):
-        r, v = m_info(T_ACCOUNT, _id or self.uid)
+        r, v = AModel.info(_id or self.uid)
         if not r:
             return self.write(dict(status=r, data=v))
 

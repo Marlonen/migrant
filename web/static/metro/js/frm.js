@@ -14,21 +14,23 @@ function select_nav(classname){
 }
 
 $(function(){
+	if($('textarea.KindEditor').length>0){
 
-	KindEditor.ready(function(K) {
-		editor = K.create('textarea.KindEditor', {
-			resizeType : 1,
-			allowPreviewEmoticons: false,
-			allowImageUpload: true,
-			allowFileManager: true,
-			fileManagerJson: '/admin/files/image/?format=json&limit=100',
-			uploadJson: '/admin/file/upload',
+		KindEditor.ready(function(K) {
+			editor = K.create('textarea.KindEditor', {
+				resizeType : 1,
+				allowPreviewEmoticons: false,
+				allowImageUpload: true,
+				allowFileManager: true,
+				fileManagerJson: '/admin/files/image/?format=json&limit=100',
+				uploadJson: '/admin/file/upload',
 
-			items : [
-				'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
-				'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
-				'insertunorderedlist', '|', 'emoticons', 'image', 'insertfile' , 'baidumap', 'link', '|','code','quickformat','clearhtml','|','source','fullscreen']
+				items : [
+					'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+					'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+					'insertunorderedlist', '|', 'emoticons', 'image', 'insertfile' , 'baidumap', 'link', '|','code','quickformat','clearhtml','|','source','fullscreen']
+			});
 		});
-	});
-	
+		
+	}
 })

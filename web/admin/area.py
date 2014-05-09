@@ -37,11 +37,12 @@ class ServerAreaSave(ActionHandler):
                 obj['listname'] = get_pinyin(obj['name'])
             
             obj['_id'] = self.get_argument('_id',None)
-            print obj
+            if not obj['_id'] and MArea.exists(listname = obj['listname']):
+                raise Exception('已存在域名:'+obj['listname'])
+
             r = MArea.save(obj) 
             self.write(dict(status=True, data = r))
         except Exception as e:
-            print e
             self.write(dict(status=False, errmsg = e.message))
 
     def get(self):

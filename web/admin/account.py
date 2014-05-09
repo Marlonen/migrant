@@ -6,10 +6,11 @@
 """
 
 from kpages import url
+from kpages.model import ModelMaster
 from utility import ActionHandler
-from logic.account import login,page,add,TName as T_ACCOUNT,AccountModel
 from logic.utility import m_update,m_del,m_info,m_exists
 
+AModel = ModelMaster()('AccountModel')
 
 @url(r"/admin/?")
 class AdminHandler(ActionHandler):
@@ -31,12 +32,13 @@ class AccountHandler(ActionHandler):
         cond = {}
         if key:
             cond = {'username':{'$regex':key}}
-        r,v = page(since,**cond)
+        v = AModel.page(since,**cond)
+
         self.render("admin/account.html", data = v)
 
 
 @url(r"/admin/account/save")
-class AccountSaveHandler(ActionHandler,AccountModel):
+class AccountSaveHandler(ActionHandler):
     def post(self):
         email = self.get_argument("email", None)
         tel = self.get_argument("tel", '')
@@ -47,7 +49,7 @@ class AccountSaveHandler(ActionHandler,AccountModel):
         try:
             data = self._get_postdata()
             data.update(cond)
-            r,v = self._save(data)
+            v = AModel.save(data)
             self.redirect('/admin/account')
         except Exception as e:
             self.write(e.message) 
@@ -56,7 +58,7 @@ class AccountSaveHandler(ActionHandler,AccountModel):
         _id = self.get_argument("id", None)
         info = {}
         if _id:
-            r,info = m_info(T_ACCOUNT,_id)
+            info = AModel.info(_id)
 
         self.render('admin/accountinfo.html', info = info)
 
@@ -64,8 +66,8 @@ class AccountSaveHandler(ActionHandler,AccountModel):
 class AccountDeleteHandler(ActionHandler):
     def post(self):
         _id = self.get_argument("id", None)
-        r,v = m_del(T_ACCOUNT,_id)
-        self.write(dict(status = r, data = v))
+        r = AModel.remove(_id)
+        self.write(dict(status = r))
 
 
 
@@ -79,7 +81,7 @@ class LoginHandler(ActionHandler):
         password = self.get_argument("password", None)
         nexturl = self.get_argument("next",'/admin')
 
-        r,v = login(username, password,True)
+        r,v = AModel.login(username, password,True)
 
         if r:
             self.set_secure_cookie("admin_user_name", username)
@@ -99,9 +101,9 @@ class SetPwdHandler(ActionHandler):
         password = self.get_argument("oldpassword", None)
         newpassword = self.get_argument("password", None)
 
-        r,v = login(username, password,True)
+        r,v = AModel.login(username, password,True)
         if r:
-            r,v = m_update(T_ACCOUNT,v['_id'],password=newpassword)
+            r,v = AModel.update(v['_id'],password=newpassword)
             v = '密码修改成功'
         else:
             v = '密码错误'

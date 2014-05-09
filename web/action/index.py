@@ -3,11 +3,11 @@
     author comger@gmail.com
     migrant 前端展示公共页面
 """
-from kpages import url
-from kpages.context import get_context
-from logic.account import active_account, apply_active_account
+from kpages import url,get_context
+from kpages.model import ModelMaster
 from utility import BaseHandler
 
+AModel = ModelMaster()('AccountModel')
 
 @url(r'/?')
 class Index(BaseHandler):
@@ -61,7 +61,7 @@ class CheckMail(BaseHandler):
 
         if not key:
             # 注册成功、登录失败
-            r, v = apply_active_account(username,self.request.host)
+            r, v = AModel.apply_active_account(username,self.request.host)
 
             if frm and frm == 'resend':
                 self.write(dict(status=r, data=v))
@@ -70,7 +70,7 @@ class CheckMail(BaseHandler):
                 self.render(template_file, **kwargs)
         else:
             # 点击邮件激活链接
-            r, v = active_account(key)
+            r, v = AModel.active_account(key)
             kwargs.update(key=key, status=r, data=v)
             self.render(template_file, **kwargs)
 

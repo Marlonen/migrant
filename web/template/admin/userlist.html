@@ -1,0 +1,65 @@
+{% extends "_base.html" %}
+{% block style %}
+<link rel="stylesheet" href="/static/metro/css/frm.css" />
+<style type="text/css">
+.modal-header .nav-tabs{
+	position: static;
+}
+</style>
+{% end %}
+{% block breadcrumb%}
+<li >用户管理</li>
+<li class="active">用户列表</li>
+{% end %}
+{% block maincontent %}
+<div class="space-12"></div>
+<div class='page-content'>
+
+	<table class="table table-hover table-bordered table-striped">
+		<thead> 
+			<tr> 
+				<th><input id='selectallbtn' type="checkbox"></th> 
+				<th>用户名</th>  
+				<th>邮箱</th> 
+				<th>电话</th>
+				<th>添加时间</th> 
+				<th>操作</th> 
+			</tr> 
+		</thead> 
+		<tbody> 
+
+        {% for item in data %}
+            <tr  id="{{ item.get('_id') }}">
+            	<td><input type="checkbox" class='chkbtn' name='chk'></td>
+                <td class="username">{{ item.get("username","")}}</td>
+                <td class="email">{{ item.get("email","")}}</td>
+                <td class="tel">{{ item.get("tel","")}}</td>
+                <td >{{ item.get("addon","")}}</td>
+                <td><a href='/admin/account/save?id={{ item.get("_id","")}}'><input type="image" src="/static/admin/images/icn_edit.png" title="编辑"></a><input type="image" src="/static/admin/images/icn_trash.png" title="删除" class='delbtn'></td>
+            </tr>
+        {% end %}
+		</tbody> 
+	</table>
+
+
+	{% module admin_uimodule_PageHandler(page,npage) %}
+</div>
+{% end %}
+{% block script %}
+<script type="text/javascript">
+$(function(){
+	select_nav('arealist');
+	$('.delbtn').click(function(e){
+		var tr = $(this).parents('tr');
+		$.post('/admin/account/delete?id='+tr.attr('id'),function(rs){
+			if(rs.status){
+				tr.remove();
+			}else{
+				alert(rs.msg);
+			}
+		})
+	})
+})
+ 
+</script>
+{% end %}

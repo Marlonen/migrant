@@ -135,6 +135,8 @@ $(function(){
 		callback:function(rs){
 			if(rs.status){
 				location.href='/admin/area/list';
+			}else{
+				alert(rs.errmsg);
 			}
 		},
         tiptype:function(msg,o,cssctl){
