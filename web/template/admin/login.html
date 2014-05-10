@@ -67,7 +67,7 @@
 											</h4>
 
 											<div class="space-6"></div>
-											<form id='loginform' action="/admin/login" method="post">
+											<form id='loginform' action="/m/account/login" method="post">
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
@@ -151,7 +151,7 @@
 				ajaxPost:true,
 				callback:function(rs){
 					if(rs.status){
-						location.href = rs.next;
+						location.href = '{{ next }}';
 					}else{
 						//$('#checkinfo').html('登录失败,请重新输入！');
 						$('#loginform').next('.Validform_checktip').html('登录失败,请重新输入！');

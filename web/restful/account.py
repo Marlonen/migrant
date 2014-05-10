@@ -27,11 +27,13 @@ class LoginHandler(BaseHandler):
         if r:
             self.set_secure_cookie('uid', v['_id'])
             self.set_secure_cookie('nickname', v.get('nickname', v['username']))
-            self.set_secure_cookie('city', v['city'] or '')
+            if v.get('isadmin') == True:
+                self.set_secure_cookie('__ADMIN_USER_ID', v['_id'])
+            
             del v['password']
             self.write(dict(status=r, data=v))
         else: 
-            self.write(dict(status=r, data=v))
+            self.write(dict(status=False, data=v))
 
 
 @url(r'/m/account/join')

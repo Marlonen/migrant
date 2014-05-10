@@ -13,11 +13,11 @@ from logic.label import add,suggest
 
 @url(r'/m/label/suggest/(.*)')
 class SuggestLabel(RestfulHandler):
-    def post(self, category=None):
-        key = self.get_argument('key',None)
+    def get(self, category=None):
+        key = self.get_argument('term',None)
         rs = suggest(int(category),key=key)
         arr = [ item['name'] for item in rs]
-        self.write(dict(status=True,data=arr))
+        self.write(json.dumps(arr))
 
 
 @url(r'/m/label/add')

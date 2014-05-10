@@ -27,14 +27,15 @@ class HelpHandler(ActionHandler):
 @url(r"/admin/account")
 class AccountHandler(ActionHandler):
     def get(self):
-        since = self.get_argument("since", None)
+        page = int(self.get_argument("page", 0))
         key = self.get_argument("key", None)
         cond = {}
         if key:
             cond = {'username':{'$regex':key}}
-        v = AModel.page(since,**cond)
 
-        self.render("admin/account.html", data = v)
+        v = AModel.page(page=page,**cond)
+        npage = AModel.count(**cond)/10
+        self.render("admin/userlist.html", data = v, page=page, npage=npage)
 
 
 @url(r"/admin/account/save")
@@ -76,19 +77,6 @@ class LoginHandler(ActionHandler):
     def get(self):
         self.render('admin/login.html',errormsg = '',next = self.get_argument('next','/admin'))
 
-    def post(self):
-        username = self.get_argument("username", None)
-        password = self.get_argument("password", None)
-        nexturl = self.get_argument("next",'/admin')
-
-        r,v = AModel.login(username, password,True)
-
-        if r:
-            self.set_secure_cookie("admin_user_name", username)
-            self.set_secure_cookie(self._Admin_user_id, v['_id'])
-            self.write(dict(status=r,next=nexturl))
-        else:
-            self.write(dict(status=r,message=v))
 
 
 @url(r"/admin/account/setpassword")

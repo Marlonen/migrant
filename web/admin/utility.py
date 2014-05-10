@@ -9,7 +9,7 @@ from kpages import ContextHandler
 class ActionHandler(ContextHandler,RequestHandler):
     
     uid = property(lambda self: self.get_secure_cookie(self._Admin_user_id))
-    username = property(lambda self: self.get_secure_cookie("admin_user_name"))
+    username = property(lambda self: self.get_secure_cookie("nickname"))
     _Admin_user_id = '__ADMIN_USER_ID'
 
     def signin_admin(self, v):

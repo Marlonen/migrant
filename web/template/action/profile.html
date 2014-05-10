@@ -1,5 +1,7 @@
 {% extends "layout/layout.html" %}
 {% block style %}
+<link rel="stylesheet" href="/static/metro/css/jquery-ui-1.10.3.full.min.css" />
+
     <style type="text/css">
         .bs-docs-sidenav {
             width: 258px;
@@ -28,6 +30,14 @@
         .bs-docs-sidenav .glyphicon {
           float: right;
         }
+
+      .ui-autocomplete {
+        background-color: #FFF;
+        border: 1px solid rgba(0,0,0,0.2);
+        -webkit-box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      }
+
     </style>
 <link rel="stylesheet" href=""/>
 {% end %}
@@ -129,8 +139,9 @@
 
 
         {% block javascript %}
-    <script src="/static/js/bootstrap.typeahead.ajax.js"></script>
-    <script src="/static/js/libs/jquery.form.min.js"></script>
+    <script src="/static/metro/js/typeahead-bs2.min.js"></script>
+    <script src="/static/metro/js/jquery-ui-1.10.3.full.min.js"></script>
+
     <script type="text/javascript">
       $(function(){
           function loadselect(sel, parent, callback){
@@ -224,41 +235,23 @@
                 }
             });
 
-          $('.typeahead-profession').typeahead({
-              items:6,
-              ajax:{
-                triggerLength:1,
-                url:'/m/label/suggest/0',
-                preProcess:function(rs){
-                  console.log(rs);
-                  return rs.data;
-                }
-              }
-            });
 
-          $('.typeahead-skill').typeahead({
-              items:6,
-              ajax:{
-                triggerLength:1,
-                url:'/m/label/suggest/1',
-                preProcess:function(rs){
-                  console.log(rs);
-                  return rs.data;
-                }
-              }
-            });
+          $( ".typeahead-profession" ).autocomplete({
+              minLength: 2,
+              source:'/m/label/suggest/0',
+          });
 
-          $('.typeahead-labels').typeahead({
-              items:6,
-              ajax:{
-                triggerLength:1,
-                url:'/m/label/suggest/2',
-                preProcess:function(rs){
-                  console.log(rs);
-                  return rs.data;
-                }
-              }
-            })
+          $( ".typeahead-skill" ).autocomplete({
+              minLength: 2,
+              source:'/m/label/suggest/1',
+          });
+
+          $( ".typeahead-labels" ).autocomplete({
+              minLength: 2,
+              source:'/m/label/suggest/2',
+          });
+
+
 
       });
     </script>
