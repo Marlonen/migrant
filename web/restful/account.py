@@ -10,10 +10,12 @@ import tornado
 from utility import RestfulHandler,BaseHandler
 
 from logic.utility import *
+from logic.account import INIT, ACTIVATED, IDENTIFIED
 from logic.city import TName as T_CITY
 from logic.label import add as addlabel
 from logic.openfireusers import add as openfire_add
 from utils.string_utils import random_key
+
 
 AModel = ModelMaster()('AccountModel')
 
@@ -21,6 +23,7 @@ AModel = ModelMaster()('AccountModel')
 class LoginHandler(BaseHandler):
     def post(self):
         r, v = AModel.login(self.get_argument('username'), self.get_argument('password'))
+
         if r:
             self.set_secure_cookie('uid', v['_id'])
             self.set_secure_cookie('nickname', v.get('nickname', v['username']))
@@ -92,8 +95,8 @@ class UpdateHandler(RestfulHandler):
             if i and not i in uv.get('labels',()):
                 addlabel(2,i)
 
-        r, v = AModel.update(self.uid, **args)
-        self.write(dict(status=r, data=v))
+        v = AModel.update(self.uid, **args)
+        self.write(dict(status=True, data=v))
 
 
 @url(r'/m/account/resetpwd')
@@ -139,9 +142,10 @@ class UpdateForgottenPwdHandler(BaseHandler):
 @url(r'/m/account/info/(.*)')
 class InfoHandler(RestfulHandler):
     def get(self, _id=None):
-        r, v = AModel.info(_id or self.uid)
-        if not r:
-            return self.write(dict(status=r, data=v))
+
+        v = AModel.info(_id or self.uid)
+        if not v:
+            return self.write(dict(status=False, data=v))
 
         if v and v.get('parent_city', None):
             cr, cv = m_info(T_CITY, v['parent_city'])

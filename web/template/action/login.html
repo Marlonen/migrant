@@ -56,7 +56,9 @@
                 ajaxPost:true,
                 callback:function(rs){
                     if(rs.status){
-                        location.href='/admin/area/list';
+                        location.href='/profile';
+                    }else{
+                        alert(rs.data);
                     }
                 },
                 tiptype:function(msg,o,cssctl){

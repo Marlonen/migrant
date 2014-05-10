@@ -5,7 +5,7 @@
 """
 from kpages import not_empty,get_context,mongo_conv
 from kpages.model import *
-from utility import m_update,m_del,m_page,m_exists,m_info,BaseModel
+#from utility import m_update,m_del,m_page,m_exists,m_info,BaseModel
 from utils.email_utils import send_mail, get_email_content
 from utils.string_utils import random_key,hashPassword
 
@@ -15,7 +15,8 @@ Tb = lambda :get_context().get_mongo()[TName]
 INIT, ACTIVATED, IDENTIFIED = range(3)
 
 
-class AccountModel(BaseModel):
+class AccountModel(Model):
+    _name = TName
     _fields = dict(
         username = CharField(required=True),
         password = CharField(required=True),
@@ -127,8 +128,8 @@ class AccountModel(BaseModel):
     def login(self, username, password, isadmin=None):
         try:
             not_empty(username, password)
-            #cond = dict(username=username, password=hashPassword(password))
-            cond = dict(username=username, password=password)
+            cond = dict(username=username, password=hashPassword(password))
+            #cond = dict(username=username, password=password)
             if isadmin:
                 cond.update(isadmin=isadmin)
 
