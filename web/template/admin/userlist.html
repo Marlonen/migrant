@@ -44,13 +44,44 @@
 
 <div class="modal fade" id='editmodel'>
   <div class="modal-dialog">
+    <form class='form-horizontal' role='form'>
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title">编辑用户</h4>
       </div>
       <div class="modal-body">
-        <p>One fine body&hellip;</p>
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 设为管理员 </label>
+            <div class="col-sm-9">
+              <label>
+                <input class="ace ace-switch ace-switch-7" type="checkbox" name='isadmin'>
+                <span class="lbl"></span>
+              </label>
+            </div>
+          </div>          
+          <div class="space-6"></div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" > 呢称 </label>
+
+            <div class="col-sm-9">
+              <input type="text" placeholder="呢称" name='nickname' class="col-xs-10 col-sm-5" />
+            </div>
+          </div>
+
+          <div class="space-4"></div>
+
+          
+          <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" > 联系电话 </label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input class="form-control input-mask-phone" type="text" name='mobile'/>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-6" ></div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -58,6 +89,7 @@
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
+  </form>
 </div><!-- /.modal -->
 
 
@@ -65,11 +97,12 @@
 {% block script %}
 <script type="text/javascript">
 $(function(){
-	select_nav('accountlist');
-
-	$('.editbtn').click(function(e){
-		$('#editmodel').modal('show');
-	})
+    select_nav('accountlist');
+    $.mask.definitions['~']='[+-]';
+    $('.input-mask-phone').mask('199-9999-9999');
+    $('.editbtn').click(function(e){
+    	$('#editmodel').modal('show');
+    })
 })
  
 </script>
