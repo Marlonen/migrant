@@ -20,7 +20,9 @@ class AccountModel(Model):
     _fields = dict(
         username = CharField(required=True),
         password = CharField(required=True),
-        city = CharField()
+        city = CharField(),
+        mobile = CharField(),
+        isadmin = FloatField(initial=False)
     )
 
     def add(self, username, password, city=None, **kwargs):

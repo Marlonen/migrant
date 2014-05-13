@@ -30,7 +30,7 @@
                 <td class="username">{{ item.get("username","")}}</td>
                 <td class="tel">{{ item.get("mobile","")}}</td>
                 <td>
-		  			<button class='btn btn-minier editbtn'><i class="green icon-pencil bigger-130"></i> 编辑</button>
+		  			       <button class='btn btn-minier editbtn'><i class="green icon-pencil bigger-130"></i> 编辑</button>
                 </td>
             </tr>
         {% end %}
@@ -44,7 +44,7 @@
 
 <div class="modal fade" id='editmodel'>
   <div class="modal-dialog">
-    <form class='form-horizontal' role='form'>
+    <form class='form-horizontal validform' role='form' action='/admin/account/update' method='post'>
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -55,6 +55,7 @@
             <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 设为管理员 </label>
             <div class="col-sm-9">
               <label>
+                <input type="hidden" name='_id'>
                 <input class="ace ace-switch ace-switch-7" type="checkbox" name='isadmin'>
                 <span class="lbl"></span>
               </label>
@@ -65,7 +66,7 @@
             <label class="col-sm-3 control-label no-padding-right" > 呢称 </label>
 
             <div class="col-sm-9">
-              <input type="text" placeholder="呢称" name='nickname' class="col-xs-10 col-sm-5" />
+              <input type="text" placeholder="呢称" name='nickname' datatype='s0-16' class="col-xs-10 col-sm-5" />
             </div>
           </div>
 
@@ -85,7 +86,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn btn-primary">保存</button>
+        <button type="submit" class="btn btn-primary">保存</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -95,14 +96,55 @@
 
 {% end %}
 {% block script %}
+<script src="/static/metro/js/validform_v5.3.1.js"></script>
 <script type="text/javascript">
 $(function(){
     select_nav('accountlist');
     $.mask.definitions['~']='[+-]';
-    $('.input-mask-phone').mask('199-9999-9999');
+    $('.input-mask-phone').mask('19999999999');
     $('.editbtn').click(function(e){
-    	$('#editmodel').modal('show');
+       var _id = $(this).parents('tr').attr('id');
+       $.get('/admin/account/update?_id='+_id,function(rs){
+          if(rs.status){
+            $('.validform input[name="isadmin"]').attr('checked',rs.data.isadmin);
+            $('.validform input[name="mobile"]').val(rs.data.mobile);
+            $('.validform input[name="nickname"]').val(rs.data.nickname);
+            $('.validform input[name="_id"]').val(rs.data._id); 
+            $('#editmodel').modal('show');
+          }
+       })
     })
+
+
+
+    $(".validform").Validform({
+          ajaxPost:true,
+          callback:function(rs){
+              if(rs.status){
+                  alert('修改成功！');
+                  location.href='/admin/account';
+              }else{
+                  alert(rs.data);
+              }
+          },
+          tiptype:function(msg,o,cssctl){
+              var objtip=o.obj.next('.Validform_checktip');
+              if($(objtip).size()==0){
+                      objtip = $('<label>').addClass('Validform_checktip');
+                      o.obj.after(objtip)
+              }
+              if(!(o.type == 2)){
+                  if(!o.obj.is("form")){//验证表单元素时o.obj为该表单元素，全部验证通过提交表单时o.obj为该表单对象;
+                      objtip.text(msg).show();
+                  }
+              }else{
+                  o.obj.next('.Validform_checktip').hide();
+              }
+
+          }
+      });
+
+
 })
  
 </script>

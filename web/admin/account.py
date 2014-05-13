@@ -5,7 +5,7 @@
     author comger@gmail.com
 """
 
-from kpages import url
+from kpages import url,not_empty
 from kpages.model import ModelMaster
 from utility import ActionHandler
 from logic.utility import m_update,m_del,m_info,m_exists
@@ -38,30 +38,28 @@ class AccountHandler(ActionHandler):
         self.render("admin/userlist.html", data = v, page=page, npage=npage)
 
 
-@url(r"/admin/account/save")
-class AccountSaveHandler(ActionHandler):
+@url(r"/admin/account/update")
+class AccountUpdate(ActionHandler):
     def post(self):
-        email = self.get_argument("email", None)
-        tel = self.get_argument("tel", '')
-        city = self.get_argument("city", '')
-        isadmin = bool(self.get_argument('isadmin','True'))
+        mobile = self.get_argument('mobile')
+        nickname = self.get_argument('nickname')
+        isadmin = bool(self.get_argument('isadmin'))
 
-        cond = dict(email = email, tel = tel, isadmin = isadmin,city=city)
+        _id = self.get_argument('_id')
         try:
-            data = self._get_postdata()
-            data.update(cond)
-            v = AModel.save(data)
-            self.redirect('/admin/account')
+            r = AModel.update(_id, mobile=mobile,nickname=nickname,
+                            isadmin=isadmin)
+            
+            self.write(dict(status=r))
         except Exception as e:
-            self.write(e.message) 
+            self.write(dict(status=False, errmsg = e.message))
 
     def get(self):
-        _id = self.get_argument("id", None)
-        info = {}
-        if _id:
-            info = AModel.info(_id)
+        _id = self.get_argument("_id", None)
+        not_empty(_id)
+        info = AModel.info(_id)
+        self.write(dict(status=True, data=info))
 
-        self.render('admin/accountinfo.html', info = info)
 
 @url(r"/admin/account/delete")
 class AccountDeleteHandler(ActionHandler):
