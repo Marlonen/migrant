@@ -11,7 +11,7 @@ PORT = 8888
 CACHE_HOST = 'localhost'
 ACTION_DIR = ('action', 'restful', 'admin')
 
-IMG_MAX_SIZE = (1600,1600)
+IMG_MAX_SIZE = (800,800)
 THUMBNAIL_SIZE = (200,200)
 #the email smpt configuration
 SMTP_FROM = 'migrant_service@126.com'

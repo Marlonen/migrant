@@ -35,12 +35,12 @@ class FileList(ActionHandler):
         lst,count = yield image_page(page,size=size, ftype=ftype)
         file_list = map(partial(conv, table=ftype), lst)
         npage = int(math.ceil((count+1)/size))
-        view = self.get_argument('view','')
+        view = self.get_argument('view',None)
         if view == "grid" and ftype == "image":
             grid= self.render_string("admin/filelist/img-grid.html", images=file_list)
             pagniation= self.render_string("admin/filelist/pagination.html", page=page, npage=npage)
             self.write(dict(grid=grid,pagniation=pagniation))
-        elif view == '':
+        elif view == 'json':
             self.write({
                 'dir':ftype,
                 'file_list':file_list,
@@ -48,7 +48,7 @@ class FileList(ActionHandler):
                 'npage':npage}
                 )
         else:
-            self.render('admin/files')
+            self.render('admin/files.html')
 
 @url(r"/admin/file/upload")
 class FileUpload(ActionHandler):
@@ -69,4 +69,5 @@ class FileUpload(ActionHandler):
             self.write(val)
         elif ftype == 'file':
             fid = yield put_file(body,filename, content_type=content_type)
-             
+            val = dict(dir=ftype,error=0,url='/file/file/{0}'.format(fid))
+            self.write(val)

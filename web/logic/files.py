@@ -56,10 +56,11 @@ def put_file(body, filename, **kwargs):
 def put_image(body, filename, fmt,**kwargs):
     db = get_context().get_asyncmongo()
     kwargs.update(filename=filename)
-    
     fs = GridFS(db, IMG_GFS)
-    fid =yield gen.Task(fs.put,body,**kwargs)
+
     try:
+        body = _resize_image(body,fmt,__conf__.IMG_MAX_SIZE)
+        fid =yield gen.Task(fs.put,body,**kwargs)
         thumbnail = _resize_image(body,fmt,__conf__.THUMBNAIL_SIZE)
         
         tfs = GridFS(db, THUMBNAIL_GFS)

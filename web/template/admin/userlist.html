@@ -19,6 +19,7 @@
 		<thead> 
 			<tr> 
 				<th>用户名</th>  
+        <th>是否为管理员</th>
 				<th>电话</th>
 				<th>操作</th> 
 			</tr> 
@@ -28,7 +29,8 @@
         {% for item in data %}
             <tr  id="{{ item.get('_id') }}">
                 <td class="username">{{ item.get("username","")}}</td>
-                <td class="tel">{{ item.get("mobile","")}}</td>
+                <td class="isadmin">{% if item.get('isadmin')%} 是 {% else %} 否 {% end %}</td>
+                <td class="mobile">{{ item.get("mobile","")}}</td>
                 <td>
 		  			       <button class='btn btn-minier editbtn'><i class="green icon-pencil bigger-130"></i> 编辑</button>
                 </td>
@@ -56,7 +58,7 @@
             <div class="col-sm-9">
               <label>
                 <input type="hidden" name='_id'>
-                <input class="ace ace-switch ace-switch-7" type="checkbox" name='isadmin'>
+                <input class="ace ace-switch ace-switch-7" type="checkbox" name='isadmin' value='0' >
                 <span class="lbl"></span>
               </label>
             </div>
@@ -122,7 +124,7 @@ $(function(){
           callback:function(rs){
               if(rs.status){
                   alert('修改成功！');
-                  location.href='/admin/account';
+                  //location.href='/admin/account';
               }else{
                   alert(rs.data);
               }
@@ -140,7 +142,10 @@ $(function(){
               }else{
                   o.obj.next('.Validform_checktip').hide();
               }
-
+          },
+          beforeSubmit:function(curform){
+            console.log($('.validform input[name="isadmin"]').attr('checked'));
+            return true;
           }
       });
 

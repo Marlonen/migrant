@@ -1,0 +1,159 @@
+{% extends "_base.html" %}
+{% block style %}
+<link rel="stylesheet" href="/static/metro/css/frm.css" />
+<style type="text/css">
+.modal-header .nav-tabs{
+	position: static;
+}
+</style>
+{% end %}
+{% block breadcrumb%}
+<li >图片列表</li>
+{% end %}
+{% block maincontent %}
+
+<div class='page-content'>
+
+  <div class="btn-group pull-right">
+    <button class="btn btn-sm" data-toggle="modal" data-target="#upload-modal">上传文件</button>
+    <button class="btn btn-sm" id='delete'>删除文件</button>
+  </div>
+  
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th><input type="checkbox" class='selectallbtn' ></th>
+        <th>文件名</th>
+        <th>栏目</th>
+        <th>类型</th>
+        <th>大小</th>
+        <th>上传时间</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+
+  <ul class="pagination">
+  </ul>
+
+  <div id="img-preview" class="hide">
+  </div>
+
+  <iframe id="upload-iframe" name="upload-iframe" class="hide"></iframe>
+  <form id='upload-form' class="form-horizontal" method="POST" action='/admin/file/upload?ftype=image' enctype="multipart/form-data" target="upload-iframe">
+  <div id="upload-modal" class="modal fade" >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">上传文件</h4>
+        </div>
+        <div class="modal-body">
+            <div class="control-group">
+              <label class="control-label" for="imgFile">文件</label>
+              <div class="controls">
+                <input type="hidden" name='dir' value='image' > 
+                <input type="file" name="mfile" />
+              </div>
+            </div>
+
+            <div class="space-6" ></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="submit" class="btn btn-primary">保存</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  </form>
+
+</div>
+{% end %}
+{% block script %}
+<script src="/static/metro/js/validform_v5.3.1.js"></script>
+<script type="text/javascript">
+$(function(){
+
+ var loadFiles = function(type, pane, page) {
+    var params = {view: 'json', dir: type}
+    if (page != undefined) {
+      params.page = page
+    }
+
+    //http://localhost:8888/admin/files/image/?format=json&view=grid&dir=image&limit=10&page=1
+    var url = '/admin/files/image/?' + $.param(params)
+    $.getJSON(url, function(data){
+      var tbody = pane.find("tbody");
+      tbody.text('');
+      $(data.file_list).each(function(i, e){
+        var text = "<tr id='"+ e._id + "' " + (e.url ? ("data-url='"+e.url+"'") : "") + ">" +
+            "<td> <input class='chkbtn' name='chk' type='checkbox'></td>" +
+            "<td>" + (e.url ? ("<a href='"+e.url+"'>" + e.filename + "</a>") : e.filename )+ "</td>" +
+            " <td>" + (e.category ? e.category : "无") + "</td>" +
+            " <td>" + e.contentType + "</td>" +
+            " <td>" + Math.floor(e.filesize/1024) + " KB</td>" +
+            " <td>" + e.datetime + "</td>" +
+            "</tr>";
+        tbody.append(text);
+      });
+      
+      var pagination = 
+          '<li'+(data.page == 0? ' class="disabled"': '')+'><a href="#" data-page="prev">上一页</a></li>' + 
+          function(cur, n){
+            var s = '';
+            for (var i=0; i<n; i++) {
+              s = s + "<li"+(data.page == i? ' class="active"': '')+"><a href='#' data-page='"+i+"'>"+(i+1)+"</a></li>";
+            }
+            return s;
+          }(data.page, data.npage) +
+          '<li'+(data.page == data.npage? ' class="disabled"': '')+'><a href="#" data-page="next">下一页</a></li>'
+      pane.find('.pagination').html(pagination);
+    });
+  };
+
+
+  loadFiles('image', $('.page-content'), 0);
+
+  $('.pagination').on('click', 'a', function(e){
+      e.preventDefault();
+      var li = $(this).parent();
+
+      if (li.attr('class') == "active" || li.attr('class') == "disabled") {
+        return; 
+      }
+
+
+      var pane = $('.page-content')
+      var dir = pane.attr('data-dir');
+      var cur_page = parseInt(li.parent().find('li.active').find('a').attr('data-page'));
+      var prev = cur_page - 1;
+      var next = cur_page + 1;
+
+      var target = $(this).attr('data-page');
+      if(target == "next") {
+        loadFiles(dir, pane, next); 
+      } else if (target == "prev") {
+        loadFiles(dir, pane, prev); 
+      } else {
+        loadFiles(dir, pane, parseInt(target)); 
+      }
+  });
+
+
+  $('#upload-iframe').load(function(){
+  // upload done
+    var response = $('#upload-iframe').contents().find('pre').text();
+    var data = $.parseJSON(response);
+    if (data.error === 1) {
+      alert(data.message); 
+    } else {
+      window.location = window.location.pathname; 
+    }
+  });
+
+
+}) 
+</script>
+{% end %}
