@@ -24,7 +24,14 @@ class GetFile(ContextHandler,RequestHandler):
         self.set_header('Content-Type', f['contentType'])
         self.write(f['data'])
         self.finish()
-
+    
+@url(r'/admin/files/(?P<ftype>[0-9A-Za-z-]+)/(?P<fid>[0-9A-Za-z-]+)')
+class DelFile(ActionHandler):
+    @gen.coroutine
+    def delete(self,ftype,fid):
+        if ftype == "image":
+            yield gen.Task(del_image,fid)
+            self.write(dict(status=True))
 
 @url(r"/admin/files/(?P<ftype>[0-9A-Za-z-]+)/")
 class FileList(ActionHandler):

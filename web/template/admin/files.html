@@ -5,7 +5,15 @@
 .modal-header .nav-tabs{
 	position: static;
 }
+#img-preview {
+  position: absolute;
+  z-index: 100;
+  width: 600px;
+  height: 600px;
+}
+
 </style>
+
 {% end %}
 {% block breadcrumb%}
 <li >图片列表</li>
@@ -76,6 +84,31 @@
 <script type="text/javascript">
 $(function(){
 
+
+$(".selectallbtn").on("click", function () {
+    $(this).parents('table').find("input[name='chk']").not(this).prop('checked', this.checked);
+ });
+
+$('#delete').click(function(){
+    var arrChk =$("tbody input[name='chk']:checked");
+    var dir= "image"
+    $(arrChk).each(function(){
+      var _tr = $(this).parents('tr');
+      $.ajax({
+        type: 'DELETE',
+        url: "/admin/files/"+dir+"/"+_tr.attr("id"),
+        dataType: 'json',
+        success: function(data){
+          console.log(data);
+          if (data.status) {
+            _tr.remove(); 
+          } 
+        }
+      });
+    });
+  });
+
+
  var loadFiles = function(type, pane, page) {
     var params = {view: 'json', dir: type}
     if (page != undefined) {
@@ -88,7 +121,7 @@ $(function(){
       var tbody = pane.find("tbody");
       tbody.text('');
       $(data.file_list).each(function(i, e){
-        var text = "<tr id='"+ e._id + "' " + (e.url ? ("data-url='"+e.url+"'") : "") + ">" +
+        var text = "<tr id='"+ e._id + "' " + (e.url ? ("data-url='"+e.thumbnail+"'") : "") + ">" +
             "<td> <input class='chkbtn' name='chk' type='checkbox'></td>" +
             "<td>" + (e.url ? ("<a href='"+e.url+"'>" + e.filename + "</a>") : e.filename )+ "</td>" +
             " <td>" + (e.category ? e.category : "无") + "</td>" +
@@ -152,6 +185,24 @@ $(function(){
       window.location = window.location.pathname; 
     }
   });
+
+
+  var hoverTimeout;
+  $(".page-content tbody").on('mouseover', 'tr', function(){
+      url = $(this).attr("data-url");
+      offset = $(this).offset();
+      hoverTimeout = setTimeout(function(){
+        $("#img-preview").css({left: offset.left+140, top: offset.top});
+        $("#img-preview").html("<img src='"+url+"' />");
+        $("#img-preview").removeClass("hide"); 
+      }, 500);       
+    });
+   $(".page-content tbody").on('mouseout', 'tr', function(){
+      clearTimeout(hoverTimeout);
+      $("#img-preview").html("");
+      $("#img-preview").addClass("hide");
+    }
+  ); // hover
 
 
 }) 

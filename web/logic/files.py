@@ -99,9 +99,9 @@ import asyncmongo
 @gen.coroutine
 def image_page(page,size=10,ftype='image',callback=None):
     db = get_context().get_asyncmongo()
-    tb = db[THUMBNAIL_GFS+'.files']
+    tb = db[IMG_GFS+'.files']
 
-    lst,err = yield gen.Task(tb.find,skip=page*size,limit=size)
+    lst,err = yield gen.Task(tb.find,skip=page*size,limit=size,sort=[('_id',-1),])
     cmd = dict(count=THUMBNAIL_GFS+'.files')
     rs,err = yield gen.Task(db.command,cmd)
     count = rs[0]['n']
