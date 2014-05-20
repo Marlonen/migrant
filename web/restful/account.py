@@ -79,6 +79,7 @@ class UpdateHandler(RestfulHandler):
             'profession': self.get_arguments('profession'),
             'intro': self.get_argument('intro'),
             'skill': self.get_arguments('skill'),
+            'area': self.get_argumet('area'),
             'nickname': self.get_argument('nickname'),
             'parent_city': self.get_argument('parent_city', None),
             'city': self.get_argument('city', None)

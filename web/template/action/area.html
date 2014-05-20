@@ -1,0 +1,100 @@
+{% extends "layout/layout.html" %}
+{% block style %}
+<style type="text/css">
+
+</style>
+
+{% end %}
+
+{% block content %}
+<div class="jumbotron">
+    <div class="media">
+      <a class="pull-left" href="#">
+        <img class="media-object img-thumbnail" src="{{ areainfo.get('coverThumbnail')}}" alt="{{ areainfo['name']}}">
+      </a>
+      <div class="media-body">
+        <h2 class="media-heading">{{ areainfo['name']}}</h2>
+        <p>{% raw areainfo.get('intro') %}</p>
+      </div>
+    </div>
+</div>
+<div class="row">
+    <div class='col-md-8'></div>
+    <div class='col-md-4'>
+      
+      <div class="panel panel-default">
+        <div class="panel-heading"><a href='/news/list/company'>地区新闻</a></div>
+        <div class="panel-body">
+
+          <div class='newsitem'>
+          <strong class='pull-left'><a href="/news/info/528bf7452b0947663ae5e12e">卫计委解释为何在现阶段启动实施单独两孩政策</a></strong>
+          <div class='pull-right'>11-20</div>
+          </div>
+
+          <div class='newsitem'>
+          <strong class='pull-left'><a href="/news/info/528bf7442b0947663ae5e12d">官邸制度课题组：官员调离后住房多数留给后代</a></strong>
+          <div class='pull-right'>11-20</div>
+          </div>
+
+          <div class='newsitem'>
+          <strong class='pull-left'><a href="/news/info/528bf7432b0947663ae5e12c">中纪委公布各地查处违反8项规定问题汇总(表)</a></strong>
+          <div class='pull-right'>11-20</div>
+          </div>
+
+          <div class='newsitem'>
+          <strong class='pull-left'><a href="/news/info/528bf7432b0947663ae5e12b">李长春自制家具进紫檀博物馆 曾伴其40余年(图)</a></strong>
+          <div class='pull-right'>11-20</div>
+          </div>
+
+          <div class='newsitem'>
+          <strong class='pull-left'><a href="/news/info/528bf7422b0947663ae5e12a">人民日报刊文：破除对领导干部感恩戴德观念</a></strong>
+          <div class='pull-right'>11-20</div>
+          </div>
+
+          <div class='newsitem'>
+          <strong class='pull-left'><a href="/news/info/528bf7402b0947663ae5e129">中纪委监察部：违反八项规定公车问题居首</a></strong>
+          <div class='pull-right'>11-20</div>
+          </div>
+
+          <div class='newsitem'>
+          <strong class='pull-left'><a href="/news/info/528bf7402b0947663ae5e128">习近平会见国际奥委会主席巴赫并接受金质勋章</a></strong>
+          <div class='pull-right'>11-20</div>
+          </div>
+
+          <div class='newsitem'>
+          <strong class='pull-left'><a href="/news/info/528bf7402b0947663ae5e127">中国海上定位系统首次进入“厘米时代”</a></strong>
+          <div class='pull-right'>11-20</div>
+          </div>
+
+          <div class='newsitem'>
+          <strong class='pull-left'><a href="/news/info/528aad4b2b0947663ae5e126">人民日报：35年改革7次三中全会7座历史航标</a></strong>
+          <div class='pull-right'>11-19</div>
+          </div>
+
+          <div class='newsitem'>
+          <strong class='pull-left'><a href="/news/info/528aad4b2b0947663ae5e125">专家称韬光养晦战略不需改变 官方回避用崛起</a></strong>
+          <div class='pull-right'>11-19</div>
+          </div>
+
+        </div>
+      </div>
+
+
+    </div>
+</div>
+
+
+{% end %}
+
+
+  {% block javascript %}
+  <script src="/static/metro/js/jquery-ui-1.10.3.full.min.js"></script>
+
+  <script type="text/javascript">
+      $(function(){
+
+
+
+      });
+  </script>
+  {% end%}

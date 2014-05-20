@@ -7,7 +7,9 @@ from kpages import url,get_context
 from kpages.model import ModelMaster
 from utility import BaseHandler
 
-AModel = ModelMaster()('AccountModel')
+mmaster = ModelMaster()
+AModel = mmaster('AccountModel')
+AreaModel = mmaster('AreaModel')
 
 @url(r'/?')
 class Index(BaseHandler):
@@ -32,7 +34,8 @@ class Logout(BaseHandler):
 @url(r'/profile?')
 class Profile(BaseHandler):
     def get(self):
-        self.render('action/profile.html')
+        arealist = AreaModel.page(size=100)
+        self.render('action/profile.html', arealist=arealist)
 
 
 @url(r'/setpwd?')
