@@ -19,6 +19,8 @@
         html,
         body {
           height: 100%;
+          min-height: 1000px;
+          padding-top: 30px;
           /* The html and body elements cannot have any padding or margin. */
         }
 
@@ -54,24 +56,59 @@
 </head>
 
 <body>
-<div id="wrap">
-    {% block header %}
-        <header>
-            <div class="container">
-                <ul class="nav nav-pills pull-right">
-                  {% include ../menu.html %}
-                </ul>
-                <h1 class='logo-title pull-left'><a href="/">回归线</a></h1>
-            </div>
-        </header>
-    {% end %}
-    <div class="container">
-        <div class="content">
-            {% block content %}
-            {% end %}
-        </div>
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">候鸟要回家</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="/area">城区</a></li>
+        <li><a href="/people">老乡</a></li>
+        <li><a href="/project">项目</a></li>
+        <li><a href="/need">需求</a></li>
+      </ul>
+
+
+    <ul class="nav navbar-nav navbar-right">
+      {% if handler.uid %}
+     
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ handler.nickname }} <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li class="dropdown-header">我的项目</li>
+            <li><a href="#">我的邀请</a></li>
+            <li><a href="#">我的机会</a></li>
+            <li><a href="#">城区管理</a></li>
+          </ul>
+        </li>
+        
+        <li><a href="/profile" title='账号管理'> <span class="glyphicon glyphicon-cog"></span></a></li>
+        <li><a href="/logout" title='退出'> <span class="glyphicon glyphicon-export"></span></a></li>
+      
+      {% else %}
+        <li class='active'><a href="/login">登录</a></li>
+      {% end %}
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+
+
+<div class="container">
+    <div class="content">
+        {% block content %}
+        {% end %}
     </div>
 </div>
+
 {% block footer %}
 <footer>
     <div class="container">
