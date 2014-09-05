@@ -59,7 +59,7 @@ mongorestore  -d migrant --directoryperdb dump/migrant
 
 ### web 服务启动方式 
 ```
-python apprun.py  或 ./apprun.py
+python webserver.py  或 ./webserver.py
 可配置参数
      config=CONFIG  set config for server
      port=PORT      set http port for server
